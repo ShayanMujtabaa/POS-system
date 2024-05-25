@@ -5,7 +5,10 @@ const GetTest = async (req, res) => {
 }
 
 const AddItem = async (req, res) => {
-    const { id, name, price, cost, stock, imageUrl } = req.body;
+    const { name, price, cost, stock, imageUrl } = req.body;
+    const response = await Item.find();
+    const maxId = response.length === 0 ? 0 : Math.max(...response.map((item) => item.id));
+    const id = maxId + 1;
     const newItem = new Item({
         id,
         name,

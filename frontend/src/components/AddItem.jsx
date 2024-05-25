@@ -8,6 +8,7 @@ const AddItem = () => {
     const [price, setItemPrice] = useState(0);
     const [cost, setItemCost] = useState(0);
     const [stock, setItemStock] = useState(0);
+    //if want to add images functionality later on
     const [imageURL, setItemImage] = useState('');
 
     const handleAddItem = async (e) => {
@@ -20,7 +21,7 @@ const AddItem = () => {
 
         try {
             const ItemData = {
-               id: '0', name: ItemName, price, cost, stock, imageURL
+               name: ItemName, price, cost, stock, imageURL
             };
             const response = await axios.post("http://localhost:9000/addItem", ItemData);
             if (response.status === 200) {
@@ -36,49 +37,52 @@ const AddItem = () => {
 
     return (
         <div>
-            <h1 className= "text-3xl font-bold underline">ADD ITEM</h1>
+            <h1 className="text-white mb-4 text-4xl sm:text-5xl lg:text-8xl lg:leading-normal font-extrabold">ADD ITEM</h1>
             <form onSubmit={handleAddItem}>
                 <div>
-                    <label>Item Name</label>
+                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Item Name</label>
                     <input
                         type="text"
+                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        placeholder='Item Name'
                         value={ItemName}
                         onChange={(e) => setItemName(e.target.value)}
                     />
                 </div>
                 <div>
-                    <label>Price</label>
+                    <label className="text-white block mb-2 text-2xl font-medium my-2">Price</label>
                     <input
                         type="number"
+                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        placeholder='Price'
                         value={price}
                         onChange={(e) => setItemPrice(parseFloat(e.target.value))}
                     />
                 </div>
                 <div>
-                    <label>Cost</label>
+                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Cost</label>
                     <input
                         type="number"
+                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        placeholder='Cost'
                         value={cost}
                         onChange={(e) => setItemCost(parseFloat(e.target.value))}
                     />
                 </div>
                 <div>
-                    <label>Stock</label>
+                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Stock</label>
                     <input
                         type="number"
+                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        placeholder='Stock'
                         value={stock}
                         onChange={(e) => setItemStock(parseInt(e.target.value))}
                     />
                 </div>
-                <div>
-                    <label>Image URL</label>
-                    <input
-                        type="text"
-                        value={imageURL}
-                        onChange={(e) => setItemImage(e.target.value)}
-                    />
-                </div>
-                <button type="submit">Add Item</button>
+                <button type="submit" className="bg-[#495057] hover:bg-[#343a40] text-white font-medium py-2.5 px-5 rounded-lg w-48 h-12 border border-gray-300 my-5">
+                Add Item
+                </button>
+
             </form>
         </div>
     )
