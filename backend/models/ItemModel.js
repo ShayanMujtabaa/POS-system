@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const itemSchema = new Schema({
     id: {
@@ -28,4 +28,4 @@ const itemSchema = new Schema({
 }, {timestamps: true});
 
 const Item = mongoose.model('Item', itemSchema);
-export default Item;
+module.exports = Item;

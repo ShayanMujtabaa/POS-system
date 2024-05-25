@@ -1,4 +1,4 @@
-import Item from './models/ItemModel';
+const Item = require('../models/ItemModel');
 
 const GetTest = async (req, res) => {
     res.send('Test Route');
@@ -56,7 +56,7 @@ const UpdateItem = async (req, res) => {
     }
 }
 
-export { GetTest, AddItem, GetItems, DeleteItem, UpdateItem}
+module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem}
 
 
 
