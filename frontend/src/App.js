@@ -1,18 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter, Routes, Route, Outlet} from "react-router-dom";
 import AddItem from './components/AddItem';
 import Navbar from './components/Navbar';
-
-const AddNavbar = () => {
-  return (
-    <div>
-      <Navbar />
-      <AddItem />
-    </div>
-  );
-};
-
+import DeleteItem from './components/DeleteItem';
 
 function App() {
   return (
@@ -21,7 +11,8 @@ function App() {
    <BrowserRouter>
    <Routes>
     
-    <Route path="/addItem" element={<AddNavbar />} />
+    <Route path="/addItem" element={<>  <Navbar /> <AddItem /> </>} />
+    <Route path="/deleteItem" element={ <>  <Navbar /> <DeleteItem /> </>} />
     
    </Routes>
    </BrowserRouter>

@@ -24,13 +24,13 @@ const Navbar = () => {
                     onClick={() => navigate('/deleteItem')}
                     className={`text-white text-lg font-medium mx-4 ${location.pathname === '/deleteItem' ? 'underline' : ''}`}
                 >
-                    Update Item
+                    Delete Item
                 </button>
                 <button
                     onClick={() => navigate('/updateItem')}
                     className={`text-white text-lg font-medium mx-4 ${location.pathname === '/updatetem' ? 'underline' : ''}`}
                 >
-                    Delete Item
+                    Update Item
                 </button>
             </div>
         </div>
