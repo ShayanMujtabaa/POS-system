@@ -6,24 +6,21 @@ import { useNavigate } from 'react-router-dom';
 const UpdateItem = () => {
     const navigate = useNavigate();
     const [ItemID, setItemID] = useState('');
-    const [ItemName, setItemName] = useState('');
-    const [price, setItemPrice] = useState(0);
-    const [cost, setItemCost] = useState(0);
-    const [stock, setItemStock] = useState(0);
+    const [field, setField] = useState('');
+    const [value, setValue] = useState('');
     //if want to add images functionality later on
-    const [imageURL, setItemImage] = useState('');
 
     const handleUpdateItem = async (e) => {
         e.preventDefault();
 
-        if(!ItemID || !ItemName || !price || !cost || !stock) {
+        if(!ItemID || !field || !value) {
             alert('Please fill in all the fields');
             return;
         }
 
         try {
             const ItemData = {
-              id: ItemID, name: ItemName, price, cost, stock, imageURL
+              id: ItemID, field, value,
             };
             const response = await axios.post("http://localhost:9000/updateItem", ItemData);
             if (response.status === 200) {
@@ -45,54 +42,36 @@ const UpdateItem = () => {
                     <label  className="text-white block mb-2 text-2xl font-medium my-2" >Item ID</label>
                     <input
                         type="text"
-                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Item ID'
                         value={ItemID}
                         onChange={(e) => setItemID(e.target.value)}
                     />
                 </div>
                 <div>
-                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Item Name</label>
+                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Update Field</label>
+                    <select 
+                    className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                    onChange={(e) => {setField(e.target.value)}}>
+                        <option value = "">Select Field</option>
+                        <option value = "name">Item Name</option>
+                        <option value = "price">Item Price</option>
+                        <option value = "cost">Item Cost</option>
+                        <option value = "stock">Item Stock</option>
+                    </select>
+                </div>
+                <div>
+                    <label className="text-white block mb-2 text-2xl font-medium my-2">Update Value</label>
                     <input
                         type="text"
-                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
-                        placeholder='Item Name'
-                        value={ItemName}
-                        onChange={(e) => setItemName(e.target.value)}
+                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        placeholder='Updated Value'
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label className="text-white block mb-2 text-2xl font-medium my-2">Price</label>
-                    <input
-                        type="number"
-                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
-                        placeholder='Price'
-                        value={price}
-                        onChange={(e) => setItemPrice(parseFloat(e.target.value))}
-                    />
-                </div>
-                <div>
-                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Cost</label>
-                    <input
-                        type="number"
-                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
-                        placeholder='Cost'
-                        value={cost}
-                        onChange={(e) => setItemCost(parseFloat(e.target.value))}
-                    />
-                </div>
-                <div>
-                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Stock</label>
-                    <input
-                        type="number"
-                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
-                        placeholder='Stock'
-                        value={stock}
-                        onChange={(e) => setItemStock(parseInt(e.target.value))}
-                    />
-                </div>
-                <button type="submit" className="bg-[#495057] hover:bg-[#343a40] text-white font-medium py-2.5 px-5 rounded-lg w-48 h-12 border border-gray-300 my-5">
-                Add Item
+                <button type="submit" className="bg-gradient-to-r from-blue-500 to-green-500 rounded-lg hover:from-blue-600 hover:to-green-600 text-white font-medium py-2.5 px-5 rounded-lg w-48 h-12 border border-gray-300 my-5">
+                Update Item
                 </button>
 
             </form>

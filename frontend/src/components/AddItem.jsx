@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -44,7 +44,7 @@ const AddItem = () => {
                     <label  className="text-white block mb-2 text-2xl font-medium my-2" >Item ID</label>
                     <input
                         type="text"
-                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Item ID'
                         value={ItemID}
                         onChange={(e) => setItemID(e.target.value)}
@@ -54,7 +54,7 @@ const AddItem = () => {
                     <label  className="text-white block mb-2 text-2xl font-medium my-2" >Item Name</label>
                     <input
                         type="text"
-                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Item Name'
                         value={ItemName}
                         onChange={(e) => setItemName(e.target.value)}
@@ -64,7 +64,7 @@ const AddItem = () => {
                     <label className="text-white block mb-2 text-2xl font-medium my-2">Price</label>
                     <input
                         type="number"
-                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Price'
                         value={price}
                         onChange={(e) => setItemPrice(parseFloat(e.target.value))}
@@ -74,7 +74,7 @@ const AddItem = () => {
                     <label  className="text-white block mb-2 text-2xl font-medium my-2" >Cost</label>
                     <input
                         type="number"
-                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Cost'
                         value={cost}
                         onChange={(e) => setItemCost(parseFloat(e.target.value))}
@@ -84,13 +84,13 @@ const AddItem = () => {
                     <label  className="text-white block mb-2 text-2xl font-medium my-2" >Stock</label>
                     <input
                         type="number"
-                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Stock'
                         value={stock}
                         onChange={(e) => setItemStock(parseInt(e.target.value))}
                     />
                 </div>
-                <button type="submit" className="bg-[#495057] hover:bg-[#343a40] text-white font-medium py-2.5 px-5 rounded-lg w-48 h-12 border border-gray-300 my-5">
+                <button type="submit" className="text-white bg-gradient-to-r from-blue-500 to-green-500 rounded-lg hover:from-blue-600 hover:to-green-600 font-medium py-2.5 px-5 rounded-lg w-48 h-12 border border-gray-300 my-5">
                 Add Item
                 </button>
 

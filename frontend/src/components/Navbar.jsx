@@ -15,22 +15,10 @@ const Navbar = () => {
                     Home
                 </button>
                 <button
-                    onClick={() => navigate('/addItem')}
-                    className={`text-white text-lg font-medium mx-4 ${location.pathname === '/addItem' ? 'underline' : ''}`}
+                    onClick={() => navigate('/adminPage')}
+                    className={`text-white text-lg font-medium mx-4 ${location.pathname === '/adminPage' ? 'underline' : ''}`}
                 >
-                    Add Item
-                </button>
-                <button
-                    onClick={() => navigate('/deleteItem')}
-                    className={`text-white text-lg font-medium mx-4 ${location.pathname === '/deleteItem' ? 'underline' : ''}`}
-                >
-                    Delete Item
-                </button>
-                <button
-                    onClick={() => navigate('/updateItem')}
-                    className={`text-white text-lg font-medium mx-4 ${location.pathname === '/updatetem' ? 'underline' : ''}`}
-                >
-                    Update Item
+                    Admin
                 </button>
             </div>
         </div>
