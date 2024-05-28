@@ -45,10 +45,19 @@ const DeleteItem = async (req, res) => {
 } 
 
 const UpdateItem = async (req, res) => {
-    const { id, name, price, cost, stock, imageUrl } = req.body;
+    const { id, field, value } = req.body;
     try {
-        await Item.updateOne({id: id}, {name, price, cost, stock, imageUrl});
-        res.status(200).json({msg: "Item Updated"});
+        const item = await Item.findOne({id: id});
+        if (!item) {
+            return res.status(203).json({msg: "Item Not Found"})
+        }
+        if (field == "name"){
+        item[field] = value;
+        } else {
+            item[field] = parseInt(value);
+        }
+        await item.save();
+        res.status(200).json({msg: "Item Updated Successfuly"})
     }
     catch (error) {
         console.log("Error while updating item: " + error);

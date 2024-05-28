@@ -38,7 +38,7 @@ const DeleteItem = () => {
                     <label  className="text-white block mb-2 text-2xl font-medium my-2" >Item ID</label>
                     <input
                         type="number"
-                        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Item ID'
                         value={id}
                         onChange={(e) => setId(parseFloat(e.target.value))}
