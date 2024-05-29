@@ -9,20 +9,21 @@ const AddItem = () => {
     const [price, setItemPrice] = useState(0);
     const [cost, setItemCost] = useState(0);
     const [stock, setItemStock] = useState(0);
+    const [category, setItemCategory] = useState('');
     //if want to add images functionality later on
     const [imageURL, setItemImage] = useState('');
 
     const handleAddItem = async (e) => {
         e.preventDefault();
 
-        if(!ItemID || !ItemName || !price || !cost || !stock) {
+        if(!ItemID || !ItemName || !price || !cost || !stock || !category) {
             alert('Please fill in all the fields');
             return;
         }
 
         try {
             const ItemData = {
-              id: ItemID, name: ItemName, price, cost, stock, imageURL
+              id: ItemID, name: ItemName, price, cost, stock, category, imageURL
             };
             const response = await axios.post("http://localhost:9000/addItem", ItemData);
             if (response.status === 200) {
@@ -44,7 +45,7 @@ const AddItem = () => {
                     <label  className="text-white block mb-2 text-2xl font-medium my-2" >Item ID</label>
                     <input
                         type="text"
-                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Item ID'
                         value={ItemID}
                         onChange={(e) => setItemID(e.target.value)}
@@ -54,17 +55,27 @@ const AddItem = () => {
                     <label  className="text-white block mb-2 text-2xl font-medium my-2" >Item Name</label>
                     <input
                         type="text"
-                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Item Name'
                         value={ItemName}
                         onChange={(e) => setItemName(e.target.value)}
                     />
                 </div>
                 <div>
+                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Category</label>
+                    <input
+                        type="text"
+                        className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        placeholder='category'
+                        value={category}
+                        onChange={(e) => setItemCategory(e.target.value)}
+                    />
+                </div>
+                <div>
                     <label className="text-white block mb-2 text-2xl font-medium my-2">Price</label>
                     <input
                         type="number"
-                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Price'
                         value={price}
                         onChange={(e) => setItemPrice(parseFloat(e.target.value))}
@@ -74,7 +85,7 @@ const AddItem = () => {
                     <label  className="text-white block mb-2 text-2xl font-medium my-2" >Cost</label>
                     <input
                         type="number"
-                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Cost'
                         value={cost}
                         onChange={(e) => setItemCost(parseFloat(e.target.value))}
@@ -84,7 +95,7 @@ const AddItem = () => {
                     <label  className="text-white block mb-2 text-2xl font-medium my-2" >Stock</label>
                     <input
                         type="number"
-                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Stock'
                         value={stock}
                         onChange={(e) => setItemStock(parseInt(e.target.value))}

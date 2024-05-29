@@ -5,13 +5,14 @@ const GetTest = async (req, res) => {
 }
 
 const AddItem = async (req, res) => {
-    const {id, name, price, cost, stock, imageUrl } = req.body;
+    const {id, name, price, cost, stock, category,  imageUrl } = req.body;
     const newItem = new Item({
         id,
         name,
         price,
         cost,
         stock,
+        category,
         imageUrl,
     });
     try {
