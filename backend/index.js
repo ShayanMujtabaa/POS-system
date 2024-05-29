@@ -32,7 +32,7 @@ app.listen(PORT, () => {
 
 app.get('/', POSroutes.GetTest);
 app.post('/addItem', POSroutes.AddItem);
-app.get('/getItems', POSroutes.GetItems);
+app.post('/getItems', POSroutes.GetItems);
 app.post('/deleteItem', POSroutes.DeleteItem);
 app.post('/updateItem', POSroutes.UpdateItem);
 

@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import DeleteItem from './components/DeleteItem';
 import UpdateItem from './components/UpdateItem';
 import AdminPage from './components/AdminPage';
+import HomePage from './components/HomePage';
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
     <Route path="/deleteItem" element={ <>  <Navbar /> <DeleteItem /> </>} />
     <Route path="/updateItem" element={ <>  <Navbar /> <UpdateItem /> </>} />
     <Route path="/adminPage" element={<><Navbar/> <AdminPage/> </>} />
+    <Route path="/" element={<><Navbar/> <HomePage/> </>} />
+    <Route path="/home" element={<><Navbar/> <HomePage/> </>} />
+
     
    </Routes>
    </BrowserRouter>
