@@ -31,7 +31,7 @@ const HomePage = () => {
             {loading && <p>Loading...</p>}
             <div className="flex flex-wrap -mx-2" >
             {items.map(item => (
-                <div key={item.id} className="w-1/6 px-2" onClick={()=>{dispatch(addToCart({id: item.id, name: item.name, price: item.price, quantity: quantity}))}}>
+                <div key={item.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 px-2"  onClick={()=>{dispatch(addToCart({id: item.id, name: item.name, price: item.price, quantity: quantity}))}}>
                 <ItemCard item={item} />
                 </div>
             ))}
