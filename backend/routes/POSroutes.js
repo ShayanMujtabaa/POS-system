@@ -1,4 +1,5 @@
 const Item = require('../models/ItemModel');
+const Sales = require('../models/SalesModel');
 
 const GetTest = async (req, res) => {
     res.send('Test Route');
@@ -66,7 +67,40 @@ const UpdateItem = async (req, res) => {
     }
 }
 
-module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem}
+const Checkout = async (req, res) => {
+    const cartItems = req.body;
+    try {
+        let items = [];
+        let quantities = [];
+        let total = 0;
+        for (let i = 0; i < cartItems.length; i++) {
+            const item = await Item.findOne({id: cartItems[i].id});
+            if (!item) {
+                return res.status(203).json({msg: "Item Not Found"})
+            }
+            if (item.stock < cartItems[i].quantity) {
+                return res.status(203).json({msg: "Not enough stock for " + item.name + " couldn't process checkout"})
+            }
+            item.stock -= cartItems[i].quantity;
+            await item.save();
+            items.push(item.id);
+            quantities.push(cartItems[i].quantity);
+            total += item.price * cartItems[i].quantity;
+        }
+        const newSale = new Sales({
+            items,
+            quantities,
+            total
+        });
+        await newSale.save();
+        res.status(200).json({msg: "Checkout Successful"})
+    } catch (error) {
+        console.log("Error while checking out: " + error);
+        res.status(203).json({msg: "failed to checkout"});
+    }
+}
+
+module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout}
 
 
 

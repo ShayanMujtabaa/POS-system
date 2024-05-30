@@ -10,7 +10,7 @@ const Navbar = () => {
             <div className="flex items-center">
                 <button
                     onClick={() => navigate('/home')}
-                    className={`text-black text-lg font-medium mx-4 ${location.pathname === '/home' ? 'underline' : ''}`}
+                    className={`text-black text-lg font-medium mx-4 ${location.pathname === '/home' || location.pathname === '/' ? 'underline' : ''}`}
                 >
                     Home
                 </button>
