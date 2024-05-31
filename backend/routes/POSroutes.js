@@ -100,7 +100,27 @@ const Checkout = async (req, res) => {
     }
 }
 
-module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout}
+const SalesReport = async (req, res) => {
+    try {
+        const sales = await Sales.find();
+        const items = await Item.find();
+        for (let i = 0; i < sales.length; i++) {
+            let itemNames = [];
+            for (let j = 0; j < sales[i].items.length; j++) {
+                const item = items.find(item => item.id == sales[i].items[j]);
+                itemNames.push(item.name);
+            }
+            sales[i].items = itemNames;
+        }
+        sales.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        res.status(200).json(sales);
+    } catch (error) {
+        console.log("Error while getting sales: " + error);
+        res.status(203).json({msg: "failed to get sales"});
+    }
+}
+
+module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, SalesReport}
 
 
 
