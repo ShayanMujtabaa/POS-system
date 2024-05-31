@@ -53,7 +53,7 @@ const UpdateItem = async (req, res) => {
         if (!item) {
             return res.status(203).json({msg: "Item Not Found"})
         }
-        if (field == "name"){
+        if (field == "name" || field == "category"){
         item[field] = value;
         } else {
             item[field] = parseInt(value);

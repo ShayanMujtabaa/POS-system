@@ -24,6 +24,7 @@ const UpdateItem = () => {
             };
             const response = await axios.post("http://localhost:9000/updateItem", ItemData);
             if (response.status === 200) {
+                
                 console.log("ItemUpdated successfully");
                 alert("Item Updated Successfuly")
                 navigate('/home');
@@ -55,6 +56,7 @@ const UpdateItem = () => {
                     onChange={(e) => {setField(e.target.value)}}>
                         <option value = "">Select Field</option>
                         <option value = "name">Item Name</option>
+                        <option value = "category">Item Category</option>
                         <option value = "price">Item Price</option>
                         <option value = "cost">Item Cost</option>
                         <option value = "stock">Item Stock</option>
