@@ -76,7 +76,6 @@ const Cart = () => {
                     );
                 })
             }
-
             <div className="bg-white border border-purple-500 p-2 mb-2">
                 <h4 className="text-lg font-semibold">POS fee </h4>
                 <p>Sub-total: 1</p>  
@@ -84,11 +83,11 @@ const Cart = () => {
 
             <div className="flex justify-between mt-4">
                 <div className="w-1/3 px-4 bg-[#57cc99] border border-purple-800">
-                    <h5 className='text-left text-xl'>Discount:</h5>
+                    <h5 className='text-left text-xl'>Discount: {Discount * 100}%</h5>
                     <p className='text-center text-3xl'>{(Discount * Total).toFixed(2)}</p>
                 </div>
                 <div className="w-1/3 px-4 bg-[#0096c7] border border-purple-800">
-                    <h5 className='text-left text-xl'>Tax:</h5>
+                    <h5 className='text-left text-xl'>Tax: {Tax * 100}%</h5>
                     <p className='text-center text-3xl'>{(Tax * Total).toFixed(2)}</p>
                 </div>
                 <div className="w-1/3 px-4 bg-[#80ed99] border border-purple-800">
