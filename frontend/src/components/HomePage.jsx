@@ -12,6 +12,7 @@ const HomePage = () => {
     console.log(cartItems.length);
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
+    
 
     useEffect(() => {
         const fetchItems = async () => {
