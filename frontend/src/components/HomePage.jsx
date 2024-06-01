@@ -5,7 +5,6 @@ import {useDispatch} from "react-redux";
 import { addToCart, removeFromCart } from "./redux/cartSlice";
 import {useSelector} from "react-redux";
 import Cart from "./Cart";
-import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 
 const HomePage = () => {
@@ -27,28 +26,28 @@ const HomePage = () => {
         fetchItems();
     }, []);
 
-    const handleCheckout = async (e) => {
-        e.preventDefault();
-        console.log(cartItems);
-        if (cartItems.length <= 0) {
-            alert('Please add items to cart');
-            return;
-        }
-        try {
-            const response = await axios.post("http://localhost:9000/checkout", cartItems);
-            if (response.status === 200) {
-                for (let i = 0; i < cartItems.length; i++) {
-                    dispatch(removeFromCart({id: cartItems[i].id}))
-                }
-                window.location.reload();
-                console.log("Checkout successful");
-                alert("Checkout successful, Proceed to payment");
-            }
-        } catch (error) {
-            console.log("Error while checking out: ", error.msg);
-            alert("Failed to checkout");
-        }
-    }
+    // const handleCheckout = async (e) => {
+    //     e.preventDefault();
+    //     console.log(cartItems);
+    //     if (cartItems.length <= 0) {
+    //         alert('Please add items to cart');
+    //         return;
+    //     }
+    //     try {
+    //         const response = await axios.post("http://localhost:9000/checkout", cartItems);
+    //         if (response.status === 200) {
+    //             for (let i = 0; i < cartItems.length; i++) {
+    //                 dispatch(removeFromCart({id: cartItems[i].id}))
+    //             }
+    //             window.location.reload();
+    //             console.log("Checkout successful");
+    //             alert("Checkout successful, Proceed to payment");
+    //         }
+    //     } catch (error) {
+    //         console.log("Error while checking out: ", error.msg);
+    //         alert("Failed to checkout");
+    //     }
+    // }
 
     return (
         <div className="flex">
@@ -65,12 +64,6 @@ const HomePage = () => {
             {cartItems.length > 0 && (
                 <div className="w-full lg:w-1/3 p-4 border-l border-gray-300">
                     <Cart items={cartItems} />
-                    <button 
-                        onClick={handleCheckout} 
-                        className="flex items-center justify-center w-1/4 py-2 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700 transition-colors duration-300"
-                    >
-                        Checkout <ShoppingCartCheckoutIcon className="ml-2" />
-                    </button>
                 </div>
             )}
         </div>
