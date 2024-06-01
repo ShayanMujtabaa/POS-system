@@ -68,11 +68,10 @@ const UpdateItem = async (req, res) => {
 }
 
 const Checkout = async (req, res) => {
-    const cartItems = req.body;
+    const {cartItems, total, discount, tax} = req.body;
     try {
         let items = [];
         let quantities = [];
-        let total = 0;
         for (let i = 0; i < cartItems.length; i++) {
             const item = await Item.findOne({id: cartItems[i].id});
             if (!item) {
@@ -84,8 +83,7 @@ const Checkout = async (req, res) => {
             item.stock -= cartItems[i].quantity;
             await item.save();
             items.push(item.id);
-            quantities.push(cartItems[i].quantity);
-            total += item.price * cartItems[i].quantity;
+            quantities.push(cartItems[i].quantity);;
         }
         const newSale = new Sales({
             items,

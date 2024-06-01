@@ -9,9 +9,9 @@ const cartSlice = createSlice({
         addToCart: (state, action) => {
             const index = state.cart.findIndex((item) => item.id === action.payload.id);
             if (index >= 0) {
-                state.cart[index].quantity++;
+                state.cart[index].quantity = parseInt(action.payload.quantity) || 1;
             } else {
-                state.cart.push({...action.payload, quantity: 1});
+                state.cart.push({...action.payload, quantity: action.payload.quantity || 1});
             }
         },
         removeFromCart: (state, action) => {
