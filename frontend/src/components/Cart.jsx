@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,9 +9,11 @@ import axios from 'axios';
 
 
 const Cart = () => {
+    const [Discount, setDiscount] = useState(0);
+    const [Tax, setTax] = useState(0.18);
     const cartItems = useSelector(state => state.cart.cart)
     const dispatch = useDispatch();
-    console.log(cartItems)
+    let Total = 0;
 
     const handleRemoveCart = (id) => {
         dispatch(removeFromCart({id: id}))
@@ -19,13 +21,12 @@ const Cart = () => {
 
     const handleCheckout = async (e) => {
         e.preventDefault();
-        console.log("cart Items: ", cartItems);
         if (cartItems.length <= 0) {
             alert('Please add items to cart');
             return;
         }
         try {
-            const response = await axios.post("http://localhost:9000/checkout", cartItems);
+            const response = await axios.post("http://localhost:9000/checkout", { cartItems, total: (Total - (Discount * Total) + (Tax * Total)).toFixed(2), discount: (Discount * Total).toFixed(2), tax: (Tax * Total).toFixed(2) });
             console.log("Response received: ",  response.data)
             if (response.status === 200) {
                 for (let i = 0; i < cartItems.length; i++) {
@@ -41,9 +42,17 @@ const Cart = () => {
         }
     }
 
-    let Total = 0;
-    let Discount = 0;
-    let Tax = 0.18;
+    const handleAddDiscount = () => {
+        let discount = prompt("Enter discount percentage: ");
+        if (discount === null) {
+            return;
+        }
+        discount = parseFloat(discount) / 100;
+        setDiscount(discount);
+        
+    }
+
+  
     return (
         <div className="w-full py-4 ">
             <h1 className="text-white mb-4 text-2xl sm:text-3xl lg:text-4xl lg:leading-normal font-extrabold">CART</h1>
@@ -90,7 +99,7 @@ const Cart = () => {
             </button>   
 
             <button 
-                onClick={handleCheckout} 
+                onClick={handleAddDiscount} 
                 className="flex items-center my-4 justify-center w-1/3 py-2 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-700 transition-colors duration-300"
             >
                 Add Discount <DiscountIcon className="ml-2" />

@@ -6,11 +6,9 @@ import { addToCart, removeFromCart } from "./redux/cartSlice";
 import {useSelector} from "react-redux";
 import Cart from "./Cart";
 
-
 const HomePage = () => {
     const dispatch = useDispatch();
     const cartItems = useSelector(state => state.cart.cart)
-    let quantity =4;
     console.log(cartItems.length);
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,28 +24,15 @@ const HomePage = () => {
         fetchItems();
     }, []);
 
-    // const handleCheckout = async (e) => {
-    //     e.preventDefault();
-    //     console.log(cartItems);
-    //     if (cartItems.length <= 0) {
-    //         alert('Please add items to cart');
-    //         return;
-    //     }
-    //     try {
-    //         const response = await axios.post("http://localhost:9000/checkout", cartItems);
-    //         if (response.status === 200) {
-    //             for (let i = 0; i < cartItems.length; i++) {
-    //                 dispatch(removeFromCart({id: cartItems[i].id}))
-    //             }
-    //             window.location.reload();
-    //             console.log("Checkout successful");
-    //             alert("Checkout successful, Proceed to payment");
-    //         }
-    //     } catch (error) {
-    //         console.log("Error while checking out: ", error.msg);
-    //         alert("Failed to checkout");
-    //     }
-    // }
+    const handleAddToCart = (event, item) => {
+        event.preventDefault();
+        const quantity = prompt("Enter Quantity: ");
+        if (quantity === null) {
+            return;
+        }
+        // setQuantity(quantity);
+        dispatch(addToCart({ id: item.id, name: item.name, price: item.price, quantity: quantity }))
+    }
 
     return (
         <div className="flex">
@@ -55,7 +40,7 @@ const HomePage = () => {
                 {loading && <p>Loading...</p>}
                 <div className="flex flex-wrap -mx-2">
                     {items.map(item => (
-                        <div key={item.id} className={`w-full px-2 ${cartItems.length <=  0 ? 'sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6'  :  'sm:w-1/1 md:w-1/2 lg:w-1/2 xl:w-1/4 '}`} onClick={() => { dispatch(addToCart({ id: item.id, name: item.name, price: item.price, quantity: quantity })) }}>
+                        <div key={item.id} className={`w-full px-2 ${cartItems.length <=  0 ? 'sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6'  :  'sm:w-1/1 md:w-1/2 lg:w-1/2 xl:w-1/4 '}`} onClick={(event) => {handleAddToCart(event, item)}}>
                             <ItemCard item={item} />
                         </div>
                     ))}
