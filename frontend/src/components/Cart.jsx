@@ -96,9 +96,11 @@ const Cart = () => {
                 </div>
             </div>
 
+            <div className="flex justify-start">
+
             <button 
                 onClick={handleCheckout} 
-                className="flex items-center my-4 justify-center w-1/4 py-2 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700 transition-colors duration-300"
+                className="flex items-center my-4 mr-4 justify-center w-1/4 py-2 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700 transition-colors duration-300"
             >
                 Checkout <ShoppingCartCheckoutIcon className="ml-2" />
             </button>   
@@ -109,6 +111,8 @@ const Cart = () => {
             >
                 Add Discount <DiscountIcon className="ml-2" />
             </button> 
+
+            </div>
 
             <DiscountPopup
                 show={discountPopup}
