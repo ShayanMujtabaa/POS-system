@@ -37,5 +37,7 @@ app.post('/deleteItem', POSroutes.DeleteItem);
 app.post('/updateItem', POSroutes.UpdateItem);
 app.post('/checkout', POSroutes.Checkout);
 app.get('/salesReport', POSroutes.SalesReport);
+app.post('/addCategory', POSroutes.AddCategory);
+
 
 

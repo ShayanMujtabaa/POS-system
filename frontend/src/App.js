@@ -2,6 +2,7 @@ import './App.css';
 import {BrowserRouter, Routes, Route, Outlet} from "react-router-dom";
 import { Provider } from "react-redux"
 import AddItem from './components/AddItem';
+import AddCategory from './components/AddCategory';
 import Navbar from './components/Navbar';
 import DeleteItem from './components/DeleteItem';
 import UpdateItem from './components/UpdateItem';
@@ -19,6 +20,7 @@ function App() {
    <Routes>
     
     <Route path="/addItem" element={<>  <Navbar /> <AddItem /> </>} />
+    <Route path="/addCategory" element={<>  <Navbar /> <AddCategory /> </>} />
     <Route path="/deleteItem" element={ <>  <Navbar /> <DeleteItem /> </>} />
     <Route path="/updateItem" element={ <>  <Navbar /> <UpdateItem /> </>} />
     <Route path="/adminPage" element={<><Navbar/> <AdminPage/> </>} />

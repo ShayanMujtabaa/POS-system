@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,24 +12,44 @@ const AddItem = () => {
     const [category, setItemCategory] = useState('');
     //if want to add images functionality later on
     const [imageURL, setItemImage] = useState('');
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.post("http://localhost:9000/getcategories");
+                const data = response.data;
+                setCategories(data);
+                console.log(data)
+            } catch (error) {
+                console.error("Error fetching items:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCategories();
+    }, []);
 
     const handleAddItem = async (e) => {
         e.preventDefault();
 
-        if(!ItemID || !ItemName || !price || !cost || !stock || !category) {
+        if (!ItemID || !ItemName || !price || !cost || !stock || !category) {
             alert('Please fill in all the fields');
             return;
         }
 
         try {
             const ItemData = {
-              id: ItemID, name: ItemName, price, cost, stock, category, imageURL
+                id: ItemID, name: ItemName, price, cost, stock, category, imageURL
             };
             const response = await axios.post("http://localhost:9000/addItem", ItemData);
             if (response.status === 200) {
                 console.log("ItemAdded successfully");
                 alert("Item Added Successfuly")
-                navigate('/home');
+                navigate('/adminPage');
             }
         } catch (error) {
             console.log("Error while adding item: ", error.msg);
@@ -41,8 +61,8 @@ const AddItem = () => {
         <div className="container mt-24 mx-auto px-12 py-4">
             <h1 className="text-white mb-4 text-4xl sm:text-5xl lg:text-8xl lg:leading-normal font-extrabold">ADD ITEM</h1>
             <form onSubmit={handleAddItem}>
-                 <div>
-                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Item ID</label>
+                <div>
+                    <label className="text-white block mb-2 text-2xl font-medium my-2" >Item ID</label>
                     <input
                         type="text"
                         className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
@@ -52,7 +72,7 @@ const AddItem = () => {
                     />
                 </div>
                 <div>
-                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Item Name</label>
+                    <label className="text-white block mb-2 text-2xl font-medium my-2" >Item Name</label>
                     <input
                         type="text"
                         className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
@@ -62,7 +82,7 @@ const AddItem = () => {
                     />
                 </div>
                 <div>
-                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Category</label>
+                    <label className="text-white block mb-2 text-2xl font-medium my-2" >Category</label>
                     <input
                         type="text"
                         className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
@@ -71,6 +91,23 @@ const AddItem = () => {
                         onChange={(e) => setItemCategory(e.target.value)}
                     />
                 </div>
+
+                <div>
+                    <label className="text-white block mb-2 text-2xl font-medium my-2" >Category</label>
+                    <select
+                        className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                    >
+                        <option value="" disabled>Select a category</option>
+                        {categories.map(category => (
+                            <option key={category._id} value={category._id}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
                 <div>
                     <label className="text-white block mb-2 text-2xl font-medium my-2">Price</label>
                     <input
@@ -82,7 +119,7 @@ const AddItem = () => {
                     />
                 </div>
                 <div>
-                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Cost</label>
+                    <label className="text-white block mb-2 text-2xl font-medium my-2" >Cost</label>
                     <input
                         type="number"
                         className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
@@ -92,7 +129,7 @@ const AddItem = () => {
                     />
                 </div>
                 <div>
-                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Stock</label>
+                    <label className="text-white block mb-2 text-2xl font-medium my-2" >Stock</label>
                     <input
                         type="number"
                         className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
@@ -102,7 +139,7 @@ const AddItem = () => {
                     />
                 </div>
                 <button type="submit" className="text-white bg-gradient-to-r from-blue-500 to-green-500 rounded-lg hover:from-blue-600 hover:to-green-600 font-medium py-2.5 px-5 rounded-lg w-48 h-12 border border-gray-300 my-5">
-                Add Item
+                    Add Item
                 </button>
 
             </form>

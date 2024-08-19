@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import ReportIcon from '@mui/icons-material/Report';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-
+import ListAltIcon from '@mui/icons-material/ListAlt';
 
 
 
@@ -64,7 +64,7 @@ const AdminPage = () => {
     return (
         <>
             <h1 className="lg:text-8xl sm:text-4xl text-white font-bold text-center my-4">Admin Controls</h1>
-            
+
             {lowItems.length > 0 && (
                 <div className="bg-red-100 p-4 rounded-lg mb-4 w-full max-w-2xl mx-auto">
                     <h2 className="text-2xl font-bold text-red-700 mb-2"> <ReportIcon /> Low Stock Items</h2>
@@ -84,28 +84,34 @@ const AdminPage = () => {
                         className="w-full lg:py-14 sm:py-7 my-4 border-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white bg-gradient-to-r from-blue-500 to-green-500 rounded-lg hover:from-blue-600 hover:to-green-600"
                         onClick={() => { navigate("/addItem") }}
                     >
-                       Add Item  <AddIcon className="text-5xl"/>
+                        Add Item  <AddIcon className="text-5xl" />
+                    </button>
+                    <button
+                        className="w-full lg:py-14 sm:py-7 my-4 border-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white bg-gradient-to-r from-blue-500 to-green-500 rounded-lg hover:from-blue-600 hover:to-green-600"
+                        onClick={() => { navigate("/addCategory") }}
+                    >
+                        Add <br></br>Category  <ListAltIcon className="text-3x1" />
                     </button>
                     <button
                         className="w-full lg:py-14 sm:py-7 my-4 border-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white bg-gradient-to-r from-blue-500 to-green-500 rounded-lg hover:from-blue-600 hover:to-green-600"
                         onClick={() => { navigate("/deleteItem") }}
                     >
-                        Delete Item <DeleteIcon className="text-5xl"/>
+                        Delete Item <DeleteIcon className="text-5xl" />
                     </button>
                     <button
                         className="w-full lg:py-14 sm:py-7 my-4 border-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white bg-gradient-to-r from-blue-500 to-green-500 rounded-lg hover:from-blue-600 hover:to-green-600"
                         onClick={() => { navigate("/updateItem") }}
                     >
-                        Update Item <AutoFixHighIcon className="text-5xl"/>
+                        Update Item <AutoFixHighIcon className="text-5xl" />
                     </button>
                     <button
                         className="w-full lg:py-14 sm:py-7 my-4 border-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white bg-gradient-to-r from-blue-500 to-green-500 rounded-lg hover:from-blue-600 hover:to-green-600"
                         onClick={downloadSalesReport}
                     >
-                        Download Sales Report <AssessmentIcon className=""/>
+                        Download Sales Report <AssessmentIcon className="" />
                     </button>
                 </div>
-            </div>
+            </div >
         </>
     );
 }

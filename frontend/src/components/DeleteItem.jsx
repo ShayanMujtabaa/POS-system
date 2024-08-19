@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ const DeleteItem = () => {
     const handleDeleteItem = async (e) => {
         e.preventDefault();
 
-        if(!id) {
+        if (!id) {
             alert('Please fill in all the fields');
             return;
         }
@@ -22,7 +22,7 @@ const DeleteItem = () => {
             if (response.status === 200) {
                 console.log("Item Deleted successfully");
                 alert("Item Deleted Successfuly")
-                navigate('/home');
+                navigate('/adminPage');
             }
         } catch (error) {
             console.log("Error while deleting item: ", error.msg);
@@ -35,7 +35,7 @@ const DeleteItem = () => {
             <h1 className="text-white mb-4 text-4xl sm:text-5xl lg:text-8xl lg:leading-normal font-extrabold">DELETE ITEM</h1>
             <form onSubmit={handleDeleteItem}>
                 <div>
-                    <label  className="text-white block mb-2 text-2xl font-medium my-2" >Item ID</label>
+                    <label className="text-white block mb-2 text-2xl font-medium my-2" >Item ID</label>
                     <input
                         type="number"
                         className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
