@@ -52,6 +52,16 @@ const GetItems = async (req, res) => {
     }
 }
 
+const GetCategories = async (req, res) => {
+    try {
+        const categories = await Category.find();
+        res.status(200).json(categories);
+    } catch (error) {
+        console.log("Error while getting categories: " + error);
+        res.status(203).json({msg: "failed to get categories"});
+    }
+}
+
 const DeleteItem = async (req, res) => {
     const { id } = req.body;
     try {
@@ -135,7 +145,7 @@ const SalesReport = async (req, res) => {
     }
 }
 
-module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, SalesReport, AddCategory}
+module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, SalesReport, AddCategory, GetCategories}
 
 
 
