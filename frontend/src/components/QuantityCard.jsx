@@ -21,12 +21,12 @@ const QuantityCard = ({ item, show, onClose, onSave }) => {
             <div className="bg-white p-4 rounded shadow-lg w-3/4 max-w-lg">
                 <h1 className='text-black text-3xl py-2 font-semibold'>{item.name}</h1>
                 <p className='text-black mb-2'>
-                <span className='font-bold text-gray-700'>Category:</span> {item.category}
+                    <span className='font-bold text-gray-700'>Category:</span> {item.category}
                 </p>
                 <p className='text-black'>
-                <span className='font-bold text-gray-700'>Remaining in Stock:</span> {item.stock}
+                    <span className='font-bold text-gray-700'>Remaining in Stock:</span> {item.stock}
                 </p>
-                <br/>
+                <br />
                 <h2 className="text-xl mb-4">Enter Quantity</h2>
                 <input
                     type="number"
