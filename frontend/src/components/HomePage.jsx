@@ -32,13 +32,20 @@ const HomePage = () => {
     }, []);
 
     const handleAddToCartHelper = (item) => {
-        setQuantityCard({ show: true, item });
+        handleAddToCart(1, item);
     };
 
-    const handleAddToCart = (quantity) => {
-        const item = quantityCard.item;
-        dispatch(addToCart({ id: item.id, name: item.name, price: item.price, quantity }));
-        setQuantityCard({ show: false, item: null });
+    const handleAddToCart = (quantity, item) => {
+        dispatch(addToCart({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity,
+        }));
+    };
+
+    const handleAddToCartBarcode = (item) => {
+        dispatch(addToCart({ id: item.id, name: item.name, price: item.price, quantity: 1 }));
     };
 
     const handleRefundPurchase = () => {
@@ -47,20 +54,33 @@ const HomePage = () => {
     };
 
     const filteredItems = items.filter(item =>
-        (item.name.toLowerCase().includes(searchTerm.toLowerCase())) &&
-        (selectedCategory === '' || item.category === selectedCategory)
+        ((item.name.toLowerCase().includes(searchTerm.toLowerCase()))
+            || item.id.toLowerCase().includes(searchTerm.toLowerCase()))
+        && (selectedCategory === '' || item.category === selectedCategory)
     );
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter' && filteredItems.length === 1) {
+
+            handleAddToCartBarcode(filteredItems[0])
+            setSearchTerm('')
+        }
+    }
+
+
     const distinctCategories = [...new Set(items.map(item => item.category))];
 
     return (
         <div className="p-4">
             <div className="flex justify-start items-left mb-4">
+
                 <input
                     type="text"
                     placeholder="Search..."
                     className="border p-2 mx-1 rounded w-1/2"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyDown={handleKeyDown}
                 />
                 <select
                     className="border p-2 mx-1 rounded w-1/5"
@@ -80,6 +100,9 @@ const HomePage = () => {
                     Refund Purchase
                 </button>
             </div>
+
+
+
             <div className="flex">
                 <div className={`p-4 ${cartItems.length > 0 ? 'w-full lg:w-2/3' : 'w-full'}`}>
                     {loading && <p>Loading...</p>}

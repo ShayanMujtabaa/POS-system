@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { removeFromCart } from './redux/cartSlice';
+import { removeFromCart, incQuantity, decQuantity } from './redux/cartSlice';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import DiscountIcon from '@mui/icons-material/Discount';
 import axios from 'axios';
@@ -21,6 +21,17 @@ const Cart = () => {
         dispatch(removeFromCart({ id: id }));
     };
 
+    const handleincrementQuantity = (id) => {
+        dispatch(incQuantity({ id: id }));
+
+    };
+
+    const handledecrementQuantity = (id) => {
+        dispatch(decQuantity({ id: id }));
+
+    }
+
+
     const handleCheckout = async (e) => {
         e.preventDefault();
         if (cartItems.length <= 0) {
@@ -28,11 +39,11 @@ const Cart = () => {
             return;
         }
         try {
-            const response = await axios.post("http://localhost:9000/checkout", { 
-                cartItems, 
-                total: (Total - (Discount * Total) + (Tax * Total)).toFixed(2), 
-                discount: (Discount * Total).toFixed(2), 
-                tax: (Tax * Total).toFixed(2) 
+            const response = await axios.post("http://localhost:9000/checkout", {
+                cartItems,
+                total: (Total - (Discount * Total) + (Tax * Total)).toFixed(2),
+                discount: (Discount * Total).toFixed(2),
+                tax: (Tax * Total).toFixed(2)
             });
             console.log("Response received: ", response.data);
             if (response.status === 200) {
@@ -67,10 +78,12 @@ const Cart = () => {
                         <div key={item.id} className="bg-white border border-purple-500 p-4 mb-2 flex justify-between items-center">
                             <div>
                                 <h4 className="text-lg font-semibold">{item.name} x{item.quantity}</h4>
+                                <button onClick={() => handleincrementQuantity(item.id)}>+</button>
+                                <button onClick={() => handledecrementQuantity(item.id)}>-</button>
                                 <p>Sub-total: {item.price * item.quantity}</p>
                             </div>
-                            <button className="text-red-400 px-2 py-2 hover:text-red-700 transition-colors duration-300" onClick={() => handleRemoveCart(item.id)}> 
-                                <DeleteIcon/> 
+                            <button className="text-red-400 px-2 py-2 hover:text-red-700 transition-colors duration-300" onClick={() => handleRemoveCart(item.id)}>
+                                <DeleteIcon />
                             </button>
                         </div>
                     );
@@ -78,7 +91,7 @@ const Cart = () => {
             }
             <div className="bg-white border border-purple-500 p-2 mb-2">
                 <h4 className="text-lg font-semibold">POS fee </h4>
-                <p>Sub-total: 1</p>  
+                <p>Sub-total: 1</p>
             </div>
 
             <div className="flex justify-between mt-4">
@@ -98,19 +111,19 @@ const Cart = () => {
 
             <div className="flex justify-start">
 
-            <button 
-                onClick={handleCheckout} 
-                className="flex items-center my-4 mr-4 justify-center w-1/4 py-2 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700 transition-colors duration-300"
-            >
-                Checkout <ShoppingCartCheckoutIcon className="ml-2" />
-            </button>   
+                <button
+                    onClick={handleCheckout}
+                    className="flex items-center my-4 mr-4 justify-center w-1/4 py-2 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700 transition-colors duration-300"
+                >
+                    Checkout <ShoppingCartCheckoutIcon className="ml-2" />
+                </button>
 
-            <button 
-                onClick={handleAddDiscountHelper} 
-                className="flex items-center my-4 justify-center w-1/3 py-2 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-700 transition-colors duration-300"
-            >
-                Add Discount <DiscountIcon className="ml-2" />
-            </button> 
+                <button
+                    onClick={handleAddDiscountHelper}
+                    className="flex items-center my-4 justify-center w-1/3 py-2 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-700 transition-colors duration-300"
+                >
+                    Add Discount <DiscountIcon className="ml-2" />
+                </button>
 
             </div>
 
