@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { removeFromCart, incQuantity, decQuantity } from './redux/cartSlice';
+import { removeFromCart, incQuantity, decQuantity, setQuantity } from './redux/cartSlice';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import DiscountIcon from '@mui/icons-material/Discount';
 import axios from 'axios';
@@ -17,6 +17,14 @@ const Cart = () => {
     const [discountPopup, setDiscountPopup] = useState(false);
     let Total = 0;
 
+    const [amountReceived, setAmountReceived] = useState(0);
+
+    const handleAmountChange = (e) => {
+        const received = parseFloat(e.target.value);
+        setAmountReceived(received);
+    };
+
+
     const handleRemoveCart = (id) => {
         dispatch(removeFromCart({ id: id }));
     };
@@ -28,6 +36,11 @@ const Cart = () => {
 
     const handledecrementQuantity = (id) => {
         dispatch(decQuantity({ id: id }));
+
+    };
+
+    const handlesetQuantity = (id) => {
+        dispatch(setQuantity({ id: id }));
 
     }
 
@@ -76,10 +89,24 @@ const Cart = () => {
                     Total += item.price * item.quantity;
                     return (
                         <div key={item.id} className="bg-white border border-purple-500 p-4 mb-2 flex justify-between items-center">
-                            <div>
+                            <div className='items-center gap-x-1.5 '>
                                 <h4 className="text-lg font-semibold">{item.name} x{item.quantity}</h4>
-                                <button onClick={() => handleincrementQuantity(item.id)}>+</button>
-                                <button onClick={() => handledecrementQuantity(item.id)}>-</button>
+                                <div className="py-2 px-3 inline-block bg-white border border-gray-200 rounded-lg">
+                                    <button className="text-sm md:text-xl font- md:font-bold size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md 
+                                 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                                        onClick={() => handleincrementQuantity(item.id)}>+</button>
+                                    <input
+                                        className="p-0 w-6 bg-transparent border-0 text-center focus:ring-0
+                                     [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none "
+                                        type="number"
+                                        value={item.quantity}
+                                        min="1"
+                                        onChange={(e) => handlesetQuantity(item.id, e.target.value)}
+                                    />
+                                    <button className="text-sm md:text-2xl font- md:font-bold size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md 
+                                 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                                        onClick={() => handledecrementQuantity(item.id)}>-</button>
+                                </div>
                                 <p>Sub-total: {item.price * item.quantity}</p>
                             </div>
                             <button className="text-red-400 px-2 py-2 hover:text-red-700 transition-colors duration-300" onClick={() => handleRemoveCart(item.id)}>
@@ -106,6 +133,26 @@ const Cart = () => {
                 <div className="w-1/3 px-4 bg-[#80ed99] border border-purple-800">
                     <h5 className='text-left text-xl'>Total:</h5>
                     <p className='text-center text-3xl'>{(Total - (Discount * Total) + (Tax * Total)).toFixed(2)}</p>
+                </div>
+            </div>
+
+            <div className="flex justify-between mt-4">
+                <div className="w-2/3 px-4 bg-[#80ed99] border border-purple-800">
+                    <h5 className='text-left text-xl'>Amount Received:</h5>
+                    <input
+                        id='amount-received'
+                        className='text-center text-3xl'
+                        type="number"
+                        value={amountReceived}
+                        onChange={handleAmountChange} />
+                </div>
+                <div className="w-1/3 px-4 bg-[#80ed99] border border-purple-800">
+                    <h5 className='text-left text-xl'>Change:</h5>
+                    <p className='text-center text-3xl'>
+                        {isNaN(amountReceived) || isNaN(Total) || (amountReceived - Total) < 0
+                            ? ""
+                            : (amountReceived - (Total - (Discount * Total) + (Tax * Total)).toFixed(0))}
+                    </p>
                 </div>
             </div>
 
