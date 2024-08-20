@@ -89,25 +89,37 @@ const Cart = () => {
                     Total += item.price * item.quantity;
                     return (
                         <div key={item.id} className="bg-white border border-purple-500 p-4 mb-2 flex justify-between items-center">
-                            <div className='items-center gap-x-1.5 '>
-                                <h4 className="text-lg font-semibold">{item.name} x{item.quantity}</h4>
-                                <div className="py-2 px-3 inline-block bg-white border border-gray-200 rounded-lg">
-                                    <button className="text-sm md:text-xl font- md:font-bold size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md 
-                                 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
-                                        onClick={() => handleincrementQuantity(item.id)}>+</button>
+                            <div className='items-center gap-x-1.5'>
+                                <h4 className="text-lg font-semibold">{item.name}</h4>
+                                <div className="relative flex items-center max-w-[8rem]">
+                                    <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11
+                                     focus:ring-gray-100 focus:ring-2 focus:outline-none"
+                                        onClick={() => handleincrementQuantity(item.id)}>
+                                        <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                                        </svg>
+                                    </button>
                                     <input
-                                        className="p-0 w-6 bg-transparent border-0 text-center focus:ring-0
-                                     [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none "
+                                        className="bg-gray-50 border-x-0 border-gray-300 h-11 text-center 
+                                        text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 
+                                        block w-full py-2.5 dark:border-e-gray-700 dark:border-gray-700 dark:bg-gray-200"
                                         type="number"
                                         value={item.quantity}
                                         min="1"
                                         onChange={(e) => handlesetQuantity(item.id, e.target.value)}
                                     />
-                                    <button className="text-sm md:text-2xl font- md:font-bold size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md 
-                                 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
-                                        onClick={() => handledecrementQuantity(item.id)}>-</button>
+                                    <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 
+                                    rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none"
+                                        onClick={() => handledecrementQuantity(item.id)}>
+                                        <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                                        </svg>
+                                    </button>
                                 </div>
-                                <p>Sub-total: {item.price * item.quantity}</p>
+                                <div className='flex'>
+                                    <p>Rs.&nbsp;</p>
+                                    <p className='font-semibold'>{item.price * item.quantity}</p>
+                                </div>
                             </div>
                             <button className="text-red-400 px-2 py-2 hover:text-red-700 transition-colors duration-300" onClick={() => handleRemoveCart(item.id)}>
                                 <DeleteIcon />
@@ -118,7 +130,7 @@ const Cart = () => {
             }
             <div className="bg-white border border-purple-500 p-2 mb-2">
                 <h4 className="text-lg font-semibold">POS fee </h4>
-                <p>Sub-total: 1</p>
+                <p>Amount: 1</p>
             </div>
 
             <div className="flex justify-between mt-4">
@@ -141,12 +153,12 @@ const Cart = () => {
                     <h5 className='text-left text-xl'>Amount Received:</h5>
                     <input
                         id='amount-received'
-                        className='text-center text-3xl'
+                        className='text-center text-2xl bg-[#80ed99] border border-purple-800 mb-2'
                         type="number"
                         value={amountReceived}
                         onChange={handleAmountChange} />
                 </div>
-                <div className="w-1/3 px-4 bg-[#80ed99] border border-purple-800">
+                <div className="w-1/3 px-4 bg-[#80ed99] border border-grey-800">
                     <h5 className='text-left text-xl'>Change:</h5>
                     <p className='text-center text-3xl'>
                         {isNaN(amountReceived) || isNaN(Total) || (amountReceived - Total) < 0
@@ -160,14 +172,14 @@ const Cart = () => {
 
                 <button
                     onClick={handleCheckout}
-                    className="flex items-center my-4 mr-4 justify-center w-1/4 py-2 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700 transition-colors duration-300"
+                    className="flex items-center my-4 mr-4 justify-center w-2/4 py-4 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700 transition-colors duration-300"
                 >
                     Checkout <ShoppingCartCheckoutIcon className="ml-2" />
                 </button>
 
                 <button
                     onClick={handleAddDiscountHelper}
-                    className="flex items-center my-4 justify-center w-1/3 py-2 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-700 transition-colors duration-300"
+                    className="flex items-center my-4 justify-center w-2/4 py-4 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-700 transition-colors duration-300"
                 >
                     Add Discount <DiscountIcon className="ml-2" />
                 </button>
