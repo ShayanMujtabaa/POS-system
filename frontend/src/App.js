@@ -10,6 +10,7 @@ import AdminPage from './components/AdminPage';
 import HomePage from './components/HomePage';
 import store from './components/redux/store';
 import Cart from './components/Cart';
+import DeleteCategory from './components/DeleteCategory';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
     <Route path="/addItem" element={<>  <Navbar /> <AddItem /> </>} />
     <Route path="/addCategory" element={<>  <Navbar /> <AddCategory /> </>} />
     <Route path="/deleteItem" element={ <>  <Navbar /> <DeleteItem /> </>} />
+    <Route path="/deleteCategory" element={<>  <Navbar /> <DeleteCategory /> </>} />
     <Route path="/updateItem" element={ <>  <Navbar /> <UpdateItem /> </>} />
     <Route path="/adminPage" element={<><Navbar/> <AdminPage/> </>} />
     <Route path="/" element={<><Navbar/> <HomePage/> </>} />

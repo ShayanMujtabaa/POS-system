@@ -38,8 +38,8 @@ app.post('/updateItem', POSroutes.UpdateItem);
 app.post('/checkout', POSroutes.Checkout);
 app.get('/salesReport', POSroutes.SalesReport);
 app.post('/addCategory', POSroutes.AddCategory);
-app.post('/getCategories', POSroutes.GetCategories);
-
+app.post('/getCategories', POSroutes.GetCategories); 
+app.post('/deleteCategory', POSroutes.DeleteCategory);
 
 
 

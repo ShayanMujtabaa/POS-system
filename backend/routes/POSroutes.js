@@ -62,6 +62,17 @@ const GetCategories = async (req, res) => {
     }
 }
 
+const DeleteCategory = async (req, res) => {
+    const { id } = req.body;
+    try {
+        await Category.deleteOne({id: id});
+        res.status(200).json({msg: "Category Deleted"});
+    } catch (error) {
+        console.log("Error while deleting category: " + error);
+        res.status(203).json({msg: "failed to delete category"});
+    }
+} 
+
 const DeleteItem = async (req, res) => {
     const { id } = req.body;
     try {
@@ -145,7 +156,7 @@ const SalesReport = async (req, res) => {
     }
 }
 
-module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, SalesReport, AddCategory, GetCategories}
+module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, SalesReport, AddCategory, GetCategories, DeleteCategory}
 
 
 
