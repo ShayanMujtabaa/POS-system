@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import ListItemCard from './ListItemCard'
+import StockListCard from './StockListCard'
 
 
-const UpdateItem = () => {
+const UpdateStock = () => {
     const navigate = useNavigate();
     const [ItemID, setItemID] = useState('');
-    const [field, setField] = useState('');
-    const [value, setValue] = useState('');
+    const [stock, setStock] = useState('');
     //if want to add images functionality later on
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -29,35 +28,40 @@ const UpdateItem = () => {
         fetchItems();
     }, []);
 
-    const handleUpdateItem = async (e) => {
+    const handleUpdateStock = async (e) => {
         e.preventDefault();
 
-        if (!ItemID || !field || !value) {
+        if (!ItemID || !stock) {
             alert('Please fill in all the fields');
             return;
         }
 
         try {
             const ItemData = {
-                id: ItemID, field, value,
+                id: ItemID,
+                stock: stock,
             };
-            const response = await axios.post("http://localhost:9000/updateItem", ItemData);
+            const response = await axios.post("http://localhost:9000/updateStock", ItemData);
             if (response.status === 200) {
 
-                console.log("ItemUpdated successfully");
-                alert("Item Updated Successfuly")
-                navigate('/adminPage');
+                console.log("Item Stock Updated successfully");
+                alert("Item Stock Updated Successfuly");
+
+                const updatedItems = await axios.post("http://localhost:9000/getItems");
+                setItems(updatedItems.data);
+
+                navigate('/updateStock');
             }
         } catch (error) {
-            console.log("Error while Updating item: ", error.msg);
-            alert("Failed to Update item");
+            console.log("Error while Updating item Stock: ", error.msg);
+            alert("Failed to Update item Stock");
         }
     };
 
     return (
         <div className="container mt-24 mx-auto px-12 py-4">
-            <h1 className="text-white mb-4 text-4xl sm:text-5xl lg:text-8xl lg:leading-normal font-extrabold">UPDATE ITEM</h1>
-            <form onSubmit={handleUpdateItem}>
+            <h1 className="text-white mb-4 text-4xl sm:text-5xl lg:text-8xl lg:leading-normal font-extrabold">UPDATE STOCK</h1>
+            <form onSubmit={handleUpdateStock}>
                 <div>
                     <label className="text-white block mb-2 text-2xl font-medium my-2" >Item ID</label>
                     <input
@@ -68,27 +72,15 @@ const UpdateItem = () => {
                         onChange={(e) => setItemID(e.target.value)}
                     />
                 </div>
+
                 <div>
-                    <label className="text-white block mb-2 text-2xl font-medium my-2" >Update Field</label>
-                    <select
-                        className="text-gray-800 bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
-                        onChange={(e) => { setField(e.target.value) }}>
-                        <option value="">Select Field</option>
-                        <option value="name">Item Name</option>
-                        <option value="category">Item Category</option>
-                        <option value="price">Item Price</option>
-                        <option value="cost">Item Cost</option>
-                        <option value="stock">Item Stock</option>
-                    </select>
-                </div>
-                <div>
-                    <label className="text-white block mb-2 text-2xl font-medium my-2">Update Value</label>
+                    <label className="text-white block mb-2 text-2xl font-medium my-2">Update Stock</label>
                     <input
                         type="text"
                         className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-800 text-sm rounded-lg block w-full p-2.5 mb-6"
-                        placeholder='Updated Value'
-                        value={value}
-                        onChange={(e) => setValue(e.target.value)}
+                        placeholder='Updated Stock'
+                        value={stock}
+                        onChange={(e) => setStock(e.target.value)}
                     />
                 </div>
                 <button type="submit" className="bg-gradient-to-r from-blue-500 to-green-500 rounded-lg hover:from-blue-600 hover:to-green-600 text-white font-medium py-2.5 px-5 rounded-lg w-48 h-12 border border-gray-300 my-5">
@@ -103,7 +95,7 @@ const UpdateItem = () => {
                 <div className="flex flex-wrap -mx-2">
                     {items.map(item => (
                         <div key={item.id} className={'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/6'}>
-                            <ListItemCard item={item} />
+                            <StockListCard item={item} />
                         </div>
                     ))}
                 </div>
@@ -113,4 +105,4 @@ const UpdateItem = () => {
     )
 }
 
-export default UpdateItem;
+export default UpdateStock;

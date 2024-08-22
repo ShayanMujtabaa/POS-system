@@ -105,6 +105,24 @@ const UpdateItem = async (req, res) => {
     }
 }
 
+const UpdateStock = async (req, res) => {
+    const { id, stock } = req.body;
+    try {
+        const item = await Item.findOne({id: id});
+        if (!item) {
+            return res.status(203).json({msg: "Item Not Found"})
+        }
+        item.stock = parseInt(stock);
+
+        await item.save();
+        res.status(200).json({msg: "Item Stock Updated Successfuly"})
+    }
+    catch (error) {
+        console.log("Error while updating item stock: " + error);
+        res.status(203).json({msg: "failed to update item stock"});
+    }
+}
+
 const Checkout = async (req, res) => {
     const {cartItems, total, discount, tax} = req.body;
     try {
@@ -156,7 +174,7 @@ const SalesReport = async (req, res) => {
     }
 }
 
-module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, SalesReport, AddCategory, GetCategories, DeleteCategory}
+module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, SalesReport, AddCategory, GetCategories, DeleteCategory, UpdateStock}
 
 
 
