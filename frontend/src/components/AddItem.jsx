@@ -10,7 +10,6 @@ const AddItem = () => {
     const [price, setItemPrice] = useState(0);
     const [cost, setItemCost] = useState(0);
     const [stock, setItemStock] = useState(0);
-    const [category, setItemCategory] = useState('');
     //if want to add images functionality later on
     const [imageURL, setItemImage] = useState('');
     const [categories, setCategories] = useState([]);
@@ -34,17 +33,19 @@ const AddItem = () => {
         fetchCategories();
     }, []);
 
+
+
     const handleAddItem = async (e) => {
         e.preventDefault();
 
-        if (!ItemID || !ItemName || !price || !cost || !stock || !category) {
+        if (!ItemID || !ItemName || !price || !cost || !stock || !categories) {
             alert('Please fill in all the fields');
             return;
         }
 
         try {
             const ItemData = {
-                id: ItemID, name: ItemName, price, cost, stock, category, imageURL
+                id: ItemID, name: ItemName, price, cost, stock, category: selectedCategory, imageURL
             };
             const response = await axios.post("http://localhost:9000/addItem", ItemData);
             if (response.status === 200) {
@@ -82,16 +83,6 @@ const AddItem = () => {
                         onChange={(e) => setItemName(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label className="text-white block mb-2 text-2xl font-medium my-2" >Category</label>
-                    <input
-                        type="text"
-                        className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
-                        placeholder='category'
-                        value={category}
-                        onChange={(e) => setItemCategory(e.target.value)}
-                    />
-                </div>
 
                 <div>
                     <label className="text-white block mb-2 text-2xl font-medium my-2" >Category</label>
@@ -102,7 +93,7 @@ const AddItem = () => {
                     >
                         <option value="" disabled>Select a category</option>
                         {categories.map(category => (
-                            <option key={category._id} value={category._id}>
+                            <option key={category._id} value={category.name}>
                                 {category.name}
                             </option>
                         ))}

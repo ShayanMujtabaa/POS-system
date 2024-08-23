@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import ListItemCard from './ListItemCard'
-
+import ListItemCard from './ListItemCard';
 
 const UpdateItem = () => {
     const navigate = useNavigate();
     const [ItemID, setItemID] = useState('');
     const [field, setField] = useState('');
     const [value, setValue] = useState('');
-    //if want to add images functionality later on
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -29,27 +29,43 @@ const UpdateItem = () => {
         fetchItems();
     }, []);
 
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.post("http://localhost:9000/getcategories");
+                const data = response.data;
+                setCategories(data);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
     const handleUpdateItem = async (e) => {
         e.preventDefault();
 
-        if (!ItemID || !field || !value) {
+        if (!ItemID || !field || (field !== 'category' && !value)) {
             alert('Please fill in all the fields');
             return;
         }
 
         try {
             const ItemData = {
-                id: ItemID, field, value,
+                id: ItemID,
+                field,
+                value: field === 'category' ? selectedCategory : value
             };
             const response = await axios.post("http://localhost:9000/updateItem", ItemData);
             if (response.status === 200) {
-
-                console.log("ItemUpdated successfully");
-                alert("Item Updated Successfuly")
+                alert("Item Updated Successfully");
                 navigate('/itemPage');
             }
         } catch (error) {
-            console.log("Error while Updating item: ", error.msg);
+            console.log("Error while Updating item: ", error.message);
             alert("Failed to Update item");
         }
     };
@@ -59,7 +75,7 @@ const UpdateItem = () => {
             <h1 className="text-white mb-4 text-4xl sm:text-5xl lg:text-8xl lg:leading-normal font-extrabold">UPDATE ITEM</h1>
             <form onSubmit={handleUpdateItem}>
                 <div>
-                    <label className="text-white block mb-2 text-2xl font-medium my-2" >Item ID</label>
+                    <label className="text-white block mb-2 text-2xl font-medium my-2">Item ID</label>
                     <input
                         type="text"
                         className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-800 text-sm rounded-lg block w-full p-2.5 mb-6"
@@ -69,10 +85,11 @@ const UpdateItem = () => {
                     />
                 </div>
                 <div>
-                    <label className="text-white block mb-2 text-2xl font-medium my-2" >Update Field</label>
+                    <label className="text-white block mb-2 text-2xl font-medium my-2">Update Field</label>
                     <select
                         className="text-gray-800 bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
-                        onChange={(e) => { setField(e.target.value) }}>
+                        onChange={(e) => { setField(e.target.value); setValue(''); setSelectedCategory(''); }}
+                    >
                         <option value="">Select Field</option>
                         <option value="name">Item Name</option>
                         <option value="category">Item Category</option>
@@ -81,22 +98,43 @@ const UpdateItem = () => {
                         <option value="stock">Item Stock</option>
                     </select>
                 </div>
-                <div>
-                    <label className="text-white block mb-2 text-2xl font-medium my-2">Update Value</label>
-                    <input
-                        type="text"
-                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-800 text-sm rounded-lg block w-full p-2.5 mb-6"
-                        placeholder='Updated Value'
-                        value={value}
-                        onChange={(e) => setValue(e.target.value)}
-                    />
-                </div>
+
+                {field === 'category' && (
+                    <div>
+                        <label className="text-white block mb-2 text-2xl font-medium my-2">Category</label>
+                        <select
+                            className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
+                            value={selectedCategory}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                        >
+                            <option value="" disabled>Select a category</option>
+                            {categories.map(category => (
+                                <option key={category._id} value={category.name}>
+                                    {category.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+
+                {field !== 'category' && (
+                    <div>
+                        <label className="text-white block mb-2 text-2xl font-medium my-2">Update Value</label>
+                        <input
+                            type="text"
+                            className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-800 text-sm rounded-lg block w-full p-2.5 mb-6"
+                            placeholder='Updated Value'
+                            value={value}
+                            onChange={(e) => setValue(e.target.value)}
+                        />
+                    </div>
+                )}
+
                 <button type="submit" className="bg-gradient-to-r from-blue-500 to-green-500 rounded-lg hover:from-blue-600 hover:to-green-600 text-white font-medium py-2.5 px-5 rounded-lg w-48 h-12 border border-gray-300 my-5">
                     Update Item
                 </button>
-
             </form>
-            <br></br>
+            <br />
             <h1 className="text-white mb-4 text-2xl sm:text-3xl lg:text-6xl lg:leading-normal font-bold">ALL ITEMS</h1>
             <div className={`p-4 w-full`}>
                 {loading && <p>Loading...</p>}
@@ -108,9 +146,8 @@ const UpdateItem = () => {
                     ))}
                 </div>
             </div>
-
         </div>
-    )
-}
+    );
+};
 
 export default UpdateItem;
