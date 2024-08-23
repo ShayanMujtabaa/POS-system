@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { removeFromCart, incQuantity, decQuantity, setQuantity } from './redux/cartSlice';
+import { removeFromCart, incQuantity, decQuantity, setQuantity, clearCart } from './redux/cartSlice';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import DiscountIcon from '@mui/icons-material/Discount';
 import axios from 'axios';
@@ -29,6 +29,10 @@ const Cart = () => {
         dispatch(removeFromCart({ id: id }));
     };
 
+    const handleClearCart = (id) => {
+        dispatch(clearCart({ id: id }));
+    }
+
     const handleincrementQuantity = (id) => {
         dispatch(incQuantity({ id: id }));
 
@@ -42,7 +46,7 @@ const Cart = () => {
     const handlesetQuantity = (id, quantity) => {
         dispatch(setQuantity({ id: id, quantity: parseInt(quantity) }));
     };
-    
+
 
 
     const handleCheckout = async (e) => {
@@ -183,6 +187,13 @@ const Cart = () => {
                     className="flex items-center my-4 justify-center w-2/4 py-4 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-green-700 transition-colors duration-300"
                 >
                     Add Discount <DiscountIcon className="ml-2" />
+                </button>
+
+                <button
+                    onClick={handleClearCart}
+                    className="flex items-center my-4 justify-center w-2/4 py-4 px-4 ml-4 bg-red-500 text-white font-semibold rounded-md hover:bg-green-700 transition-colors duration-300"
+                >
+                    Clear Cart <DeleteIcon className="ml-2" />
                 </button>
 
             </div>
