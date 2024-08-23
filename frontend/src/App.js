@@ -7,6 +7,9 @@ import Navbar from './components/Navbar';
 import DeleteItem from './components/DeleteItem';
 import UpdateItem from './components/UpdateItem';
 import AdminPage from './components/AdminPage';
+import ItemPage from './components/ItemPage';
+import CategoryPage from './components/CategoryPage';
+import ReportPage from './components/ReportPage';
 import HomePage from './components/HomePage';
 import store from './components/redux/store';
 import Cart from './components/Cart';
@@ -28,6 +31,9 @@ function App() {
     <Route path="/updateItem" element={ <>  <Navbar /> <UpdateItem /> </>} />
     <Route path="/updateStock" element={ <>  <Navbar /> <UpdateStock /> </>} />
     <Route path="/adminPage" element={<><Navbar/> <AdminPage/> </>} />
+    <Route path="/itemPage" element={<><Navbar/> <ItemPage/> </>} />
+    <Route path="/categoryPage" element={<><Navbar/> <CategoryPage/> </>} />
+    <Route path="/reportPage" element={<><Navbar/> <ReportPage/> </>} />
     <Route path="/" element={<><Navbar/> <HomePage/> </>} />
     <Route path="/home" element={<><Navbar/> <HomePage/> </>} />
     <Route path="/cart" element={<><Navbar/> <Cart/> </>} />

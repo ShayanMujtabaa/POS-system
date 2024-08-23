@@ -46,7 +46,7 @@ const UpdateItem = () => {
 
                 console.log("ItemUpdated successfully");
                 alert("Item Updated Successfuly")
-                navigate('/adminPage');
+                navigate('/itemPage');
             }
         } catch (error) {
             console.log("Error while Updating item: ", error.msg);

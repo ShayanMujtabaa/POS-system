@@ -50,7 +50,7 @@ const AddItem = () => {
             if (response.status === 200) {
                 console.log("ItemAdded successfully");
                 alert("Item Added Successfuly")
-                navigate('/adminPage');
+                navigate('/itemPage');
             }
         } catch (error) {
             console.log("Error while adding item: ", error.msg);

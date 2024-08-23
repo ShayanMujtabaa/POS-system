@@ -22,7 +22,7 @@ const DeleteItem = () => {
             if (response.status === 200) {
                 console.log("Item Deleted successfully");
                 alert("Item Deleted Successfuly")
-                navigate('/adminPage');
+                navigate('/itemPage');
             }
         } catch (error) {
             console.log("Error while deleting item: ", error.msg);

@@ -101,8 +101,6 @@ const HomePage = () => {
                 </button>
             </div>
 
-
-
             <div className="flex">
                 <div className={`p-4 ${cartItems.length > 0 ? 'w-full lg:w-2/3' : 'w-full'}`}>
                     {loading && <p>Loading...</p>}

@@ -23,7 +23,7 @@ const AddCategory = () => {
             if (response.status === 200) {
                 console.log("Category Added successfully");
                 alert("Category Added Successfuly")
-                navigate('/adminPage');
+                navigate('/categoryPage');
             }
         } catch (error) {
             console.log("Error while adding Category: ", error.msg);

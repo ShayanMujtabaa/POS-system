@@ -22,7 +22,7 @@ const DeleteCategory = () => {
             if (response.status === 200) {
                 console.log("Category Deleted successfully");
                 alert("Category Deleted Successfuly")
-                navigate('/adminPage');
+                navigate('/categoryPage');
             }
         } catch (error) {
             console.log("Error while deleting category: ", error.msg);

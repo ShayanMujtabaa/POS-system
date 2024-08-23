@@ -39,10 +39,10 @@ const Cart = () => {
 
     };
 
-    const handlesetQuantity = (id) => {
-        dispatch(setQuantity({ id: id }));
-
-    }
+    const handlesetQuantity = (id, quantity) => {
+        dispatch(setQuantity({ id: id, quantity: parseInt(quantity) }));
+    };
+    
 
 
     const handleCheckout = async (e) => {
@@ -91,6 +91,7 @@ const Cart = () => {
                         <div key={item.id} className="bg-white border border-purple-500 p-4 mb-2 flex justify-between items-center">
                             <div className='items-center gap-x-1.5'>
                                 <h4 className="text-lg font-semibold">{item.name}</h4>
+                                <h4 className='text-lg font-semibold justify-self-center'>@Rs. {item.price}</h4>
                                 <div className="relative flex items-center max-w-[8rem]">
                                     <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11
                                      focus:ring-gray-100 focus:ring-2 focus:outline-none"
