@@ -1,6 +1,7 @@
 const Item = require('../models/ItemModel');
 const Sales = require('../models/SalesModel');
 const Category = require('../models/CategoryModel');
+const Expense = require('../models/ExpenseModel')
 
 const GetTest = async (req, res) => {
     res.send('Test Route');
@@ -39,6 +40,22 @@ const AddCategory = async (req, res) => {
     } catch (error) {
         console.log("Error while adding category: " + error);
         res.status(203).json({msg: "failed to add category"});
+    }
+}
+
+const AddExpense = async (req, res) => {
+    const {id, name } = req.body;
+    const newExpense = new Expense({
+        id,
+        name,
+       price,
+    });
+    try {
+        await newExpense.save();
+        res.status(200).json({msg: "Expense Added"});
+    } catch (error) {
+        console.log("Error while adding expense: " + error);
+        res.status(203).json({msg: "failed to add expense"});
     }
 }
 
@@ -174,7 +191,7 @@ const SalesReport = async (req, res) => {
     }
 }
 
-module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, SalesReport, AddCategory, GetCategories, DeleteCategory, UpdateStock}
+module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, SalesReport, AddCategory, GetCategories, DeleteCategory, UpdateStock, AddExpense}
 
 
 

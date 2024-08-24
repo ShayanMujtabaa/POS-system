@@ -71,6 +71,12 @@ const AdminPage = () => {
                     >
                         Reports <AutoFixHighIcon className="text-5xl" />
                     </button>
+                    <button
+                        className="px-6 w-full lg:py-14 sm:py-7 my-4 border-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white bg-gradient-to-r from-blue-500 to-green-500 rounded-lg hover:from-blue-600 hover:to-green-600"
+                        onClick={() => { navigate("/addExpense") }}
+                    >
+                        Add Expense <AddIcon className="text-5xl" />
+                    </button>
                 </div>
             </div >
         </>

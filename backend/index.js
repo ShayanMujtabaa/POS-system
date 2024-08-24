@@ -41,6 +41,7 @@ app.get('/salesReport', POSroutes.SalesReport);
 app.post('/addCategory', POSroutes.AddCategory);
 app.post('/getCategories', POSroutes.GetCategories); 
 app.post('/deleteCategory', POSroutes.DeleteCategory);
+app.post('/addExpense', POSroutes.AddExpense);
 
 
 
