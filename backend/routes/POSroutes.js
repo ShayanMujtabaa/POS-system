@@ -44,7 +44,7 @@ const AddCategory = async (req, res) => {
 }
 
 const AddExpense = async (req, res) => {
-    const {id, name } = req.body;
+    const {id, name, price } = req.body;
     const newExpense = new Expense({
         id,
         name,

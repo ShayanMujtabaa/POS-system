@@ -168,7 +168,7 @@ const Cart = () => {
                     <p className='text-center text-3xl'>
                         {isNaN(amountReceived) || isNaN(Total) || (amountReceived - Total) < 0
                             ? ""
-                            : (amountReceived - (Total - (Discount * Total) + (Tax * Total)).toFixed(2))}
+                            : Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * Total)))}
                     </p>
                 </div>
             </div>

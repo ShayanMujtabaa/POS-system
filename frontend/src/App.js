@@ -11,7 +11,7 @@ import AdminPage from './components/AdminPage';
 import ItemPage from './components/ItemPage';
 import CategoryPage from './components/CategoryPage';
 import ReportPage from './components/ReportPage';
-import HomePage from './components/HomePage';
+import HomePage from './Pages/HomePage';
 import store from './components/redux/store';
 import Cart from './components/Cart';
 import DeleteCategory from './components/DeleteCategory';

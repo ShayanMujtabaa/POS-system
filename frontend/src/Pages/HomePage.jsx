@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import ItemCard from "./ItemCard";
+import ItemCard from "../components/ItemCard";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "./redux/cartSlice";
-import Cart from "./Cart";
-import QuantityCard from "./QuantityCard";
+import { addToCart } from "../components/redux/cartSlice";
+import Cart from "../components/Cart";
+import QuantityCard from "../components/QuantityCard";
 
 const HomePage = () => {
     const dispatch = useDispatch();

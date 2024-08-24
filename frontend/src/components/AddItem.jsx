@@ -106,7 +106,6 @@ const AddItem = () => {
                         type="number"
                         className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Price'
-                        value={price}
                         onChange={(e) => setItemPrice(parseFloat(e.target.value))}
                     />
                 </div>
@@ -116,7 +115,6 @@ const AddItem = () => {
                         type="number"
                         className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Cost'
-                        value={cost}
                         onChange={(e) => setItemCost(parseFloat(e.target.value))}
                     />
                 </div>
@@ -126,7 +124,6 @@ const AddItem = () => {
                         type="number"
                         className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Stock'
-                        value={stock}
                         onChange={(e) => setItemStock(parseInt(e.target.value))}
                     />
                 </div>
