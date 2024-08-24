@@ -40,7 +40,6 @@ const DeleteCategory = () => {
                         type="number"
                         className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Category ID'
-                        value={id}
                         onChange={(e) => setId(parseFloat(e.target.value))}
                     />
                 </div>

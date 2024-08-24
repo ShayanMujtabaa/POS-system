@@ -40,7 +40,6 @@ const DeleteItem = () => {
                         type="number"
                         className="text-gray-800 bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Item ID'
-                        value={id}
                         onChange={(e) => setId(parseFloat(e.target.value))}
                     />
                 </div>
