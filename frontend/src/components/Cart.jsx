@@ -77,6 +77,34 @@ const Cart = () => {
         }
     };
 
+    const handleRefund = async (e) => {
+        e.preventDefault();
+        if (cartItems.length <= 0) {
+            alert('Please select items to refund');
+            return;
+        }
+        try {
+            const refundAmount = (Total - (Discount * Total) + (Tax * Total)).toFixed(2);
+            const response = await axios.post("http://localhost:9000/refund", {
+                cartItems,
+                refundAmount: refundAmount
+            });
+            console.log("Response received: ", response.data);
+            if (response.status === 200) {
+                for (let i = 0; i < cartItems.length; i++) {
+                    dispatch(removeFromCart({ id: cartItems[i].id }));
+                }
+                window.location.reload();
+                console.log("Refund successful");
+                alert("Refund processed successfully");
+            }
+        } catch (error) {
+            console.log("Error while processing refund: ", error.msg);
+            alert("Failed to process refund");
+        }
+    };
+    
+
     const handleAddDiscountHelper = () => {
         setDiscountPopup(true);
     };
@@ -195,8 +223,15 @@ const Cart = () => {
                 >
                     Clear Cart <DeleteIcon className="ml-2" />
                 </button>
-
             </div>
+
+            
+            <button
+                    onClick={handleRefund}
+                    className="bg-[#ff5a5f] mx-1 text-white p-2 rounded w-1/2 hover:bg-red-700 transition-colors duration-300"
+                >
+                    Refund Purchase
+                </button>
 
             <DiscountPopup
                 show={discountPopup}

@@ -48,10 +48,6 @@ const HomePage = () => {
         dispatch(addToCart({ id: item.id, name: item.name, price: item.price, quantity: 1 }));
     };
 
-    const handleRefundPurchase = () => {
-
-        alert("Refund purchase clicked");
-    };
 
     const filteredItems = items.filter(item =>
         ((item.name.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -93,12 +89,6 @@ const HomePage = () => {
                         <option key={category} value={category}>{category}</option>
                     ))}
                 </select>
-                <button
-                    onClick={handleRefundPurchase}
-                    className="bg-[#ff5a5f] mx-1 text-white p-2 rounded w-1/5 hover:bg-red-700 transition-colors duration-300"
-                >
-                    Refund Purchase
-                </button>
             </div>
 
             <div className="flex">

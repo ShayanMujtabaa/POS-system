@@ -191,7 +191,35 @@ const SalesReport = async (req, res) => {
     }
 }
 
-module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, SalesReport, AddCategory, GetCategories, DeleteCategory, UpdateStock, AddExpense}
+const Refund = async (req, res) => {
+    const {cartItems, refundAmount} = req.body;
+    try {
+        let items = [];
+        let quantities = [];
+        for (let i = 0; i < cartItems.length; i++) {
+            const item = await Item.findOne({id: cartItems[i].id});
+            if (!item) {
+                return res.status(203).json({msg: "Item Not Found"})
+            }
+            item.stock += cartItems[i].quantity;
+            await item.save();
+            items.push(item.id);
+            quantities.push(cartItems[i].quantity);
+        }
+        const newRefund = new Sales({
+            items,
+            quantities,
+            total: -Math.abs(refundAmount)
+        });
+        await newRefund.save();
+        res.status(200).json({msg: "Refund Successful"})
+    } catch (error) {
+        console.log("Error while refunding: " + error);
+        res.status(203).json({msg: "failed to refund"});
+    }
+}
+
+module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, Refund, SalesReport, AddCategory, GetCategories, DeleteCategory, UpdateStock, AddExpense}
 
 
 
