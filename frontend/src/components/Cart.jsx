@@ -7,8 +7,6 @@ import DiscountIcon from '@mui/icons-material/Discount';
 import axios from 'axios';
 import DiscountPopup from './Discount';
 
-
-
 const Cart = () => {
     const [Discount, setDiscount] = useState(0);
     const [Tax, setTax] = useState(0.18);
@@ -47,8 +45,6 @@ const Cart = () => {
         dispatch(setQuantity({ id: id, quantity: parseInt(quantity) }));
     };
 
-
-
     const handleCheckout = async (e) => {
         e.preventDefault();
         if (cartItems.length <= 0) {
@@ -56,9 +52,10 @@ const Cart = () => {
             return;
         }
         try {
+            const totalAmount = (Total - (Discount * Total) + (Tax * Total)).toFixed(2);
             const response = await axios.post("http://localhost:9000/checkout", {
                 cartItems,
-                total: (Total - (Discount * Total) + (Tax * Total)).toFixed(2),
+                total: totalAmount,
                 discount: (Discount * Total).toFixed(2),
                 tax: (Tax * Total).toFixed(2)
             });
@@ -67,6 +64,7 @@ const Cart = () => {
                 for (let i = 0; i < cartItems.length; i++) {
                     dispatch(removeFromCart({ id: cartItems[i].id }));
                 }
+
                 window.location.reload();
                 console.log("Checkout successful");
                 alert("Checkout successful, Proceed to payment");
@@ -103,7 +101,7 @@ const Cart = () => {
             alert("Failed to process refund");
         }
     };
-    
+
 
     const handleAddDiscountHelper = () => {
         setDiscountPopup(true);
@@ -225,13 +223,13 @@ const Cart = () => {
                 </button>
             </div>
 
-            
+
             <button
-                    onClick={handleRefund}
-                    className="bg-[#ff5a5f] mx-1 text-white p-2 rounded w-1/2 hover:bg-red-700 transition-colors duration-300"
-                >
-                    Refund Purchase
-                </button>
+                onClick={handleRefund}
+                className="bg-[#ff5a5f] mx-1 text-white p-2 rounded w-1/2 hover:bg-red-700 transition-colors duration-300"
+            >
+                Refund Purchase
+            </button>
 
             <DiscountPopup
                 show={discountPopup}
