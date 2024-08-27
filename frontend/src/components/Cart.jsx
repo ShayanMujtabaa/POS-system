@@ -22,7 +22,6 @@ const Cart = () => {
         setAmountReceived(received);
     };
 
-
     const handleRemoveCart = (id) => {
         dispatch(removeFromCart({ id: id }));
     };
