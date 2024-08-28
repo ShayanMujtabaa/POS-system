@@ -246,7 +246,9 @@ const Cart = () => {
             </button>
 
             <div style={{ display: "none" }}>
-                <Receipt ref={printRef} cartItems={cartItems} subTotal={(Total).toFixed(2)} Total={(Total - (Discount * Total) + (Tax * Total)).toFixed(2)} Discount={Discount * 100} Tax={Tax * 100} taxAmount={(Tax * Total).toFixed(2)} amountReceived={amountReceived} DiscountPrice={(Discount * Total).toFixed(2)} change={Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * Total)))} />
+                <Receipt ref={printRef} cartItems={cartItems} subTotal={(Total).toFixed(2)} Total={(Total - (Discount * Total) + (Tax * Total)).toFixed(2)}
+                 Discount={Discount * 100} Tax={Tax * 100} taxAmount={(Tax * Total).toFixed(2)} amountReceived={amountReceived} DiscountPrice={(Discount * Total).toFixed(2)}
+                  change={Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * Total)))} />
             </div>
 
             <DiscountPopup
