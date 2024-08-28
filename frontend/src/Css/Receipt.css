@@ -1,0 +1,12 @@
+@media print {
+    @page {
+        size: 58mm auto;
+        margin: 0; 
+    }
+
+    .receipt {
+        width: 58mm;
+        margin: 0;
+        padding: 0;
+    }
+}

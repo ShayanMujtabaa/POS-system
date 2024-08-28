@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { removeFromCart, incQuantity, decQuantity, setQuantity, clearCart } from './redux/cartSlice';
@@ -6,6 +6,8 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import DiscountIcon from '@mui/icons-material/Discount';
 import axios from 'axios';
 import DiscountPopup from './Discount';
+import ReactToPrint from 'react-to-print';
+import Receipt from './Receipt';
 
 const Cart = () => {
     const [Discount, setDiscount] = useState(0);
@@ -13,9 +15,17 @@ const Cart = () => {
     const cartItems = useSelector(state => state.cart.cart);
     const dispatch = useDispatch();
     const [discountPopup, setDiscountPopup] = useState(false);
+    const [isPrinting, setIsPrinting] = useState(false);
+    const printRef = useRef(null);
+    const [amountReceived, setAmountReceived] = useState(0);
     let Total = 0;
 
-    const [amountReceived, setAmountReceived] = useState(0);
+    const printReceipt = () => {
+        const printButton = document.getElementById('print-button')
+        printButton.click();
+        setIsPrinting(true);
+        onafterprint(window.location.reload());
+    }
 
     const handleAmountChange = (e) => {
         const received = parseFloat(e.target.value);
@@ -63,13 +73,12 @@ const Cart = () => {
                 for (let i = 0; i < cartItems.length; i++) {
                     dispatch(removeFromCart({ id: cartItems[i].id }));
                 }
-
-                window.location.reload();
+                printReceipt();
                 console.log("Checkout successful");
                 alert("Checkout successful, Proceed to payment");
             }
         } catch (error) {
-            console.log("Error while checking out: ", error.msg);
+            console.log("Error while checking out: ", error.response ? error.response.data : error.message);
             alert("Failed to checkout");
         }
     };
@@ -91,6 +100,7 @@ const Cart = () => {
                 for (let i = 0; i < cartItems.length; i++) {
                     dispatch(removeFromCart({ id: cartItems[i].id }));
                 }
+                printReceipt();
                 window.location.reload();
                 console.log("Refund successful");
                 alert("Refund processed successfully");
@@ -200,12 +210,17 @@ const Cart = () => {
 
             <div className="flex justify-start">
 
+            <ReactToPrint
+            trigger={() => (
                 <button
                     onClick={handleCheckout}
                     className="flex items-center my-4 mr-4 justify-center w-2/4 py-4 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700 transition-colors duration-300"
                 >
                     Checkout <ShoppingCartCheckoutIcon className="ml-2" />
                 </button>
+                 )}
+                  content={() => printRef.current}
+            />
 
                 <button
                     onClick={handleAddDiscountHelper}
@@ -229,6 +244,10 @@ const Cart = () => {
             >
                 Refund Purchase
             </button>
+
+            <div style={{ display: "none" }}>
+                <Receipt ref={printRef} cartItems={cartItems} total={Total} discount={Discount} tax={Tax} />
+            </div>
 
             <DiscountPopup
                 show={discountPopup}
