@@ -24,7 +24,6 @@ const Cart = () => {
         const printButton = document.getElementById('print-button')
         printButton.click();
         setIsPrinting(true);
-        onafterprint(window.location.reload());
     }
 
     const handleAmountChange = (e) => {
@@ -108,7 +107,6 @@ const Cart = () => {
             alert("Failed to process refund");
         }
     };
-
 
     const handleAddDiscountHelper = () => {
         setDiscountPopup(true);
@@ -202,7 +200,7 @@ const Cart = () => {
                         {isNaN(amountReceived) || isNaN(Total) || amountReceived < (Total - (Discount * Total) + (Tax * (Total - (Discount * Total))))
                             ? ""
                             : Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * Total)))}
-                            {/* if tax calculated for discounted total amount: Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * (Total - (Discount * Total))))) */}
+                        {/* if tax calculated for discounted total amount: Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * (Total - (Discount * Total))))) */}
 
                     </p>
                 </div>
@@ -210,17 +208,18 @@ const Cart = () => {
 
             <div className="flex justify-start">
 
-            <ReactToPrint
-            trigger={() => (
-                <button
-                    onClick={handleCheckout}
-                    className="flex items-center my-4 mr-4 justify-center w-2/4 py-4 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700 transition-colors duration-300"
-                >
-                    Checkout <ShoppingCartCheckoutIcon className="ml-2" />
-                </button>
-                 )}
-                  content={() => printRef.current}
-            />
+                <ReactToPrint
+                    trigger={() => (
+                        <button
+                            onClick={handleCheckout}
+                            className="flex items-center my-4 mr-4 justify-center w-2/4 py-4 px-4 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700 transition-colors duration-300"
+                        >
+                            Checkout <ShoppingCartCheckoutIcon className="ml-2" />
+                        </button>
+                    )}
+                    content={() => printRef.current}
+                    onAfterPrint={() => window.location.reload()}
+                />
 
                 <button
                     onClick={handleAddDiscountHelper}
@@ -247,8 +246,8 @@ const Cart = () => {
 
             <div style={{ display: "none" }}>
                 <Receipt ref={printRef} cartItems={cartItems} subTotal={(Total).toFixed(2)} Total={(Total - (Discount * Total) + (Tax * Total)).toFixed(2)}
-                 Discount={Discount * 100} Tax={Tax * 100} taxAmount={(Tax * Total).toFixed(2)} amountReceived={amountReceived} DiscountPrice={(Discount * Total).toFixed(2)}
-                  change={Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * Total)))} />
+                    Discount={Discount * 100} Tax={Tax * 100} taxAmount={(Tax * Total).toFixed(2)} amountReceived={amountReceived} DiscountPrice={(Discount * Total).toFixed(2)}
+                    change={Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * Total)))} />
             </div>
 
             <DiscountPopup

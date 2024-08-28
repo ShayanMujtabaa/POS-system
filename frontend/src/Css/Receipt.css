@@ -13,7 +13,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -40,7 +41,7 @@ td {
 }
 
 .subheading-phone {
-    font-size: 1.2em; 
+    font-size: 1.2em;
     font-weight: bold;
     text-align: center;
     margin: 10px 0;
@@ -74,7 +75,8 @@ td {
     margin-bottom: 20px;
 }
 
-.receipt-table th, .receipt-table td {
+.receipt-table th,
+.receipt-table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -84,13 +86,16 @@ td {
     background-color: #f2f2f2;
     font-weight: bold;
 }
+
 .receipt-summary-container {
     display: flex;
     justify-content: flex-end;
     margin-top: 20px;
 }
+
 .receipt-summary {
-    text-align: left;}
+    text-align: left;
+}
 
 .summary-item {
     margin: 5px 0;
