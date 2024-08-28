@@ -100,8 +100,6 @@ const Cart = () => {
                 for (let i = 0; i < cartItems.length; i++) {
                     dispatch(removeFromCart({ id: cartItems[i].id }));
                 }
-                printReceipt();
-                window.location.reload();
                 console.log("Refund successful");
                 alert("Refund processed successfully");
             }
@@ -201,9 +199,11 @@ const Cart = () => {
                 <div className="w-1/3 px-4 bg-[#80ed99] border border-grey-800">
                     <h5 className='text-left text-xl'>Change:</h5>
                     <p className='text-center text-3xl'>
-                        {isNaN(amountReceived) || isNaN(Total) || (amountReceived - Total) < 0
+                        {isNaN(amountReceived) || isNaN(Total) || amountReceived < (Total - (Discount * Total) + (Tax * (Total - (Discount * Total))))
                             ? ""
                             : Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * Total)))}
+                            {/* if tax calculated for discounted total amount: Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * (Total - (Discount * Total))))) */}
+
                     </p>
                 </div>
             </div>
@@ -246,7 +246,7 @@ const Cart = () => {
             </button>
 
             <div style={{ display: "none" }}>
-                <Receipt ref={printRef} cartItems={cartItems} total={Total} discount={Discount} tax={Tax} />
+                <Receipt ref={printRef} cartItems={cartItems} subTotal={(Total).toFixed(2)} Total={(Total - (Discount * Total) + (Tax * Total)).toFixed(2)} Discount={Discount * 100} Tax={Tax * 100} taxAmount={(Tax * Total).toFixed(2)} amountReceived={amountReceived} DiscountPrice={(Discount * Total).toFixed(2)} change={Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * Total)))} />
             </div>
 
             <DiscountPopup

@@ -1,12 +1,103 @@
 @media print {
     @page {
         size: 58mm auto;
-        margin: 0; 
     }
 
     .receipt {
         width: 58mm;
-        margin: 0;
-        padding: 0;
     }
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+td {
+    background-color: #fff;
+}
+
+.receipt-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.receipt-title {
+    font-size: 50px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.subheading-phone {
+    font-size: 1.2em; 
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.subheading-address {
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px 0;
+}
+
+.date-time-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.receipt-date {
+    margin: 8px;
+}
+
+.receipt-time {
+    margin: 8px;
+}
+
+.receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.receipt-table th, .receipt-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.receipt-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+.receipt-summary-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+.receipt-summary {
+    text-align: left;}
+
+.summary-item {
+    margin: 5px 0;
+}
+
+.total-amount {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
 }
