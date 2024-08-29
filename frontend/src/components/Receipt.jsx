@@ -8,6 +8,7 @@ const Receipt = React.forwardRef(({ cartItems, Discount, Tax, Total, DiscountPri
 
     return (
         <div ref={ref} className="receipt-container">
+            <img src='https://cdn.discordapp.com/avatars/847600571703361609/da5514d6d765980a4e6d6dde43f89893.png?size=4096' />
             <h1 className="receipt-title">iTech POS</h1>
             <h2 className="subheading-phone">0300-8560857 / 0300-5171615</h2>
             <h3 className="subheading-address">F-5, 1st Floor, Ramzan Plaza</h3>
@@ -46,7 +47,7 @@ const Receipt = React.forwardRef(({ cartItems, Discount, Tax, Total, DiscountPri
                     <p className="summary-item total-amount">Total: Rs. {Total}</p>
                     <p className="summary-item">Cash: Rs. {amountReceived}</p>
                     <p className="summary-item">Change: Rs. {change}</p>
-                    
+
                 </div>
             </div>
         </div>
