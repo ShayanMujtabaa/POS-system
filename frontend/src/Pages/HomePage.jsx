@@ -68,31 +68,29 @@ const HomePage = () => {
 
     return (
         <div className="p-4">
-            <div className="flex justify-start items-left mb-4">
-
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    className="border p-2 mx-1 rounded w-1/2"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                />
-                <select
-                    className="border p-2 mx-1 rounded w-1/5"
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                >
-                    <option value="">All</option>
-
-                    {distinctCategories.map(category => (
-                        <option key={category} value={category}>{category}</option>
-                    ))}
-                </select>
-            </div>
-
             <div className="flex">
                 <div className={`p-4 ${cartItems.length > 0 ? 'w-full lg:w-2/3' : 'w-full'}`}>
+                    <div className="flex justify-start items-left mb-4">
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            className="border p-2 mx-1 rounded w-full"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                        />
+                        <select
+                            className="border p-2 mx-1 rounded w-1/3"
+                            value={selectedCategory}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                        >
+                            <option value="">All</option>
+                            {distinctCategories.map(category => (
+                                <option key={category} value={category}>{category}</option>
+                            ))}
+                        </select>
+                    </div>
+
                     {loading && <p>Loading...</p>}
                     <div className="flex flex-wrap -mx-2">
                         {filteredItems.map(item => (
@@ -102,22 +100,25 @@ const HomePage = () => {
                         ))}
                     </div>
                 </div>
+
                 {cartItems.length > 0 && (
                     <div className="w-full lg:w-1/3 p-4 border-l border-gray-300">
                         <Cart items={cartItems} />
                     </div>
                 )}
-                {quantityCard.show && (
-                    <QuantityCard
-                        item={quantityCard.item}
-                        show={quantityCard.show}
-                        onClose={() => setQuantityCard({ show: false, item: null })}
-                        onSave={handleAddToCart}
-                    />
-                )}
             </div>
+
+            {quantityCard.show && (
+                <QuantityCard
+                    item={quantityCard.item}
+                    show={quantityCard.show}
+                    onClose={() => setQuantityCard({ show: false, item: null })}
+                    onSave={handleAddToCart}
+                />
+            )}
         </div>
     );
+
 }
 
 export default HomePage;
