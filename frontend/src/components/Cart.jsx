@@ -177,7 +177,7 @@ const Cart = () => {
             </div> */}
 
             <div className="flex justify-between mt-3">
-            <div className="w-2/4 pl-2 pb-2 bg-[#0096c7] border border-purple-800">
+            <div className="w-2/4 pl-2 pb-2 bg-[#50b789] border border-purple-800">
                     <h5 className='text-left text-lg font-semibold'>Tax: {Tax * 100}%</h5>
                     <p className='text-left text-xl'>{(Tax * Total).toFixed(2)}</p>
                 </div>
@@ -186,23 +186,23 @@ const Cart = () => {
                     <p className='text-left text-xl'>{(Discount * Total).toFixed(2)}</p>
                 </div>
 
-                <div className="w-2/3 pl-2 pb-2 bg-[#80ed99] border border-purple-800">
+                <div className="w-2/3 pl-2 pb-2 bg-[#60e0a6] border border-purple-800">
                     <h5 className='text-left text-lg font-semibold'>Total:</h5>
                     <p className='text-left text-xl'>{(Total - (Discount * Total) + (Tax * Total)).toFixed(2)}</p>
                 </div>
             </div>
 
             <div className="flex justify-between mt-3">
-                <div className="w-2/3 px-4 bg-[#80ed99] border border-purple-800">
+                <div className="w-2/3 px-4 bg-[#0096C7] border border-purple-800">
                     <h5 className='font-semibold text-left text-lg'>Amount Received:</h5>
                     <input
                         id='amount-received'
-                        className='pl-1 text-left text-xl bg-[#80ed99] border border-purple-800 mb-2'
+                        className='pl-1 text-left text-xl bg-[#0096C7] mb-2'
                         type="number"
                         value={amountReceived}
                         onChange={handleAmountChange} />
                 </div>
-                <div className="w-1/3 px-4 bg-[#80ed99] border border-purple-800">
+                <div className="w-1/3 px-4 bg-[#30add3] border border-purple-800">
                     <h5 className='font-semibold text-left text-lg'>Change:</h5>
                     <p className='pl-1 text-left text-xl'>
                         {isNaN(amountReceived) || isNaN(Total) || amountReceived < (Total - (Discount * Total) + (Tax * (Total - (Discount * Total))))
