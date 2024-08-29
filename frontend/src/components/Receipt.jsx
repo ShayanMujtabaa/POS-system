@@ -3,12 +3,13 @@
 
 import React from 'react';
 import '../Css/Receipt.css';
+import img from '../assets/images/iTech-Logo.png'
 
 const Receipt = React.forwardRef(({ cartItems, Discount, Tax, Total, DiscountPrice, change, subTotal, taxAmount, amountReceived }, ref) => {
 
     return (
         <div ref={ref} className="receipt-container">
-            <img src='https://cdn.discordapp.com/avatars/847600571703361609/da5514d6d765980a4e6d6dde43f89893.png?size=4096' />
+            <img src={img} className='receipt-logo' alt='Logo' />
             <h1 className="receipt-title">iTech POS</h1>
             <h2 className="subheading-phone">0300-8560857 / 0300-5171615</h2>
             <h3 className="subheading-address">F-5, 1st Floor, Ramzan Plaza</h3>
