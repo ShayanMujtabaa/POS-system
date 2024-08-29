@@ -164,10 +164,13 @@ const Cart = () => {
                     );
                 })
             }
-            <div className="bg-white border border-purple-500 p-2 mb-2">
+
+        {/* Use After FBR Integration */}
+
+            {/* <div className="bg-white border border-purple-500 p-2 mb-2">
                 <h4 className="text-lg font-semibold">POS fee </h4>
                 <p>Amount: 1</p>
-            </div>
+            </div> */}
 
             <div className="flex justify-between mt-4">
                 <div className="w-1/3 px-4 bg-[#57cc99] border border-purple-800">

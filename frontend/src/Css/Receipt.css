@@ -1,12 +1,3 @@
-@media print {
-    @page {
-        size: 58mm auto;
-    }
-
-    .receipt {
-        width: 58mm;
-    }
-}
 
 table {
     width: 100%;
@@ -15,7 +6,7 @@ table {
 
 th,
 td {
-    border: 1px solid #ddd;
+    border: 1px solid #7b7b7b;
     padding: 8px;
     text-align: left;
 }
@@ -35,20 +26,20 @@ td {
 }
 
 .receipt-title {
-    font-size: 50px;
+    font-size: 25px;
     text-align: center;
     margin-bottom: 10px;
 }
 
 .subheading-phone {
-    font-size: 1.2em;
+    font-size: 12px;
     font-weight: bold;
     text-align: center;
     margin: 10px 0;
 }
 
 .subheading-address {
-    font-size: 1em;
+    font-size: 10px;
     font-weight: bold;
     text-align: center;
     margin: 5px 0;
@@ -57,52 +48,65 @@ td {
 .date-time-container {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .receipt-date {
-    margin: 8px;
+    font-size: 12px;
 }
 
 .receipt-time {
-    margin: 8px;
+    font-size: 12px;
 }
 
 .receipt-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+
 }
 
-.receipt-table th,
+
 .receipt-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+    border: 1px solid #7b7b7b;
+    padding: 2px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.td-price {
+    width: 25%;
 }
 
 .receipt-table th {
-    background-color: #f2f2f2;
+    background-color: #d1d1d1;
+    border: 1px solid #7b7b7b;
     font-weight: bold;
+    padding: 8px;
+    font-size: 12px;
+}
+
+.receipt-table .td-left {
+    text-align: left;
 }
 
 .receipt-summary-container {
     display: flex;
     justify-content: flex-end;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .receipt-summary {
-    text-align: left;
+    text-align: right;
 }
 
 .summary-item {
     margin: 5px 0;
+    font-size: 12px;
 }
 
 .total-amount {
-    font-size: 1.2em;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight: bolder;
     color: #333;
 }
