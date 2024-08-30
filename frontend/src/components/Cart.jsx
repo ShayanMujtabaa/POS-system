@@ -126,39 +126,39 @@ const Cart = () => {
                         <div key={item.id} className="bg-white border border-purple-500 p-2 pl-4 mb-2 flex justify-between items-center">
                             <div className='items-center gap-x-1.5'>
                                 <div className='flex mb-2'>
-                                <h4 className="text-base font-semibold mr-2">{item.name}</h4>
-                                <h4 className='text-sm justify-self-center mt-0.5'>@Rs. {item.price}</h4>
+                                    <h4 className="text-base font-semibold mr-2">{item.name}</h4>
+                                    <h4 className='text-sm justify-self-center mt-0.5'>@Rs. {item.price}</h4>
                                 </div>
                                 <div className='flex mb-1'>
-                                <div className="relative flex items-center max-w-[8rem]">
-                                    <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-9
+                                    <div className="relative flex items-center max-w-[8rem]">
+                                        <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-9
                                      focus:ring-gray-100 focus:ring-2 focus:outline-none"
-                                        onClick={() => handleincrementQuantity(item.id)}>
-                                        <svg class="w-2 h-2 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-                                        </svg>
-                                    </button>
-                                    <input
-                                        className="bg-gray-50 border-x-0 border-gray-300 h-9 text-center 
+                                            onClick={() => handleincrementQuantity(item.id)}>
+                                            <svg class="w-2 h-2 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                                            </svg>
+                                        </button>
+                                        <input
+                                            className="bg-gray-50 border-x-0 border-gray-300 h-9 text-center 
                                         text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 
                                         block w-full py-2.5 dark:border-e-gray-700 dark:border-gray-700 dark:bg-gray-200"
-                                        type="number"
-                                        value={item.quantity}
-                                        min="1"
-                                        onChange={(e) => handlesetQuantity(item.id, e.target.value)}
-                                    />
-                                    <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 
+                                            type="number"
+                                            value={item.quantity}
+                                            min="1"
+                                            onChange={(e) => handlesetQuantity(item.id, e.target.value)}
+                                        />
+                                        <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 
                                     rounded-e-lg p-3 h-9 focus:ring-gray-100 focus:ring-2 focus:outline-none"
-                                        onClick={() => handledecrementQuantity(item.id)}>
-                                        <svg class="w-2 h-2 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div className='flex ml-2 mt-1.5 text-sm'>
-                                    <p>Rs.&nbsp;</p>
-                                    <p className='font-semibold'>{item.price * item.quantity}</p>
-                                </div>
+                                            onClick={() => handledecrementQuantity(item.id)}>
+                                            <svg class="w-2 h-2 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div className='flex ml-2 mt-1.5 text-sm'>
+                                        <p>Rs.&nbsp;</p>
+                                        <p className='font-semibold'>{item.price * item.quantity}</p>
+                                    </div>
                                 </div>
                             </div>
                             <button className="text-red-400 px-2 py-2 hover:text-red-700 transition-colors duration-300" onClick={() => handleRemoveCart(item.id)}>
@@ -169,7 +169,7 @@ const Cart = () => {
                 })
             }
 
-        {/* Use After FBR Integration */}
+            {/* Use After FBR Integration */}
 
             {/* <div className="bg-white border border-purple-500 p-2 mb-2">
                 <h4 className="text-lg font-semibold">POS fee </h4>
@@ -177,7 +177,7 @@ const Cart = () => {
             </div> */}
 
             <div className="flex justify-between mt-3">
-            <div className="w-2/4 pl-2 pb-2 bg-[#50b789] border border-purple-800">
+                <div className="w-2/4 pl-2 pb-2 bg-[#50b789] border border-purple-800">
                     <h5 className='text-left text-lg font-semibold'>Tax: {Tax * 100}%</h5>
                     <p className='text-left text-xl'>{(Tax * Total).toFixed(2)}</p>
                 </div>
@@ -205,10 +205,11 @@ const Cart = () => {
                 <div className="w-1/3 px-4 bg-[#30add3] border border-purple-800">
                     <h5 className='font-semibold text-left text-lg'>Change:</h5>
                     <p className='pl-1 text-left text-xl'>
-                        {isNaN(amountReceived) || isNaN(Total) || amountReceived < (Total - (Discount * Total) + (Tax * (Total - (Discount * Total))))
+                        {isNaN(amountReceived) || isNaN(Total) 
+                        || amountReceived < (Total - (Discount * Total) + (Tax * (Total - (Discount * Total)))) 
+                        || Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * Total))) < 0
                             ? ""
                             : Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * Total)))}
-                        {/* if tax calculated for discounted total amount: Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * (Total - (Discount * Total))))) */}
 
                     </p>
                 </div>
@@ -245,17 +246,17 @@ const Cart = () => {
             </div>
 
             <div className="flex justify-start">
-            <button
-                onClick={handleRefund}
-                className="bg-[#ff5a5f] mx-1 text-white p-2 rounded w-1/2 hover:bg-red-700 transition-colors duration-300"
-            >
-                Refund Purchase
-            </button>
+                <button
+                    onClick={handleRefund}
+                    className="bg-[#ff5a5f] mx-1 text-white p-2 rounded w-1/2 hover:bg-red-700 transition-colors duration-300"
+                >
+                    Refund Purchase
+                </button>
 
-            <button className="bg-green-600 mx-1 text-white p-2 rounded w-1/2 hover:bg-green-700 transition-colors duration-300">
+                <button className="bg-green-600 mx-1 text-white p-2 rounded w-1/2 hover:bg-green-700 transition-colors duration-300">
                     Bill Hold/Reterive
                 </button>
-                </div>
+            </div>
 
             <div style={{ display: "none" }}>
                 <Receipt ref={printRef} cartItems={cartItems} subTotal={(Total).toFixed(2)} Total={(Total - (Discount * Total) + (Tax * Total)).toFixed(2)}
