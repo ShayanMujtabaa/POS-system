@@ -7,10 +7,9 @@ const StockListCard = ({ item }) => {
          flex-1 border-2 border-purple-500 hover:shadow-lg hover:border-purple-700
           transition duration-300 ease-in-out">
 
-            <h1 className='text-xl font-bold'>{item.name}</h1>
-            <h2 className='text-l font-semibold'>Item ID: {item.id}</h2>
-            <br></br>
-            <p className='text-l font-semibold'>Stock: {item.stock}</p>
+            <h1 className='text-sl font-semibold'>{item.name}</h1>
+            <h2 className='text-lg font-semibold'>Item ID: {item.id}</h2>
+            <p className='text-lg font-bold'>Stock: {item.stock}</p>
 
         </div>
     )

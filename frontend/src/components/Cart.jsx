@@ -130,7 +130,7 @@ const Cart = () => {
                                     <h4 className='text-sm justify-self-center mt-0.5'>@Rs. {item.price}</h4>
                                 </div>
                                 <div className='flex mb-1'>
-                                    <div className="relative flex items-center max-w-[6rem]">
+                                    <div className="relative flex items-center max-w-[7rem]">
                                         <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-sm p-2.5 h-9
                                      focus:ring-gray-100 focus:ring-2 focus:outline-none"
                                             onClick={() => handleincrementQuantity(item.id)}>
