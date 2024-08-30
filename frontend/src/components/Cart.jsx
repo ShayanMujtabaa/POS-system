@@ -130,8 +130,8 @@ const Cart = () => {
                                     <h4 className='text-sm justify-self-center mt-0.5'>@Rs. {item.price}</h4>
                                 </div>
                                 <div className='flex mb-1'>
-                                    <div className="relative flex items-center max-w-[8rem]">
-                                        <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-9
+                                    <div className="relative flex items-center max-w-[6rem]">
+                                        <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-sm p-2.5 h-9
                                      focus:ring-gray-100 focus:ring-2 focus:outline-none"
                                             onClick={() => handleincrementQuantity(item.id)}>
                                             <svg class="w-2 h-2 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
@@ -139,23 +139,23 @@ const Cart = () => {
                                             </svg>
                                         </button>
                                         <input
-                                            className="bg-gray-50 border-x-0 border-gray-300 h-9 text-center 
+                                            className="bg-gray-50 border-x-0 border-gray-300 h-9 text-end
                                         text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 
-                                        block w-full py-2.5 dark:border-e-gray-700 dark:border-gray-700 dark:bg-gray-200"
+                                        block w-1/3 py-2.5 dark:border-e-gray-700 dark:border-gray-700 dark:bg-gray-200"
                                             type="number"
                                             value={item.quantity}
                                             min="1"
                                             onChange={(e) => handlesetQuantity(item.id, e.target.value)}
                                         />
                                         <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 
-                                    rounded-e-lg p-3 h-9 focus:ring-gray-100 focus:ring-2 focus:outline-none"
+                                    rounded-e-sm p-2.5 h-9 focus:ring-gray-100 focus:ring-2 focus:outline-none"
                                             onClick={() => handledecrementQuantity(item.id)}>
                                             <svg class="w-2 h-2 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
                                             </svg>
                                         </button>
                                     </div>
-                                    <div className='flex ml-2 mt-1.5 text-sm'>
+                                    <div className='flex mt-1.5 text-sm'>
                                         <p>Rs.&nbsp;</p>
                                         <p className='font-semibold'>{item.price * item.quantity}</p>
                                     </div>
