@@ -204,7 +204,6 @@ const Cart = () => {
                         id='amount-received'
                         className='pl-1 text-left text-xl bg-[#0096C7] mb-2'
                         type="number"
-                        value={amountReceived}
                         onChange={handleAmountChange} />
                 </div>
                 <div className="w-1/3 px-4 bg-[#30add3] border border-purple-800">

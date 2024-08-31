@@ -9,7 +9,7 @@ const Receipt = React.forwardRef(({ cartItems, Discount, Tax, Total, DiscountPri
 
     return (
         <div ref={ref} className="receipt-container">
-            <img src={img} className='receipt-logo' alt='Logo' />
+            <img src={img} className='receipt-logo' alt='Logo' height="50px" width="80px" />
             <h1 className="receipt-title">iTech POS</h1>
             <h2 className="subheading-phone">0300-8560857 / 0300-5171615</h2>
             <h3 className="subheading-address">F-5, 1st Floor, Ramzan Plaza</h3>
