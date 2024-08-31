@@ -219,7 +219,8 @@ const Refund = async (req, res) => {
     }
 }
 
-module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, Refund, SalesReport, AddCategory, GetCategories, DeleteCategory, UpdateStock, AddExpense}
+module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, Refund,
+     SalesReport, AddCategory, GetCategories, DeleteCategory, UpdateStock, AddExpense}
 
 
 

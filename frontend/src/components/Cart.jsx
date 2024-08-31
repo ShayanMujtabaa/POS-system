@@ -6,8 +6,9 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import DiscountIcon from '@mui/icons-material/Discount';
 import axios from 'axios';
 import DiscountPopup from './Discount';
-import ReactToPrint from 'react-to-print';
+import { useReactToPrint } from 'react-to-print';
 import Receipt from './Receipt';
+import { totalAmount, discount, tax, changeAmtRecCondition, change, refundAmount } from '../config/fomulas'
 
 const Cart = () => {
     const [Discount, setDiscount] = useState(0);
@@ -15,16 +16,17 @@ const Cart = () => {
     const cartItems = useSelector(state => state.cart.cart);
     const dispatch = useDispatch();
     const [discountPopup, setDiscountPopup] = useState(false);
-    const [isPrinting, setIsPrinting] = useState(false);
     const printRef = useRef(null);
     const [amountReceived, setAmountReceived] = useState(0);
     let Total = 0;
 
-    const printReceipt = () => {
-        const printButton = document.getElementById('print-button')
-        printButton.click();
-        setIsPrinting(true);
-    }
+    // This method not working ask hassan about it
+
+    // const changeVal = change(amountReceived, Total, Discount, Tax);
+    // const discountVal = discount(Discount, Total);
+    // const taxVal = tax(Tax, Total);
+    // const totalAmountVal = totalAmount(Total, Discount, Tax);
+    // const refundAmountVal = refundAmount(Total, Discount, Tax)
 
     const handleAmountChange = (e) => {
         const received = parseFloat(e.target.value);
@@ -53,6 +55,11 @@ const Cart = () => {
         dispatch(setQuantity({ id: id, quantity: parseInt(quantity) }));
     };
 
+    const handlePrint = useReactToPrint({
+        content: () => printRef.current 
+   
+    });
+
     const handleCheckout = async (e) => {
         e.preventDefault();
         if (cartItems.length <= 0) {
@@ -60,22 +67,21 @@ const Cart = () => {
             return;
         }
         try {
-            const totalAmount = (Total - (Discount * Total) + (Tax * Total)).toFixed(2);
             const response = await axios.post("http://localhost:9000/checkout", {
                 cartItems,
-                total: totalAmount,
-                discount: (Discount * Total).toFixed(2),
-                tax: (Tax * Total).toFixed(2)
+                total: totalAmount(Total, Discount, Tax),
+                discount: discount(Total, Discount),
+                tax: tax(Tax, Discount)
             });
             console.log("Response received: ", response.data);
             if (response.status === 200) {
+                handlePrint()
                 for (let i = 0; i < cartItems.length; i++) {
                     dispatch(removeFromCart({ id: cartItems[i].id }));
                 }
-                printReceipt();
                 console.log("Checkout successful");
-                alert("Checkout successful, Proceed to payment");
             }
+            
         } catch (error) {
             console.log("Error while checking out: ", error.response ? error.response.data : error.message);
             alert("Failed to checkout");
@@ -89,10 +95,9 @@ const Cart = () => {
             return;
         }
         try {
-            const refundAmount = (Total - (Discount * Total) + (Tax * Total)).toFixed(2);
             const response = await axios.post("http://localhost:9000/refund", {
                 cartItems,
-                refundAmount: refundAmount
+                refundAmount: refundAmount(Total, Discount, Tax)
             });
             console.log("Response received: ", response.data);
             if (response.status === 200) {
@@ -179,16 +184,16 @@ const Cart = () => {
             <div className="flex justify-between mt-3">
                 <div className="w-2/4 pl-2 pb-2 bg-[#50b789] border border-purple-800">
                     <h5 className='text-left text-lg font-semibold'>Tax: {Tax * 100}%</h5>
-                    <p className='text-left text-xl'>{(Tax * Total).toFixed(2)}</p>
+                    <p className='text-left text-xl'>{tax(Total, Tax)}</p>
                 </div>
                 <div className="w-2/3 pl-2 pb-2 bg-[#57cc99] border border-purple-800">
                     <h5 className='text-left text-lg font-semibold'>Discount: {Discount * 100}%</h5>
-                    <p className='text-left text-xl'>{(Discount * Total).toFixed(2)}</p>
+                    <p className='text-left text-xl'>{discount(Total, Discount)}</p>
                 </div>
 
                 <div className="w-2/3 pl-2 pb-2 bg-[#60e0a6] border border-purple-800">
                     <h5 className='text-left text-lg font-semibold'>Total:</h5>
-                    <p className='text-left text-xl'>{(Total - (Discount * Total) + (Tax * Total)).toFixed(2)}</p>
+                    <p className='text-left text-xl'>{totalAmount(Total, Discount, Tax)}</p>
                 </div>
             </div>
 
@@ -205,11 +210,11 @@ const Cart = () => {
                 <div className="w-1/3 px-4 bg-[#30add3] border border-purple-800">
                     <h5 className='font-semibold text-left text-lg'>Change:</h5>
                     <p className='pl-1 text-left text-xl'>
-                        {isNaN(amountReceived) || isNaN(Total) 
-                        || amountReceived < (Total - (Discount * Total) + (Tax * (Total - (Discount * Total)))) 
-                        || Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * Total))) < 0
+                        {isNaN(amountReceived) || isNaN(Total)
+                            || amountReceived < changeAmtRecCondition(Total, Discount, Tax)
+                            || change(amountReceived, Total, Discount, Tax) < 0
                             ? ""
-                            : Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * Total)))}
+                            : change(amountReceived, Total, Discount, Tax)}
 
                     </p>
                 </div>
@@ -217,18 +222,15 @@ const Cart = () => {
 
             <div className="flex justify-start h-16 mb-1 mt-3">
 
-                <ReactToPrint
-                    trigger={() => (
-                        <button
-                            onClick={handleCheckout}
-                            className="flex items-center my-1 mr-2 ml-1 justify-center w-2/4 py-2 px-2 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700 transition-colors duration-300"
-                        >
-                            Checkout <ShoppingCartCheckoutIcon className="ml-2" />
-                        </button>
-                    )}
-                    content={() => printRef.current}
-                    onAfterPrint={() => window.location.reload()}
-                />
+                <button
+                    onClick={handleCheckout}
+                    ref={printRef.current}
+                    className="flex items-center my-1 mr-2 ml-1 justify-center w-2/4 py-2 px-2 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-700 transition-colors duration-300"
+                >
+                    Checkout <ShoppingCartCheckoutIcon className="ml-2" />
+                </button>
+
+
 
                 <button
                     onClick={handleAddDiscountHelper}
@@ -259,9 +261,9 @@ const Cart = () => {
             </div>
 
             <div style={{ display: "none" }}>
-                <Receipt ref={printRef} cartItems={cartItems} subTotal={(Total).toFixed(2)} Total={(Total - (Discount * Total) + (Tax * Total)).toFixed(2)}
-                    Discount={Discount * 100} Tax={Tax * 100} taxAmount={(Tax * Total).toFixed(2)} amountReceived={amountReceived} DiscountPrice={(Discount * Total).toFixed(2)}
-                    change={Math.ceil(amountReceived - (Total - (Discount * Total) + (Tax * Total)))} />
+                <Receipt ref={printRef} cartItems={cartItems} subTotal={(Total).toFixed(2)} Total={totalAmount(Total, Discount, Tax)}
+                    Discount={Discount * 100} Tax={Tax * 100} taxAmount={tax(Total, Tax)} amountReceived={amountReceived} DiscountPrice={discount(Total, Discount)}
+                    change={change(amountReceived, Total, Discount, Tax)} />
             </div>
 
             <DiscountPopup
