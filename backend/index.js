@@ -44,5 +44,10 @@ app.post('/getCategories', POSroutes.GetCategories);
 app.post('/deleteCategory', POSroutes.DeleteCategory);
 app.post('/addExpense', POSroutes.AddExpense);
 
+//routes added by hassan
+app.post('/holdCart', POSroutes.HoldCart);
+app.get('/getHeldCarts', POSroutes.GetHeldCarts);
+app.post('/deleteHeldCart', POSroutes.DeleteHeldCart);
+
 
 

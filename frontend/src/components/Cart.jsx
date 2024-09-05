@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { removeFromCart, incQuantity, decQuantity, setQuantity, clearCart } from './redux/cartSlice';
+import { removeFromCart, incQuantity, decQuantity, setQuantity, clearCart, addToCart } from './redux/cartSlice';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import DiscountIcon from '@mui/icons-material/Discount';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import DiscountPopup from './Discount';
 import { useReactToPrint } from 'react-to-print';
 import Receipt from './Receipt';
 import { totalAmount, discount, tax, changeAmtRecCondition, change, refundAmount } from '../config/fomulas'
+import HeldCartsList from './HeldCartsList';
 
 const Cart = () => {
     const [Discount, setDiscount] = useState(0);
@@ -18,6 +19,9 @@ const Cart = () => {
     const [discountPopup, setDiscountPopup] = useState(false);
     const printRef = useRef(null);
     const [amountReceived, setAmountReceived] = useState(0);
+    //2 state vars added by Hassan
+    const [RetrievePopup, setRetrievePopup] = useState(false);
+    const [RetrievedCart, setRetrievedCart] = useState("");
     let Total = 0;
 
     // This method not working ask hassan about it
@@ -57,7 +61,6 @@ const Cart = () => {
 
     const handlePrint = useReactToPrint({
         content: () => printRef.current 
-   
     });
 
     const handleCheckout = async (e) => {
@@ -121,6 +124,36 @@ const Cart = () => {
         setDiscount(discount);
     };
 
+    //function added by Hassan:
+    const handleCartHold = async (e) => {
+        e.preventDefault();
+        // alert(`Cart items are: ${JSON.stringify(cartItems)}`);
+        if (cartItems.length <= 0) {
+            alert('Please select items to hold');
+            return;
+        }
+        try {
+            const response = await axios.post("http://localhost:9000/holdCart", {
+                cartItems
+            });
+            console.log("Response received: ", response.data);
+            if (response.status === 200) {
+                dispatch(clearCart());
+                console.log("Cart hold successful");
+                alert("Cart held successfully");
+            }
+        } catch (error) {
+            console.log("Error while holding cart: ", error.msg);
+            alert("Failed to hold cart");
+        }
+    }
+
+    const handleRetrieveCartHelper = async (e) => {
+        e.preventDefault();
+        setRetrievePopup(true);
+    }
+
+    
     return (
         <div className="w-full">
             <h1 className="text-white mb-4 text-2xl sm:text-2xl lg:text-3xl lg:leading-normal font-extrabold">CART</h1>
@@ -254,8 +287,13 @@ const Cart = () => {
                     Refund Purchase
                 </button>
 
-                <button className="bg-green-600 mx-1 text-white p-2 rounded w-1/2 hover:bg-green-700 transition-colors duration-300">
-                    Bill Hold/Reterive
+                <button className="bg-green-600 mx-1 text-white p-2 rounded w-1/2 hover:bg-green-700 transition-colors duration-300" onClick={handleCartHold}>
+                    
+                    Put on Hold
+                </button>
+
+                <button className="bg-green-600 mx-1 text-white p-2 rounded w-1/2 hover:bg-green-700 transition-colors duration-300" onClick={handleRetrieveCartHelper}>
+                    Reterive Held Bills
                 </button>
             </div>
 
@@ -270,6 +308,10 @@ const Cart = () => {
                 onClose={() => setDiscountPopup(false)}
                 onSave={handleAddDiscount}
             />
+
+            
+            { RetrievePopup &&
+            <HeldCartsList setRetrievePopup={setRetrievePopup} />}
         </div>
     );
 };

@@ -1,7 +1,8 @@
 const Item = require('../models/ItemModel');
 const Sales = require('../models/SalesModel');
 const Category = require('../models/CategoryModel');
-const Expense = require('../models/ExpenseModel')
+const Expense = require('../models/ExpenseModel');
+const TempCart = require('../models/TempCartModel');
 
 const GetTest = async (req, res) => {
     res.send('Test Route');
@@ -171,6 +172,53 @@ const Checkout = async (req, res) => {
     }
 }
 
+//3 functions added by Hassan
+
+const HoldCart = async (req, res) => {
+    const {cartItems} = req.body;
+    try {
+        let itemIds = [];
+        let quantities = [];
+        for (let i = 0; i < cartItems.length; i++) {
+            itemIds.push(cartItems[i].id);
+            quantities.push(cartItems[i].quantity);
+        }
+        const newTempCartID = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        const newTempCart = new TempCart({
+            TempCartId: newTempCartID,
+            itemIds,
+            quantities
+        });
+        await newTempCart.save();
+        res.status(200).json({msg: "Cart Saved"})
+    } catch (error) {
+        console.log("Error while holding cart: " + error);
+        res.status(203).json({msg: "failed to hold cart"});
+    }
+}
+
+const GetHeldCarts = async (req, res) => {
+    try {
+        const carts = await TempCart.find();
+        res.status(200).json(carts);
+    }
+    catch (error) {
+        console.log("Error while getting held carts: " + error);
+        res.status(203).json({msg: "failed to get held carts"});
+    }   
+}
+
+const DeleteHeldCart = async (req, res) => {
+    const { id } = req.body;
+    try {
+        await TempCart.deleteOne({TempCartId: id});
+        res.status(200).json({msg: "Cart Deleted"});
+    } catch (error) {
+        console.log("Error while deleting cart: " + error);
+        res.status(203).json({msg: "failed to delete cart"});
+    }
+}
+
 const SalesReport = async (req, res) => {
     try {
         const sales = await Sales.find();
@@ -220,7 +268,7 @@ const Refund = async (req, res) => {
 }
 
 module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, Refund,
-     SalesReport, AddCategory, GetCategories, DeleteCategory, UpdateStock, AddExpense}
+     SalesReport, AddCategory, GetCategories, DeleteCategory, UpdateStock, AddExpense, HoldCart, GetHeldCarts, DeleteHeldCart }
 
 
 
