@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { addToCart } from './redux/cartSlice';
+import { addToCart, clearCart } from './redux/cartSlice';
 
 const HeldCartsList = ({setRetrievePopup}) => {
 
@@ -41,6 +41,7 @@ const HeldCartsList = ({setRetrievePopup}) => {
             if (response2.status === 200) {
                 console.log("Items retrieved successfully: ", response2.data);
                 console.log("Retrieved cart: ", JSON.stringify(RetrievedCart));
+                dispatch(clearCart())
                 for (let i = 0; i < RetrievedCart.itemIds.length; i++) {
                     dispatch(addToCart( {
                         id: RetrievedCart.itemIds[i],
