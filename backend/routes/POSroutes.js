@@ -172,6 +172,34 @@ const Checkout = async (req, res) => {
     }
 }
 
+const Refund = async (req, res) => {
+    const {cartItems, refundAmount} = req.body;
+    try {
+        let items = [];
+        let quantities = [];
+        for (let i = 0; i < cartItems.length; i++) {
+            const item = await Item.findOne({id: cartItems[i].id});
+            if (!item) {
+                return res.status(203).json({msg: "Item Not Found"})
+            }
+            item.stock += cartItems[i].quantity;
+            await item.save();
+            items.push(item.id);
+            quantities.push(cartItems[i].quantity);
+        }
+        const newRefund = new Sales({
+            items,
+            quantities,
+            total: -Math.abs(refundAmount)
+        });
+        await newRefund.save();
+        res.status(200).json({msg: "Refund Successful"})
+    } catch (error) {
+        console.log("Error while refunding: " + error);
+        res.status(203).json({msg: "failed to refund"});
+    }
+}
+
 //3 functions added by Hassan
 
 const HoldCart = async (req, res) => {
@@ -239,36 +267,61 @@ const SalesReport = async (req, res) => {
     }
 }
 
-const Refund = async (req, res) => {
-    const {cartItems, refundAmount} = req.body;
+const ItemReport = async (req, res) => {
     try {
-        let items = [];
-        let quantities = [];
-        for (let i = 0; i < cartItems.length; i++) {
-            const item = await Item.findOne({id: cartItems[i].id});
-            if (!item) {
-                return res.status(203).json({msg: "Item Not Found"})
-            }
-            item.stock += cartItems[i].quantity;
-            await item.save();
-            items.push(item.id);
-            quantities.push(cartItems[i].quantity);
+        const { startDate, endDate } = req.query;
+        
+        const query = {};
+        if (startDate && endDate) {
+            query.createdAt = {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate)
+            };
         }
-        const newRefund = new Sales({
-            items,
-            quantities,
-            total: -Math.abs(refundAmount)
-        });
-        await newRefund.save();
-        res.status(200).json({msg: "Refund Successful"})
+
+        const sales = await Sales.find(query);
+        const items = await Item.find();
+
+        const itemReport = {};
+
+        for (let sale of sales) {
+            for (let i = 0; i < sale.items.length; i++) {
+                const itemId = sale.items[i];
+                const quantity = sale.quantities[i];
+                
+                if (!itemReport[itemId]) {
+                    const item = items.find(item => item.id == itemId);
+                    itemReport[itemId] = {
+                        name: item ? item.name : 'Unknown Item',
+                        totalQuantity: 0,
+                        totalSales: 0
+                    };
+                }
+                
+                itemReport[itemId].totalQuantity += quantity;
+                itemReport[itemId].totalSales += quantity * (items.find(item => item.id == itemId)?.price || 0);
+            }
+        }
+
+        const report = Object.entries(itemReport).map(([id, data]) => ({
+            id,
+            name: data.name,
+            totalQuantity: data.totalQuantity,
+            totalSales: data.totalSales
+        }));
+
+        report.sort((a, b) => b.totalQuantity - a.totalQuantity);
+
+        res.status(200).json(report);
     } catch (error) {
-        console.log("Error while refunding: " + error);
-        res.status(203).json({msg: "failed to refund"});
+        console.log("Error while generating item report: " + error);
+        res.status(500).json({msg: "Failed to generate item report"});
     }
-}
+};
+
 
 module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, Refund,
-     SalesReport, AddCategory, GetCategories, DeleteCategory, UpdateStock, AddExpense, HoldCart, GetHeldCarts, DeleteHeldCart }
+     SalesReport, ItemReport, AddCategory, GetCategories, DeleteCategory, UpdateStock, AddExpense, HoldCart, GetHeldCarts, DeleteHeldCart }
 
 
 
