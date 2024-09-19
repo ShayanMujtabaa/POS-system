@@ -251,6 +251,7 @@ const SalesReport = async (req, res) => {
     try {
         const sales = await Sales.find();
         const items = await Item.find();
+        
         for (let i = 0; i < sales.length; i++) {
             let itemNames = [];
             for (let j = 0; j < sales[i].items.length; j++) {
