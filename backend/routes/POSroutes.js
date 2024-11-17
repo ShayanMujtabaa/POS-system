@@ -249,9 +249,19 @@ const DeleteHeldCart = async (req, res) => {
 
 const SalesReport = async (req, res) => {
     try {
-        const sales = await Sales.find();
+        const { startDate, endDate } = req.query;
+
+        const query = {};
+        if (startDate && endDate) {
+            query.createdAt = {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate)
+            };
+        }
+
+        const sales = await Sales.find(query);
         const items = await Item.find();
-        
+
         for (let i = 0; i < sales.length; i++) {
             let itemNames = [];
             for (let j = 0; j < sales[i].items.length; j++) {
