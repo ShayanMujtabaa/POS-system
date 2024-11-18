@@ -13,6 +13,7 @@ import CategoryPage from './Pages/CategoryPage';
 import ReportPage from './Pages/ReportPage';
 import ItemReportPage from './Pages/ItemReportPage';
 import SalesReportPage from './Pages/SalesReportPage';
+import CategoryReportPage from './Pages/CategoryReportPage';
 import HomePage from './Pages/HomePage';
 import store from './components/redux/store';
 import Cart from './components/Cart';
@@ -40,6 +41,7 @@ function App() {
     <Route path="/reportPage" element={<><Navbar/> <ReportPage/> </>} />
     <Route path="/salesReportPage" element={<><Navbar/> <SalesReportPage/> </>} />
     <Route path="/itemReportPage" element={<><Navbar/> <ItemReportPage/> </>} />
+    <Route path="/categoryReportPage" element={<><Navbar/> <CategoryReportPage/> </>} />
     <Route path="/" element={<><Navbar/> <HomePage/> </>} />
     <Route path="/home" element={<><Navbar/> <HomePage/> </>} />
     <Route path="/cart" element={<><Navbar/> <Cart/> </>} />

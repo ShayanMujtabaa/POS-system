@@ -200,7 +200,6 @@ const Refund = async (req, res) => {
     }
 }
 
-//3 functions added by Hassan
 
 const HoldCart = async (req, res) => {
     const {cartItems} = req.body;
@@ -331,8 +330,60 @@ const ItemReport = async (req, res) => {
 };
 
 
+const CategoryReport = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        
+        const query = {};
+        if (startDate && endDate) {
+            query.createdAt = {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate)
+            };
+        }
+
+        const sales = await Sales.find(query);
+        const categories = await Category.find();
+        const categoryReport = {};
+
+        for (let sale of sales) {
+            const items = await Promise.all(
+                sale.items.map(itemId => Item.findOne({ id: itemId }))
+            );
+
+            items.forEach((item, index) => {
+                const quantity = sale.quantities[index];
+
+                if (item && item.category) {
+                    const categoryName = item.category;
+                    
+                    if (!categoryReport[categoryName]) {
+
+                        categoryReport[categoryName] = {
+                            name: categoryName,
+                            totalQuantity: 0,
+                            totalSales: 0
+                        };
+                    }
+
+                    categoryReport[categoryName].totalQuantity += quantity;
+                    categoryReport[categoryName].totalSales += quantity * (item.price || 0);
+                }
+            });
+        }
+
+        const report = Object.values(categoryReport);
+        res.status(200).json(report);
+    } catch (error) {
+        console.log("Error while generating category report: " + error);
+        res.status(500).json({ msg: "Failed to generate category report" });
+    }
+};
+
+ 
 module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, Refund,
-     SalesReport, ItemReport, AddCategory, GetCategories, DeleteCategory, UpdateStock, AddExpense, HoldCart, GetHeldCarts, DeleteHeldCart }
+     SalesReport, ItemReport, CategoryReport, AddCategory, GetCategories, DeleteCategory,
+     UpdateStock, AddExpense, HoldCart, GetHeldCarts, DeleteHeldCart }
 
 
 
