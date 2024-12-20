@@ -20,7 +20,17 @@ import Cart from './components/Cart';
 import DeleteCategory from './components/DeleteCategory';
 import UpdateStock from './components/UpdateStock';
 
+import React, {useEffect} from "react";
+import { useDispatch } from "react-redux";
+import { fetchItems } from './components/redux/ItemsSlice';
+
 function App() {
+  
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchItems());
+  }, [dispatch]);
+  
   return (
     <Provider store={store}>
     <main className="flex min-h-screen flex-col bg-gradient-to-r from-green-500 via-blue-500 to-blue-900">

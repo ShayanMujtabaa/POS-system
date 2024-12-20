@@ -1,10 +1,25 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import SearchField from './SearchField';
+import { deleteItem } from './redux/ItemsSlice';
+import { useDispatch } from 'react-redux';
 
 const DeleteItem = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [id, setId] = useState(0);
+
+    const {items, loading, error } = useSelector((state) => ({
+        items: state.items.items,
+        loading: state.items.loading,
+        error: state.items.error,
+    }));
+
+    console.log("Items are: ", items);
+
+    const ItemsSearchString = items.map(item => `${item.id} (${item.name})`);
 
     const handleDeleteItem = async (e) => {
         e.preventDefault();
@@ -15,12 +30,14 @@ const DeleteItem = () => {
         }
 
         try {
+            const parsedId = id.match(/^(\d+)\s*\(/)?.[1];
             const ItemData = {
-                id
+                id: parsedId
             };
             const response = await axios.post("http://localhost:9000/deleteItem", ItemData);
             if (response.status === 200) {
                 console.log("Item Deleted successfully");
+                dispatch(deleteItem(parsedId));
                 alert("Item Deleted Successfuly")
                 navigate('/itemPage');
             }
@@ -36,11 +53,12 @@ const DeleteItem = () => {
             <form onSubmit={handleDeleteItem}>
                 <div>
                     <label className="text-white block mb-2 text-2xl font-medium my-2" >Item ID</label>
-                    <input
-                        type="number"
-                        className="text-gray-800 bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-sm rounded-lg block w-full p-2.5 mb-6"
-                        placeholder='Item ID'
-                        onChange={(e) => setId(parseFloat(e.target.value))}
+                    <SearchField
+                    options={ItemsSearchString}
+                    label="Item ID"
+                    value={id}
+                    onChange={(value) => setId(value)}
+                    defaultOther={false}
                     />
                 </div>
                 <button
