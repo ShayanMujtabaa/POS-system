@@ -1,0 +1,31 @@
+docker:
+sudo systemctl start docker
+sudo systemctl status docker
+
+#to build container: 
+sudo docker build -t hassanali101/server-name:latest .
+
+#to run container (add env variables with -e flag) (optional, we will be running with compose):
+sudo docker container run -d -p 9000:9000 hassanali101/itech-server:latest
+
+#check running containers:
+sudo docker container ls
+
+#to stop container:
+sudo docker stop <container id>
+
+#run container via compose, with env variables and configs
+sudo docker-compose up --build
+
+#stop compose
+sudo docker-compose down
+
+#to check image containers:
+sudo docker images
+
+#to delete image:
+sudo docker rmi <imageid>
+
+#stop docker overall
+sudo systemctl stop docker
+sudo systemctl stop docker.socket

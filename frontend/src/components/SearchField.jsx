@@ -71,19 +71,6 @@ const SearchField = ({
           placeholder="Search..."
           {...rest}
         />
-        {inputValue === "" && (
-          <span
-            style={{
-              position: "absolute",
-              left: "12px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              color: "#AEBECD",
-            }}
-          >
-            🔍
-          </span>
-        )}
         {showDropdown && filteredOptions.length > 0 && (
           <ul
             style={{

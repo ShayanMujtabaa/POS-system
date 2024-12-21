@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 
 const AddItem = () => {
@@ -15,6 +16,7 @@ const AddItem = () => {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [loading, setLoading] = useState(true);
+    const [ItemIdConflict, setItemIdConflict] = useState(false);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -33,16 +35,40 @@ const AddItem = () => {
         fetchCategories();
     }, []);
 
+    const {items, load, error } = useSelector((state) => ({
+        items: state.items.items,
+        loading: state.items.loading,
+        error: state.items.error,
+    }));
+    const ItemsIDs = items.map(item => `${item.id}`);
+    console.log("ItemsIDs are: ", ItemsIDs);
+
+    const handleItemIDChange = (e) => {
+        e.preventDefault();
+        if (ItemsIDs.includes(e.target.value)) {
+            setItemID(e.target.value);
+            setItemIdConflict(true);
+        } else {
+            setItemID(e.target.value);
+            setItemIdConflict(false);
+        }
+    }
 
 
     const handleAddItem = async (e) => {
         e.preventDefault();
+
+        if (ItemIdConflict) {
+            alert("Item ID is already assigned to an item");
+            return;
+        }
 
         if (!ItemID || !ItemName || !price || !cost || !stock || !categories) {
             alert('Please fill in all the fields');
             return;
         }
 
+    
         try {
             const ItemData = {
                 id: ItemID, name: ItemName, price, cost, stock, category: selectedCategory, imageURL
@@ -65,12 +91,15 @@ const AddItem = () => {
             <form onSubmit={handleAddItem}>
                 <div>
                     <label className="text-white block mb-2 text-2xl font-medium my-2" >Item ID</label>
+                    {ItemIdConflict && (
+                         <label className="text-red block mb-2 text-md font-medium my-2" >* Not Unique</label>
+                    )}
                     <input
                         type="text"
                         className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
                         placeholder='Item ID'
                         value={ItemID}
-                        onChange={(e) => setItemID(e.target.value)}
+                        onChange={(e) => handleItemIDChange(e)}
                     />
                 </div>
                 <div>

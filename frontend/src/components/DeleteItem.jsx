@@ -17,8 +17,6 @@ const DeleteItem = () => {
         error: state.items.error,
     }));
 
-    console.log("Items are: ", items);
-
     const ItemsSearchString = items.map(item => `${item.id} (${item.name})`);
 
     const handleDeleteItem = async (e) => {

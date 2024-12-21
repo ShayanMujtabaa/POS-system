@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../components/redux/cartSlice";
 import Cart from "../components/Cart";
 import QuantityCard from "../components/QuantityCard";
+import SkeletonVariations from "../components/ItemsLoading";
 
 const HomePage = () => {
     const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const HomePage = () => {
     useEffect(() => {
         const fetchItems = async () => {
             try {
+                await new Promise(resolve => setTimeout(resolve, 5000));
                 const response = await axios.post("http://localhost:9000/getItems");
                 const data = response.data;
                 setItems(data);
@@ -91,7 +93,9 @@ const HomePage = () => {
                         </select>
                     </div>
 
-                    {loading && <p>Loading...</p>}
+                    {loading && (
+                        <SkeletonVariations loading={loading}/>
+                    )}
                     <div className="flex flex-wrap -mx-2">
                         {filteredItems.map(item => (
                             <div key={item.id} className={`w-full px-2 ${cartItems.length <= 0 ? 'sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6' : 'sm:w-1/1 md:w-1/2 lg:w-1/2 xl:w-1/4'}`}>
