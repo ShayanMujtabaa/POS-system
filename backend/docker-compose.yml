@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  nodejs-server:
+    image: hassanali101/itech-server:latest
+    build: .
+    ports:
+      - "9000:9000"
+    environment:
+      PORT: 9000
+      MONGO_URI: mongodb+srv://pos:pos@pos.eswkxnf.mongodb.net/
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm start
