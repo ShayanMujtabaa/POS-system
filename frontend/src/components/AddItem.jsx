@@ -2,6 +2,18 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from '../components/ui/alert-dialog'
+  
 
 
 const AddItem = () => {
@@ -59,8 +71,26 @@ const AddItem = () => {
         e.preventDefault();
 
         if (ItemIdConflict) {
-            alert("Item ID is already assigned to an item");
-            return;
+
+            return(
+                <AlertDialog>
+                        <AlertDialogTrigger>Open</AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete your account
+                                and remove your data from our servers.
+                            </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction>Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                        </AlertDialog>
+
+            )
         }
 
         if (!ItemID || !ItemName || !price || !cost || !stock || !categories) {
@@ -138,6 +168,7 @@ const AddItem = () => {
                         onChange={(e) => setItemPrice(parseFloat(e.target.value))}
                     />
                 </div>
+
                 <div>
                     <label className="text-white block mb-2 text-2xl font-medium my-2" >Cost</label>
                     <input
