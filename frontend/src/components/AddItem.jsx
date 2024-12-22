@@ -2,17 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-  } from '../components/ui/alert-dialog'
+import AlertMessage from './ui/AlertMessage';
+
   
 
 
@@ -29,6 +20,8 @@ const AddItem = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [loading, setLoading] = useState(true);
     const [ItemIdConflict, setItemIdConflict] = useState(false);
+    const [ShowAlert, setShowAlert] = useState(false);
+    const [Message, setAlertMessage] = useState("");
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -71,30 +64,14 @@ const AddItem = () => {
         e.preventDefault();
 
         if (ItemIdConflict) {
-
-            return(
-                <AlertDialog>
-                        <AlertDialogTrigger>Open</AlertDialogTrigger>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete your account
-                                and remove your data from our servers.
-                            </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction>Continue</AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                        </AlertDialog>
-
-            )
+            setAlertMessage("Item ID must be unique");
+            setShowAlert(true);
+            return;
         }
 
         if (!ItemID || !ItemName || !price || !cost || !stock || !categories) {
-            alert('Please fill in all the fields');
+            setAlertMessage("Please Fill in all fields");
+            setShowAlert(true);
             return;
         }
 
@@ -191,8 +168,14 @@ const AddItem = () => {
                     Add Item
                 </button>
 
-            </form>
+                {ShowAlert && (
+                    <AlertMessage message={Message} setShowAlert={setShowAlert} />
+                )}
 
+            </form>
+                    
+           
+            
         </div>
     )
 }
