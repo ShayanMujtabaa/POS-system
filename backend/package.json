@@ -1,7 +1,7 @@
 {
   "name": "backend",
-  "version": "1.0.0",
-  "description": "",
+  "version": "2.0.1",
+  "description": "Redefining backend as per 3 layered architecture",
   "main": "index.js",
   "scripts": {
     "test": "jest",

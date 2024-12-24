@@ -1,13 +1,15 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv');
-const POSroutes = require('./routes/POSroutes');
 
 // Load environment variables
-dotenv.config({
-    path: './.env.local',
-});
+require('./config/envVariables');
+
+// Import DB connection
+const connectDB = require('./config/databaseConnection');
+
+// Import Routes
+const POSroutes = require('./routes/POSroutes');
+const ItemRoutes = require('./routes/ItemRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 9000;
@@ -16,19 +18,14 @@ const PORT = process.env.PORT || 9000;
 app.use(cors());
 app.use(express.json());
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-    .then(() => console.log('Connected to MongoDB'))
-    .catch((err) => console.log(err));
-
 // Route setup
-app.use('/api', POSroutes);
+app.use('/api', ItemRoutes);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+// Connect to DB and start server
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
 });
 
 app.get('/', POSroutes.GetTest);
