@@ -4,7 +4,7 @@ const ItemModel = require("../models/ItemModel"); // Mocked ItemModel
 
 jest.mock("../models/ItemModel"); // Mock the ItemModel
 
-describe("SalesController.SalesCheckoutController", () => {
+describe("SalesController.SalesRefundController", () => {
   let mockRequest, mockResponse;
 
   beforeEach(() => {
@@ -15,9 +15,7 @@ describe("SalesController.SalesCheckoutController", () => {
           { id: "item1", quantity: 2 },
           { id: "item2", quantity: 1 },
         ],
-        total: 100,
-        discount: 10,
-        tax: 5,
+        refundAmount: 50,
       },
     };
 
@@ -35,43 +33,43 @@ describe("SalesController.SalesCheckoutController", () => {
     jest.clearAllMocks();
   });
 
-  test("should process SalesCheckoutController and return success response", async () => {
+  test("should process SalesRefundController and return success response", async () => {
     // Mocking the service method to resolve successfully
-    SalesService.SalesCheckoutService = jest.fn().mockResolvedValueOnce({});
+    SalesService.SalesRefundService = jest.fn().mockResolvedValueOnce({});
 
     // Act
-    await SalesController.SalesCheckoutController(mockRequest, mockResponse);
+    await SalesController.SalesRefundController(mockRequest, mockResponse);
 
     // Assert
-    expect(SalesService.SalesCheckoutService).toHaveBeenCalledWith(
+    expect(SalesService.SalesRefundService).toHaveBeenCalledWith(
       mockRequest.body
     );
     expect(mockResponse.status).toHaveBeenCalledWith(200);
     expect(mockResponse.json).toHaveBeenCalledWith({
-      msg: "Checkout Successful",
+      msg: "Refund Successful",
     });
   });
 
   test("should handle errors and return failure response", async () => {
     // Mocking the service method to reject with an error
-    SalesService.SalesCheckoutService = jest
+    SalesService.SalesRefundService = jest
       .fn()
       .mockRejectedValueOnce(new Error("Database error"));
 
     // Act
-    await SalesController.SalesCheckoutController(mockRequest, mockResponse);
+    await SalesController.SalesRefundController(mockRequest, mockResponse);
 
     // Assert
-    expect(SalesService.SalesCheckoutService).toHaveBeenCalledWith(
+    expect(SalesService.SalesRefundService).toHaveBeenCalledWith(
       mockRequest.body
     );
     expect(mockResponse.status).toHaveBeenCalledWith(500);
     expect(mockResponse.json).toHaveBeenCalledWith({
-      msg: "Failed to Checkout",
+      msg: "Failed to Refund",
     });
   });
 
-  test("should update item stock after successful checkout", async () => {
+  test("should update item stock after successful refund", async () => {
     // Mocking the item stock update
     const mockItem1 = {
       id: "item1",
@@ -90,28 +88,28 @@ describe("SalesController.SalesCheckoutController", () => {
       .mockResolvedValueOnce(mockItem2);
 
     // Mock the service
-    SalesService.SalesCheckoutService = jest.fn(async ({ cartItems }) => {
+    SalesService.SalesRefundService = jest.fn(async ({ cartItems }) => {
       for (const { id, quantity } of cartItems) {
         const item = await ItemModel.findOne({ id });
-        item.stock -= quantity;
+        item.stock += quantity;
         await item.save();
       }
       return {};
     });
 
     // Act
-    await SalesController.SalesCheckoutController(mockRequest, mockResponse);
+    await SalesController.SalesRefundController(mockRequest, mockResponse);
 
     // Assert
     expect(ItemModel.findOne).toHaveBeenCalledWith({ id: "item1" });
     expect(ItemModel.findOne).toHaveBeenCalledWith({ id: "item2" });
-    expect(mockItem1.stock).toBe(8); // 10 - 2
+    expect(mockItem1.stock).toBe(12); // 10 + 2
     expect(mockItem1.save).toHaveBeenCalled();
-    expect(mockItem2.stock).toBe(4); // 5 - 1
+    expect(mockItem2.stock).toBe(6); // 5 + 1
     expect(mockItem2.save).toHaveBeenCalled();
     expect(mockResponse.status).toHaveBeenCalledWith(200);
     expect(mockResponse.json).toHaveBeenCalledWith({
-      msg: "Checkout Successful",
+      msg: "Refund Successful",
     });
   });
 });

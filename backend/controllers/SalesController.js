@@ -3,7 +3,7 @@ const SalesService = require("../services/SalesService");
 const SalesCheckoutController = async (req, res) => {
   try {
     const { cartItems, total, discount, tax } = req.body;
-    await SalesService.SalesCheckoutService({ cartItems, total, discount });
+    await SalesService.SalesCheckoutService({ cartItems, total, discount, tax });
     res.status(200).json({ msg: "Checkout Successful" });
   } catch (error) {
     console.log("Error while checking out: " + error);
