@@ -1,5 +1,5 @@
 const SalesModel = require("../models/SalesModel");
-const ItemService = require("./ItemService")
+const ItemService = require("./ItemService");
 
 const SalesCheckoutService = async ({ cartItems, total, discount, tax }) => {
   try {
@@ -60,4 +60,12 @@ const SalesRefundService = async ({ cartItems, refundAmount }) => {
   }
 };
 
-module.exports = { SalesCheckoutService, SalesRefundService };
+const SalesQueryDates = async ({ query }) => {
+  try {
+    return await SalesModel.find(query);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+module.exports = { SalesCheckoutService, SalesRefundService, SalesQueryDates };

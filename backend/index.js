@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 
 // Load environment variables
-require('./config/envVariables');
+require('./config/loadEnvVars');
 
 // Import DB connection
 const connectDB = require('./config/databaseConnection');
@@ -29,15 +29,6 @@ connectDB().then(() => {
 });
 
 app.get('/', POSroutes.GetTest);
-app.post('/checkout', POSroutes.Checkout);
-app.post('/refund', POSroutes.Refund);
-app.get('/salesReport', POSroutes.SalesReport);
-app.get('/itemReport', POSroutes.ItemReport);
-app.get('/categoryReport', POSroutes.CategoryReport);
-app.post('/addCategory', POSroutes.AddCategory);
-app.post('/getCategories', POSroutes.GetCategories); 
-app.post('/deleteCategory', POSroutes.DeleteCategory);
-app.post('/addExpense', POSroutes.AddExpense);
 app.post('/holdCart', POSroutes.HoldCart);
 app.get('/getHeldCarts', POSroutes.GetHeldCarts);
 app.post('/deleteHeldCart', POSroutes.DeleteHeldCart);
