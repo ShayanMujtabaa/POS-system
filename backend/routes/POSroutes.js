@@ -329,6 +329,35 @@ const ItemReport = async (req, res) => {
     }
 };
 
+const StockReport = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        
+        const query = {};
+        if (startDate && endDate) {
+            query.updatedAt = {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate)
+            };
+        }
+
+        const items = await Item.find(query);
+
+        const stockReport = items.map(item => ({
+            id: item._id,
+            name: item.name,
+            stockAvailable: item.stock,
+            reorderLevel: item.reorderLevel || 'N/A'
+        }));
+
+        res.status(200).json(stockReport);
+    } catch (error) {
+        console.error('Error generating stock report:', error);
+        res.status(500).json({ msg: 'Failed to generate stock report' });
+    }
+};
+
+
 
 const CategoryReport = async (req, res) => {
     try {
@@ -383,7 +412,7 @@ const CategoryReport = async (req, res) => {
  
 module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, Refund,
      SalesReport, ItemReport, CategoryReport, AddCategory, GetCategories, DeleteCategory,
-     UpdateStock, AddExpense, HoldCart, GetHeldCarts, DeleteHeldCart }
+     UpdateStock, AddExpense, HoldCart, GetHeldCarts, DeleteHeldCart, StockReport }
 
 
 

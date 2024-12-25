@@ -48,6 +48,8 @@ app.post('/addExpense', POSroutes.AddExpense);
 app.post('/holdCart', POSroutes.HoldCart);
 app.get('/getHeldCarts', POSroutes.GetHeldCarts);
 app.post('/deleteHeldCart', POSroutes.DeleteHeldCart);
+app.get('/stockReport', POSroutes.StockReport);
+
 
 
 
