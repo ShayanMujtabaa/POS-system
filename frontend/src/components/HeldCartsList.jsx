@@ -4,24 +4,26 @@ import { useDispatch } from 'react-redux';
 import { addToCart, clearCart } from './redux/cartSlice';
 
 const HeldCartsList = ({setRetrievePopup}) => {
-
     const [HeldCarts, setHeldCarts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     let RetrievedCart = {};
     const dispatch = useDispatch();
 
-    useEffect (() => {
+    useEffect(() => {
         const fetchHeldCarts = async () => {
             try {
                 const response = await axios.get("http://localhost:9000/getHeldCarts");
                 const data = response.data;
                 setHeldCarts(data);
+                setIsLoading(false);
             } catch (error) {
                 console.error("Error fetching held carts:", error);
+                setIsLoading(false);
             } 
         };
 
         fetchHeldCarts();
-    });
+    }, []); // Added dependency array to prevent infinite loop
 
     const handleSelectedBill = (cart) => {
         console.log("Selected cart: ", JSON.stringify(cart));
@@ -32,7 +34,6 @@ const HeldCartsList = ({setRetrievePopup}) => {
 
     const handleRetrieveCart = async () => {
         try {
-            
             const response = await axios.post("http://localhost:9000/deleteHeldCart", {
                 id: RetrievedCart.TempCartId
             });
@@ -43,7 +44,7 @@ const HeldCartsList = ({setRetrievePopup}) => {
                 console.log("Retrieved cart: ", JSON.stringify(RetrievedCart));
                 dispatch(clearCart())
                 for (let i = 0; i < RetrievedCart.itemIds.length; i++) {
-                    dispatch(addToCart( {
+                    dispatch(addToCart({
                         id: RetrievedCart.itemIds[i],
                         name: response2.data.find(item => item.id === RetrievedCart.itemIds[i]).name,
                         price: response2.data.find(item => item.id === RetrievedCart.itemIds[i]).price,
@@ -55,25 +56,47 @@ const HeldCartsList = ({setRetrievePopup}) => {
             console.log("Error while retrieving cart: ", error);
             alert("Failed to retrieve cart");
         }
-
     }
 
-
-  return (
-    // This component will display the list of held carts, each clickable and have a hover effect, this will be positioned absolutely in the center of screen
-    // use tailwind css
-    <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg shadow-lg'>
-        <h1 className='text-2xl font-bold text-center mb-4'>Held Carts</h1>
-        <ul>
-            {HeldCarts.map((cart, index) => (
-                <li key={index} className='hover:bg-gray-200 p-2 rounded-lg cursor-pointer' onClick={() => handleSelectedBill(cart)}>
-                    <p>{cart.TempCartId}</p>
-                </li>
-            ))}
-        </ul>
-    </div>
-
-  )
+    return (
+        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg shadow-lg min-w-[300px]'>
+            <div className="flex justify-between items-center mb-4">
+                <h1 className='text-2xl font-bold'>Held Carts</h1>
+                <button 
+                    onClick={() => setRetrievePopup(false)}
+                    className="text-gray-500 hover:text-gray-700"
+                >
+                    ×
+                </button>
+            </div>
+            
+            {isLoading ? (
+                <p className="text-center text-gray-600">Loading...</p>
+            ) : (
+                <>
+                    {HeldCarts.length > 0 && HeldCarts.some(cart => cart.TempCartId) ? (
+                        <ul className="max-h-[400px] overflow-y-auto">
+                            {HeldCarts.map((cart, index) => (
+                                cart.TempCartId && (
+                                    <li 
+                                        key={index} 
+                                        className='hover:bg-gray-200 p-3 rounded-lg cursor-pointer mb-2 border border-gray-100 transition-colors duration-200'
+                                        onClick={() => handleSelectedBill(cart)}
+                                    >
+                                        <p className="font-medium">Cart ID: {cart.TempCartId}</p>
+                                    </li>
+                                )
+                            ))}
+                        </ul>
+                    ) : (
+                        <div className="text-center py-8">
+                            <p className="text-gray-600">No held carts found</p>
+                        </div>
+                    )}
+                </>
+            )}
+        </div>
+    );
 }
 
-export default HeldCartsList
+export default HeldCartsList;

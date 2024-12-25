@@ -150,6 +150,7 @@ const Cart = () => {
 
     const handleRetrieveCartHelper = async (e) => {
         e.preventDefault();
+        
         setRetrievePopup(true);
     }
 
