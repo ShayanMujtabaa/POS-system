@@ -72,4 +72,33 @@ const UpdateItemService = async ({ id, field, value }) => {
   }
 };
 
-module.exports = { AddItemService, GetItemsService, DeleteItemService, UpdateItemService };
+// The following functions are for internal calls:
+const findItemById = async (id) => {
+  return await ItemModel.findOne({ id });
+};
+
+const decrementItemStock = async (id, quantity) => {
+  const item = await findItemById(id);
+  if (!item) throw new Error(`Item with id ${id} not found`);
+  if (item.stock < quantity)
+    throw new Error(`Not enough stock for ${item.name}`);
+  item.stock -= quantity;
+  return await item.save();
+};
+
+const incrementItemStock = async (id, quantity) => {
+  const item = await findItemById(id);
+  if (!item) throw new Error(`Item with id ${id} not found`);
+  item.stock += quantity;
+  return await item.save();
+};
+
+module.exports = {
+  AddItemService,
+  GetItemsService,
+  DeleteItemService,
+  UpdateItemService,
+  findItemById,
+  decrementItemStock,
+  incrementItemStock,
+};

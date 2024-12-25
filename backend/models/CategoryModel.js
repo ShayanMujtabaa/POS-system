@@ -1,15 +1,23 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const categorySchema = new Schema({
+const AutoIncrement = require("mongoose-sequence")(mongoose);
+
+const categorySchema = new Schema(
+  {
     id: {
-        type: String,
-        required: true,
+      type: Number,
+      unique: true,
     },
     name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
+      unique: true,
     },
-}, {timestamps: true});
+  },
+  { timestamps: true }
+);
 
-const Category = mongoose.model('Category', categorySchema);
+categorySchema.plugin(AutoIncrement, { inc_field: "id" });
+
+const Category = mongoose.model("Category", categorySchema);
 module.exports = Category;

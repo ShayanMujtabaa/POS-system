@@ -29,11 +29,6 @@ connectDB().then(() => {
 });
 
 app.get('/', POSroutes.GetTest);
-app.post('/addItem', POSroutes.AddItem);
-app.post('/getItems', POSroutes.GetItems);
-app.post('/deleteItem', POSroutes.DeleteItem);
-app.post('/updateItem', POSroutes.UpdateItem);
-app.post('/updateStock', POSroutes.UpdateStock);
 app.post('/checkout', POSroutes.Checkout);
 app.post('/refund', POSroutes.Refund);
 app.get('/salesReport', POSroutes.SalesReport);
