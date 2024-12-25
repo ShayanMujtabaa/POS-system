@@ -16,7 +16,8 @@
     "express": "^4.19.2",
     "mongoose": "^8.4.0",
     "mongoose-sequence": "^6.0.1",
-    "nodemon": "^3.1.1"
+    "nodemon": "^3.1.1",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "jest": "^29.7.0"

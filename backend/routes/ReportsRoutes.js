@@ -3,8 +3,8 @@ const ReportsController = require("../controllers/ReportsController");
 
 const router = express.Router();
 
-app.get("/salesReport", ReportsController.SalesReport);
-app.get("/itemReport", ReportsController.ItemReport);
-app.get("/categoryReport", ReportsController.CategoryReport);
+router.get("/salesReport", ReportsController.SalesReport);
+router.get("/itemReport", ReportsController.ItemReport);
+router.get("/categoryReport", ReportsController.CategoryReport);
 
 module.exports = router;

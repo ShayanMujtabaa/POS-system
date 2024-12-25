@@ -17,7 +17,7 @@ const categorySchema = new Schema(
   { timestamps: true }
 );
 
-categorySchema.plugin(AutoIncrement, { inc_field: "id" });
+// categorySchema.plugin(AutoIncrement, { inc_field: "id" });
 
 const Category = mongoose.model("Category", categorySchema);
 module.exports = Category;
