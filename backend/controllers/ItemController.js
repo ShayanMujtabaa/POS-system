@@ -15,7 +15,7 @@ const AddItemController = async (req, res) => {
     res.status(200).json({ msg: "Item Added" });
   } catch (error) {
     console.error("Error while adding item: ", error.message || error);
-    res.status(500).json({ msg: "Failed to add item" });
+    res.status(400).json({ msg: "Failed to add item" });
   }
 };
 
