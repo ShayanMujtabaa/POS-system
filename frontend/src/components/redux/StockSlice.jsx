@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// Async thunk to fetch items
 export const fetchItems = createAsyncThunk("stock/fetchItems", async (_, thunkAPI) => {
     try {
         const response = await axios.post("http://localhost:9000/getItems");
@@ -11,7 +10,6 @@ export const fetchItems = createAsyncThunk("stock/fetchItems", async (_, thunkAP
     }
 });
 
-// Async thunk to update stock of an item
 export const updateStock = createAsyncThunk("stock/updateStock", async ({ id, stock }, thunkAPI) => {
     try {
         const response = await axios.post("http://localhost:9000/updateStock", { id, stock });
@@ -30,14 +28,12 @@ const StockSlice = createSlice({
     },
     reducers: {
         resetStock(state) {
-            // Reset stock state to initial
             state.items = [];
             state.error = null;
         },
     },
     extraReducers: (builder) => {
         builder
-            // Fetch Items
             .addCase(fetchItems.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -50,7 +46,6 @@ const StockSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-            // Update Stock
             .addCase(updateStock.pending, (state) => {
                 state.loading = true;
                 state.error = null;

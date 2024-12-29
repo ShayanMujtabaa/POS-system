@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import SearchField from './SearchField';
 import ListItemCard from './ListItemCard';
 
 const UpdateItem = () => {
@@ -12,6 +14,12 @@ const UpdateItem = () => {
     const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
+
+    const { items: reduxItems } = useSelector((state) => ({
+        items: state.items.items,
+    }));
+
+    const ItemsSearchString = reduxItems.map(item => `${item.id} (${item.name})`);
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -76,18 +84,18 @@ const UpdateItem = () => {
             <form onSubmit={handleUpdateItem}>
                 <div>
                     <label className="text-white block mb-2 text-2xl font-medium my-2">Item ID</label>
-                    <input
-                        type="text"
-                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-800 text-sm rounded-lg block w-full p-2.5 mb-6"
-                        placeholder='Item ID'
+                    <SearchField
+                        options={ItemsSearchString}
+                        label="Item ID"
                         value={ItemID}
-                        onChange={(e) => setItemID(e.target.value)}
+                        onChange={(value) => setItemID(value)}
+                        defaultOther={false}
                     />
                 </div>
                 <div>
                     <label className="text-white block mb-2 text-2xl font-medium my-2">Update Field</label>
                     <select
-                        className="text-gray-800 bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5 mb-6"
+                        className="text-gray-800 bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-sm rounded-lg block w-full p-2.5 mb-6"
                         onChange={(e) => { setField(e.target.value); setValue(''); setSelectedCategory(''); }}
                     >
                         <option value="">Select Field</option>
@@ -103,7 +111,7 @@ const UpdateItem = () => {
                     <div>
                         <label className="text-white block mb-2 text-2xl font-medium my-2">Category</label>
                         <select
-                            className="bg-gray-200 border border-[#33353F] placeholder-black text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
+                            className="bg-gray-200 border border-[#33353F] text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
                             value={selectedCategory}
                             onChange={(e) => setSelectedCategory(e.target.value)}
                         >
