@@ -23,6 +23,7 @@ import UpdateStock from './components/UpdateStock';
 import React, {useEffect} from "react";
 import { useDispatch } from "react-redux";
 import { fetchItems } from './components/redux/ItemsSlice';
+import StockReportPage from './Pages/StockReportPage';
 
 function App() {
   
@@ -52,6 +53,7 @@ function App() {
     <Route path="/salesReportPage" element={<><Navbar/> <SalesReportPage/> </>} />
     <Route path="/itemReportPage" element={<><Navbar/> <ItemReportPage/> </>} />
     <Route path="/categoryReportPage" element={<><Navbar/> <CategoryReportPage/> </>} />
+    <Route path="/stockReportPage" element={<><Navbar/> <StockReportPage/> </>} />
     <Route path="/" element={<><Navbar/> <HomePage/> </>} />
     <Route path="/home" element={<><Navbar/> <HomePage/> </>} />
     <Route path="/cart" element={<><Navbar/> <Cart/> </>} />

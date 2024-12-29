@@ -282,57 +282,86 @@ const SalesReport = async (req, res) => {
 };
 
 const ItemReport = async (req, res) => {
-  try {
-    const { startDate, endDate } = req.query;
-
-    const query = {};
-    if (startDate && endDate) {
-      query.createdAt = {
-        $gte: new Date(startDate),
-        $lte: new Date(endDate),
-      };
-    }
-
-    const sales = await Sales.find(query);
-    const items = await Item.find();
-
-    const itemReport = {};
-
-    for (let sale of sales) {
-      for (let i = 0; i < sale.items.length; i++) {
-        const itemId = sale.items[i];
-        const quantity = sale.quantities[i];
-
-        if (!itemReport[itemId]) {
-          const item = items.find((item) => item.id == itemId);
-          itemReport[itemId] = {
-            name: item ? item.name : "Unknown Item",
-            totalQuantity: 0,
-            totalSales: 0,
-          };
+    try {
+        const { startDate, endDate } = req.query;
+        
+        const query = {};
+        if (startDate && endDate) {
+            query.createdAt = {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate)
+            };
         }
 
-        itemReport[itemId].totalQuantity += quantity;
-        itemReport[itemId].totalSales +=
-          quantity * (items.find((item) => item.id == itemId)?.price || 0);
-      }
+        const sales = await Sales.find(query);
+        const items = await Item.find();
+
+        const itemReport = {};
+
+        for (let sale of sales) {
+            for (let i = 0; i < sale.items.length; i++) {
+                const itemId = sale.items[i];
+                const quantity = sale.quantities[i];
+                
+                if (!itemReport[itemId]) {
+                    const item = items.find(item => item.id == itemId);
+                    itemReport[itemId] = {
+                        name: item ? item.name : 'Unknown Item',
+                        totalQuantity: 0,
+                        totalSales: 0
+                    };
+                }
+                
+                itemReport[itemId].totalQuantity += quantity;
+                itemReport[itemId].totalSales += quantity * (items.find(item => item.id == itemId)?.price || 0);
+            }
+        }
+
+        const report = Object.entries(itemReport).map(([id, data]) => ({
+            id,
+            name: data.name,
+            totalQuantity: data.totalQuantity,
+            totalSales: data.totalSales
+        }));
+
+        report.sort((a, b) => b.totalQuantity - a.totalQuantity);
+
+        res.status(200).json(report);
+    } catch (error) {
+        console.log("Error while generating item report: " + error);
+        res.status(500).json({msg: "Failed to generate item report"});
     }
-
-    const report = Object.entries(itemReport).map(([id, data]) => ({
-      id,
-      name: data.name,
-      totalQuantity: data.totalQuantity,
-      totalSales: data.totalSales,
-    }));
-
-    report.sort((a, b) => b.totalQuantity - a.totalQuantity);
-
-    res.status(200).json(report);
-  } catch (error) {
-    console.log("Error while generating item report: " + error);
-    res.status(500).json({ msg: "Failed to generate item report" });
-  }
 };
+
+const StockReport = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        
+        const query = {};
+        if (startDate && endDate) {
+            query.updatedAt = {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate)
+            };
+        }
+
+        const items = await Item.find(query);
+
+        const stockReport = items.map(item => ({
+            id: item._id,
+            name: item.name,
+            stockAvailable: item.stock,
+            reorderLevel: item.reorderLevel || 'N/A'
+        }));
+
+        res.status(200).json(stockReport);
+    } catch (error) {
+        console.error('Error generating stock report:', error);
+        res.status(500).json({ msg: 'Failed to generate stock report' });
+    }
+};
+
+
 
 const CategoryReport = async (req, res) => {
   try {
@@ -384,23 +413,10 @@ const CategoryReport = async (req, res) => {
   }
 };
 
-module.exports = {
-  GetTest,
-  AddItem,
-  GetItems,
-  DeleteItem,
-  UpdateItem,
-  Checkout,
-  Refund,
-  SalesReport,
-  ItemReport,
-  CategoryReport,
-  AddCategory,
-  GetCategories,
-  DeleteCategory,
-  UpdateStock,
-  AddExpense,
-  HoldCart,
-  GetHeldCarts,
-  DeleteHeldCart,
-};
+ 
+module.exports = { GetTest, AddItem, GetItems, DeleteItem, UpdateItem, Checkout, Refund,
+     SalesReport, ItemReport, CategoryReport, AddCategory, GetCategories, DeleteCategory,
+     UpdateStock, AddExpense, HoldCart, GetHeldCarts, DeleteHeldCart, StockReport }
+
+
+

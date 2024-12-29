@@ -32,9 +32,28 @@ app.use("/report", ReportsRoutes);
 connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-  });
 });
 
-app.get("/", (req, res) => {
-  res.send("Server is running!");
-});
+app.get('/', POSroutes.GetTest);
+app.post('/addItem', POSroutes.AddItem);
+app.post('/getItems', POSroutes.GetItems);
+app.post('/deleteItem', POSroutes.DeleteItem);
+app.post('/updateItem', POSroutes.UpdateItem);
+app.post('/updateStock', POSroutes.UpdateStock);
+app.post('/checkout', POSroutes.Checkout);
+app.post('/refund', POSroutes.Refund);
+app.get('/salesReport', POSroutes.SalesReport);
+app.get('/itemReport', POSroutes.ItemReport);
+app.get('/categoryReport', POSroutes.CategoryReport);
+app.post('/addCategory', POSroutes.AddCategory);
+app.post('/getCategories', POSroutes.GetCategories); 
+app.post('/deleteCategory', POSroutes.DeleteCategory);
+app.post('/addExpense', POSroutes.AddExpense);
+app.post('/holdCart', POSroutes.HoldCart);
+app.get('/getHeldCarts', POSroutes.GetHeldCarts);
+app.post('/deleteHeldCart', POSroutes.DeleteHeldCart);
+app.get('/stockReport', POSroutes.StockReport);
+
+
+
+
