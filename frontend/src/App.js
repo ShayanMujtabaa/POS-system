@@ -23,6 +23,7 @@ import UpdateStock from './components/UpdateStock';
 import React, {useEffect} from "react";
 import { useDispatch } from "react-redux";
 import { fetchItems } from './components/redux/ItemsSlice';
+import { fetchCategories } from './components/redux/CategoriesSlice';
 import StockReportPage from './Pages/StockReportPage';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchItems());
+    dispatch(fetchCategories());
   }, [dispatch]);
   
   return (

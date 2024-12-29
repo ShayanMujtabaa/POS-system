@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import SearchField from './SearchField';
+import { deleteCategory } from './redux/CategoriesSlice';
+import { useDispatch } from 'react-redux';
 
 const DeleteCategory = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [id, setId] = useState(0);
+
+    const {categories, loading, error } = useSelector((state) => ({
+        categories: state.categories.categories,
+        loading: state.categories.loading,
+        error: state.categories.error,
+    }));
+
+    const CategoriesSearchString = categories.map(category => `${category.id} (${category.name})`);
 
     const handleDeleteCategory = async (e) => {
         e.preventDefault();
@@ -15,12 +28,15 @@ const DeleteCategory = () => {
         }
 
         try {
+            const parsedId = id.match(/^(\d+)\s*\(/)?.[1];
+            console.log('Parsed ID:', parsedId);
             const CategoryData = {
-                id
+                id: parsedId
             };
-            const response = await axios.post("http://localhost:9000/deletecategory", CategoryData);
+            const response = await axios.post("http://localhost:9000/deleteCategory", CategoryData);
             if (response.status === 200) {
                 console.log("Category Deleted successfully");
+                dispatch(deleteCategory(parsedId));
                 alert("Category Deleted Successfuly")
                 navigate('/categoryPage');
             }
@@ -36,11 +52,12 @@ const DeleteCategory = () => {
             <form onSubmit={handleDeleteCategory}>
                 <div>
                     <label className="text-white block mb-2 text-2xl font-medium my-2" >Category ID</label>
-                    <input
-                        type="number"
-                        className="bg-gray-200 border border-[#33353F] placeholder-[#9CA2A9] text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-6"
-                        placeholder='Category ID'
-                        onChange={(e) => setId(parseFloat(e.target.value))}
+                    <SearchField
+                    options={CategoriesSearchString}
+                    label="Category ID"
+                    value={id}
+                    onChange={(value) => setId(value)}
+                    defaultOther={false}
                     />
                 </div>
                 <button

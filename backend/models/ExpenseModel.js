@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const expenseSchema = new Schema({
+
     id: {
         type: Number,
         unique: true,
