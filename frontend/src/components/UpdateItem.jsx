@@ -62,8 +62,10 @@ const UpdateItem = () => {
         }
 
         try {
+            console.log('testing')
+            const parsedId = ItemID.match(/^(\d+)\s*\(/)?.[1];
             const ItemData = {
-                id: ItemID,
+                id: parsedId,
                 field,
                 value: field === 'category' ? selectedCategory : value
             };

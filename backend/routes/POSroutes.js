@@ -105,7 +105,9 @@ const DeleteItem = async (req, res) => {
 const UpdateItem = async (req, res) => {
     const { id, field, value } = req.body;
     try {
+        console.log('triggring button',id)
         const item = await Item.findOne({id: id});
+        console.log('item is:',item)
         if (!item) {
             return res.status(203).json({msg: "Item Not Found"})
         }
