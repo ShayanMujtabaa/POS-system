@@ -14,7 +14,7 @@ const CategoryReportPage = () => {
 
     const generateCategoryReport = async () => {
         try {
-            const response = await axios.get('http://localhost:9000/categoryReport', {
+            const response = await axios.get('http://localhost:9000/report/categoryReport', {
                 params: {
                     startDate: startDate?.toISOString(),
                     endDate: endDate?.toISOString()

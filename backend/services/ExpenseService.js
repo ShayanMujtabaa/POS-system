@@ -16,4 +16,4 @@ const AddExpenseService = async ({ name, price }) => {
   }
 };
 
-module.exports = [AddExpenseService];
+module.exports = { AddExpenseService };

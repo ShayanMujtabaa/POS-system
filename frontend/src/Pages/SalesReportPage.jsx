@@ -14,7 +14,7 @@ const ReportPage = () => {
 
     const downloadSalesReport = async () => {
         try {
-            const response = await axios.get('http://localhost:9000/salesReport', {
+            const response = await axios.get('http://localhost:9000/report/salesReport', {
                 params: {
                     startDate: startDate?.toISOString(),
                     endDate: endDate?.toISOString()

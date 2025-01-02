@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const logger = require("../utils/loggers");
+// const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 // MongoDB connection
 const connectDB = async () => {

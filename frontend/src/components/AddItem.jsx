@@ -4,9 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import AlertMessage from './ui/AlertMessage';
 
-  
-
-
 const AddItem = () => {
     const navigate = useNavigate();
     const [ItemID, setItemID] = useState('');
@@ -26,7 +23,7 @@ const AddItem = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.post("http://localhost:9000/getcategories");
+                const response = await axios.get("http://localhost:9000/category/getcategories");
                 const data = response.data;
                 setCategories(data);
                 console.log(data)
@@ -80,7 +77,7 @@ const AddItem = () => {
             const ItemData = {
                 id: ItemID, name: ItemName, price, cost, stock, category: selectedCategory, imageURL
             };
-            const response = await axios.post("http://localhost:9000/addItem", ItemData);
+            const response = await axios.post("http://localhost:9000/item/addItem", ItemData);
             if (response.status === 200) {
                 console.log("ItemAdded successfully");
                 alert("Item Added Successfuly")

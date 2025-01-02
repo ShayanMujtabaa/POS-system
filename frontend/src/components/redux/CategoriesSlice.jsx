@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const fetchCategories = createAsyncThunk("categories/fetchCategories", async (_, thunkAPI) => {
     try {
-        const response = await axios.post("http://localhost:9000/getCategories");
+        const response = await axios.get("http://localhost:9000/category/getcategories");
         return response.data;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.message);

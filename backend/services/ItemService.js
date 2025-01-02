@@ -57,20 +57,23 @@ const UpdateItemService = async ({ id, field, value }) => {
   try {
     const item = await ItemModel.findOne({ id: id });
     if (!item) {
-      return res.status(404).json({ msg: "Item Not Found" });
+      throw new Error("Item Not Found");
     }
-    if (field == "name" || field == "category") {
-      item[field] = value;
+    if (field === "name" || field === "category") {
+      item[field] = value; 
     } else {
-      item[field] = parseInt(value);
+      item[field] = parseInt(value); 
     }
-    await ItemModel.save();
-    res.status(200).json({ msg: "Item Updated Successfuly" });
+
+    await item.save(); 
+
+    return { success: true, msg: "Item Updated Successfully", item };
   } catch (error) {
-    console.error("Error while updating item: " + error);
-    res.status(500).json({ msg: "failed to update item" });
+    console.error("Error while updating item: " + error.message || error);
+    throw new Error(error.message || "Failed to update item");
   }
 };
+
 
 // The following functions are for internal calls:
 const findItemById = async (id) => {

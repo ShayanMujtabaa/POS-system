@@ -12,7 +12,7 @@ const HeldCartsList = ({setRetrievePopup}) => {
     useEffect(() => {
         const fetchHeldCarts = async () => {
             try {
-                const response = await axios.get("http://localhost:9000/getHeldCarts");
+                const response = await axios.get("http://localhost:9000/sale/getHeldCarts");
                 const data = response.data;
                 setHeldCarts(data);
                 setIsLoading(false);
@@ -34,11 +34,11 @@ const HeldCartsList = ({setRetrievePopup}) => {
 
     const handleRetrieveCart = async () => {
         try {
-            const response = await axios.post("http://localhost:9000/deleteHeldCart", {
+            const response = await axios.delete("http://localhost:9000/sale/deleteHeldCart", {
                 id: RetrievedCart.TempCartId
             });
             console.log("Response received from deletion: ", response.data);
-            const response2 = await axios.post("http://localhost:9000/getItems");
+            const response2 = await axios.get("http://localhost:9000/sale/getItems");
             if (response2.status === 200) {
                 console.log("Items retrieved successfully: ", response2.data);
                 console.log("Retrieved cart: ", JSON.stringify(RetrievedCart));

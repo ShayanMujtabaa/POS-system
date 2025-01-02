@@ -20,7 +20,7 @@ const AddExpense = () => {
                 name: ExpenseName, 
                 price: ExpensePrice
             };
-            const response = await axios.post("http://localhost:9000/addExpense", ExpenseData);
+            const response = await axios.post("http://localhost:9000/expense/addExpense", ExpenseData);
             if (response.status === 200) {
                 console.log("Expense Added successfully");
                 alert("Expense Added Successfully");

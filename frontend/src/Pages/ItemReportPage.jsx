@@ -14,7 +14,7 @@ const ItemReportPage = () => {
 
     const generateItemReport = async () => {
         try {
-            const response = await axios.get('http://localhost:9000/itemReport', {
+            const response = await axios.get('http://localhost:9000/report/itemReport', {
                 params: {
                     startDate: startDate?.toISOString(),
                     endDate: endDate?.toISOString()

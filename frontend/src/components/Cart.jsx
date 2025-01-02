@@ -70,7 +70,7 @@ const Cart = () => {
             return;
         }
         try {
-            const response = await axios.post("http://localhost:9000/checkout", {
+            const response = await axios.post("http://localhost:9000/sale/checkout", {
                 cartItems,
                 total: totalAmount(Total, Discount, Tax),
                 discount: discount(Total, Discount),
@@ -98,7 +98,7 @@ const Cart = () => {
             return;
         }
         try {
-            const response = await axios.post("http://localhost:9000/refund", {
+            const response = await axios.post("http://localhost:9000/sale/refund", {
                 cartItems,
                 refundAmount: refundAmount(Total, Discount, Tax)
             });
@@ -133,7 +133,7 @@ const Cart = () => {
             return;
         }
         try {
-            const response = await axios.post("http://localhost:9000/holdCart", {
+            const response = await axios.post("http://localhost:9000/sale/holdCart", {
                 cartItems
             });
             console.log("Response received: ", response.data);

@@ -20,7 +20,7 @@ const HomePage = () => {
         const fetchItems = async () => {
             try {
                 await new Promise(resolve => setTimeout(resolve, 5000));
-                const response = await axios.post("http://localhost:9000/getItems");
+                const response = await axios.get("http://localhost:9000/item/getItems");
                 const data = response.data;
                 setItems(data);
             } catch (error) {

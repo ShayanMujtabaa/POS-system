@@ -2,8 +2,10 @@ const ReportsService = require("../services/ReportsService");
 
 const SalesReport = async (req, res) => {
   try {
+    console.log("sdadas")
     const { startDate, endDate } = req.query;
     const report = await ReportsService.SalesReport({ startDate, endDate });
+
     res.status(200).json(report);
   } catch (error) {
     console.log("Error while getting sales: " + error);
@@ -33,8 +35,20 @@ const CategoryReport = async (req, res) => {
   }
 };
 
+const StockReport = async (req, res) => {
+  try {
+    const report = await ReportsService.StockReport();
+    res.status(200).json(report); 
+  } catch (error) {
+    console.error('Error generating stock report:', error.message || error);
+    res.status(500).json({ msg: 'Failed to generate stock report' });
+  }
+};
+
+
 module.exports = {
     SalesReport, 
     ItemReport,
     CategoryReport,
+    StockReport,
 }

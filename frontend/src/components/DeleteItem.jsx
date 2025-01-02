@@ -32,7 +32,7 @@ const DeleteItem = () => {
             const ItemData = {
                 id: parsedId
             };
-            const response = await axios.post("http://localhost:9000/deleteItem", ItemData);
+            const response = await axios.delete("http://localhost:9000/item/deleteItem", {data: ItemData });
             if (response.status === 200) {
                 console.log("Item Deleted successfully");
                 dispatch(deleteItem(parsedId));

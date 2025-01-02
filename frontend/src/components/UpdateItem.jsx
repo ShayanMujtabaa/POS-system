@@ -24,7 +24,7 @@ const UpdateItem = () => {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await axios.post("http://localhost:9000/getItems");
+                const response = await axios.get("http://localhost:9000/item/getItems");
                 const data = response.data;
                 setItems(data);
             } catch (error) {
@@ -40,7 +40,7 @@ const UpdateItem = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.post("http://localhost:9000/getcategories");
+                const response = await axios.get("http://localhost:9000/category/getcategories");
                 const data = response.data;
                 setCategories(data);
             } catch (error) {
@@ -68,7 +68,7 @@ const UpdateItem = () => {
                 field,
                 value: field === 'category' ? selectedCategory : value
             };
-            const response = await axios.post("http://localhost:9000/updateItem", ItemData);
+            const response = await axios.put("http://localhost:9000/item/updateItem", ItemData);
             if (response.status === 200) {
                 alert("Item Updated Successfully");
                 navigate('/itemPage');

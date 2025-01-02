@@ -33,7 +33,7 @@ const DeleteCategory = () => {
             const CategoryData = {
                 id: parsedId
             };
-            const response = await axios.post("http://localhost:9000/deleteCategory", CategoryData);
+            const response = await axios.delete("http://localhost:9000/category/deleteCategory", {data: CategoryData});
             if (response.status === 200) {
                 console.log("Category Deleted successfully");
                 dispatch(deleteCategory(parsedId));

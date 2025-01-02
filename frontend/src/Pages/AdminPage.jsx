@@ -14,7 +14,7 @@ const AdminPage = () => {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await axios.post("http://localhost:9000/getItems");
+                const response = await axios.get("http://localhost:9000/item/getItems");
                 const data = response.data;
                 const filteredLowItems = data.filter(item => item.stock < THRESHOLD);
                 setLowItems(filteredLowItems);
