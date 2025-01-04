@@ -36,38 +36,6 @@ const SkeletonVariations = ({ loading }) => {
             <Skeleton className="w-[110px] h-[15px] rounded-md mt-2 ml-2" />
           </Skeleton>
         </div>
-
-        {/* Variation 5 */}
-        <div className="w-full px-2 sm:w-1/1 md:w-1/2 lg:w-1/2 xl:w-1/4  flex-1 ">
-          <Skeleton className="w-[280px] h-[70px] pt-1 mt-6 rounded-lg p-2 m-1 shadow-md">
-            <Skeleton className="w-[65px] h-[20px] rounded-md mt-2 ml-2" />
-            <Skeleton className="w-[125px] h-[15px] rounded-md mt-2 ml-2" />
-          </Skeleton>
-        </div>
-
-        {/* Variation 7 */}
-        <div className="w-full px-2 sm:w-1/1 md:w-1/2 lg:w-1/2 xl:w-1/4  flex-1 ">
-          <Skeleton className="w-[280px] h-[70px] pt-1 mt-6 rounded-lg p-2 m-1 shadow-md">
-            <Skeleton className="w-[70px] h-[20px] rounded-md mt-2 ml-2" />
-            <Skeleton className="w-[120px] h-[15px] rounded-md mt-2 ml-2" />
-          </Skeleton>
-        </div>
-
-        {/* Variation 8 */}
-        <div className="w-full px-2 sm:w-1/1 md:w-1/2 lg:w-1/2 xl:w-1/4  flex-1 ">
-          <Skeleton className="w-[280px] h-[70px] pt-1 mt-6 rounded-lg p-2 m-1 shadow-md">
-            <Skeleton className="w-[60px] h-[20px] rounded-md mt-2 ml-2" />
-            <Skeleton className="w-[170px] h-[15px] rounded-md mt-2 ml-2" />
-          </Skeleton>
-        </div>
-
-        {/* Variation 9 */}
-        <div className="w-full px-2 sm:w-1/1 md:w-1/2 lg:w-1/2 xl:w-1/4  flex-1">
-          <Skeleton className="w-[280px] h-[70px] pt-1 mt-6 rounded-lg p-2 m-1 shadow-md">
-            <Skeleton className="w-[160px] h-[20px] rounded-md mt-2 ml-2" />
-            <Skeleton className="w-[125px] h-[15px] rounded-md mt-2 ml-2" />
-          </Skeleton>
-        </div>
       </div>
     )
   );
