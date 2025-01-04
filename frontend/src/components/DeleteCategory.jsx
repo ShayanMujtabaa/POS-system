@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 const DeleteCategory = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [id, setId] = useState(0);
+    const [name, setName] = useState(0);
 
     const {categories, loading, error } = useSelector((state) => ({
         categories: state.categories.categories,
@@ -17,26 +17,25 @@ const DeleteCategory = () => {
         error: state.categories.error,
     }));
 
-    const CategoriesSearchString = categories.map(category => `${category.id} (${category.name})`);
+    const CategoriesSearchString = categories.map(category => `${category.name}`);
 
     const handleDeleteCategory = async (e) => {
         e.preventDefault();
 
-        if (!id) {
+        if (!name) {
             alert('Please fill in all the fields');
             return;
         }
 
         try {
-            const parsedId = id.match(/^(\d+)\s*\(/)?.[1];
-            console.log('Parsed ID:', parsedId);
+
             const CategoryData = {
-                id: parsedId
+                name: name
             };
             const response = await axios.delete("http://localhost:9000/category/deleteCategory", {data: CategoryData});
             if (response.status === 200) {
                 console.log("Category Deleted successfully");
-                dispatch(deleteCategory(parsedId));
+                dispatch(deleteCategory(name));
                 alert("Category Deleted Successfuly")
                 navigate('/categoryPage');
             }
@@ -51,12 +50,12 @@ const DeleteCategory = () => {
             <h1 className="text-white mb-4 text-4xl sm:text-5xl lg:text-8xl lg:leading-normal font-extrabold">DELETE CATEGORY</h1>
             <form onSubmit={handleDeleteCategory}>
                 <div>
-                    <label className="text-white block mb-2 text-2xl font-medium my-2" >Category ID</label>
+                    <label className="text-white block mb-2 text-2xl font-medium my-2" >Category Name</label>
                     <SearchField
                     options={CategoriesSearchString}
-                    label="Category ID"
-                    value={id}
-                    onChange={(value) => setId(value)}
+                    label="Category Name"
+                    value={name}
+                    onChange={(value) => setName(value)}
                     defaultOther={false}
                     />
                 </div>

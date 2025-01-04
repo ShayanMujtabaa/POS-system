@@ -3,6 +3,7 @@ const CategoryService = require("../services/CategoryService");
 const AddCategoryController = async (req, res) => {
   try {
     const { name } = req.body;
+    console.log("name is:",name)
     await CategoryService.AddCategoryService({ name });
     res.status(200).json({ msg: "Category Added" });
   } catch (error) {

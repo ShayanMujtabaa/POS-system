@@ -19,8 +19,8 @@ const CategoriesSlice = createSlice({
     },
     reducers: {
         deleteCategory(state, action) {
-            // Remove the category with the given id from the categories array
-            state.categories = state.categories.filter((category) => category.id !== action.payload);
+          
+            state.categories = state.categories.filter((category) => category.name !== action.payload);
         },
     },
     extraReducers: (builder) => {
