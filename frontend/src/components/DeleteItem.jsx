@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
 import SearchField from './SearchField';
-import { deleteItem } from './redux/ItemsSlice';
-import { useDispatch } from 'react-redux';
+import useItemsStore from '../ZustState/Items';
 
 const DeleteItem = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [id, setId] = useState(0);
 
-    const {items, loading, error } = useSelector((state) => ({
-        items: state.items.items,
-        loading: state.items.loading,
-        error: state.items.error,
-    }));
+   const { items, loading, error, fetchItems, deleteItem } = useItemsStore();
+
+   useEffect(() => {
+     // Fetch items on component mount
+     fetchItems();
+   }, [fetchItems]);
 
     const ItemsSearchString = items.map(item => `${item.id} (${item.name})`);
 
@@ -34,10 +32,10 @@ const DeleteItem = () => {
             };
             const response = await axios.delete("http://localhost:9000/item/deleteItem", {data: ItemData });
             if (response.status === 200) {
-                console.log("Item Deleted successfully");
-                dispatch(deleteItem(parsedId));
-                alert("Item Deleted Successfuly")
-                navigate('/itemPage');
+              console.log("Item Deleted successfully");
+              deleteItem(parsedId);
+              alert("Item Deleted Successfuly");
+              navigate("/itemPage");
             }
         } catch (error) {
             console.log("Error while deleting item: ", error.msg);
