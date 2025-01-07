@@ -4,7 +4,7 @@ const AddItemController = async (req, res) => {
   try {
     const { id, name, price, cost, stock, category, imageUrl } = req.body;
     await ItemService.AddItemService({
-      id,
+    id,
       name,
       price,
       cost,
