@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/UserModel");
 
-const SECRET_KEY=process.env.SECRET_KEY
+const SECRET_KEY = process.env.SECRET_KEY;
 
 const Create = async ({ username, password, role }) => {
   try {
@@ -39,7 +39,7 @@ const Login = async ({ username, password }) => {
     }
     const token = jwt.sign(
       { username: user.username, role: user.role },
-      SECRET_KEY,
+      SECRET_KEY
     );
     return { user, token };
   } catch (error) {
@@ -48,4 +48,14 @@ const Login = async ({ username, password }) => {
   }
 };
 
-module.exports = { Create, Delete, Login };
+const Verify = ({ token }) => {
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    return decoded;
+  } catch (error) {
+    console.error("Error in UserService Verify: ", error.message || error);
+    throw new Error("Failed to Verify User");
+  }
+};
+
+module.exports = { Create, Delete, Login, Verify };

@@ -42,4 +42,15 @@ const Delete = async (req, res) => {
   }
 };
 
-module.exports = { Create, Delete, Login };
+const VerifyToken = (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = UserService.Verify({ token });
+    console.log("decoded: ", decoded);
+    res.status(200).json({ role: decoded.role });
+  } catch (error) {
+    res.status(401).json({ message: "Invalid or expired token" });
+  }
+};
+
+module.exports = { Create, Delete, Login, VerifyToken };
