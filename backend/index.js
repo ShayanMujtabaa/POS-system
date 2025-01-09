@@ -13,12 +13,18 @@ const CategoryRoutes = require("./routes/CategoryRoutes");
 const SalesRoutes = require("./routes/SalesRoutes");
 const ExpenseRoutes = require("./routes/ExpenseRoutes");
 const ReportsRoutes = require("./routes/ReportsRoutes");
+const UserRoutes = require("./routes/UserRoutes")
 
 const app = express();
 const PORT = process.env.PORT || 9000;
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", 
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // Route setup
@@ -27,6 +33,7 @@ app.use("/category", CategoryRoutes);
 app.use("/sale", SalesRoutes);
 app.use("/expense", ExpenseRoutes);
 app.use("/report", ReportsRoutes);
+app.use("/user", UserRoutes);
 
 // Connect to DB and start server
 connectDB().then(() => {

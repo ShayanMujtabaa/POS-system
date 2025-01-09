@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const logger = require("../utils/loggers");
-// const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 // MongoDB connection
 const connectDB = async () => {
@@ -14,7 +13,7 @@ const connectDB = async () => {
     } catch (err) {
         logger.ErrorLogger.error("couldnt connect to mongoDB", new Error(err));
         console.error('MongoDB connection error:', err);
-        process.exit(1); // Exit the app with failure
+        process.exit(1);
     }
 };
 
