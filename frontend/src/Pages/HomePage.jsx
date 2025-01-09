@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ItemCard from "../components/ItemCard";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../components/redux/cartSlice";
 import Cart from "../components/Cart";
 import QuantityCard from "../components/QuantityCard";
 import SkeletonVariations from "../components/ItemsLoading";
+import useCartStore from "../ZustState/Cart";
 
 const HomePage = () => {
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.cart);
+  const cartItems = useCartStore((state) => state.cart);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [quantityCard, setQuantityCard] = useState({ show: false, item: null });
@@ -33,30 +31,31 @@ const HomePage = () => {
     fetchItems();
   }, []);
 
+  // Helper function to add an item to the cart
   const handleAddToCartHelper = (item) => {
     handleAddToCart(1, item);
   };
 
+  // Main function to handle adding an item with a specific quantity
   const handleAddToCart = (quantity, item) => {
-    dispatch(
-      addToCart({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        quantity,
-      })
-    );
+    const add = useCartStore.getState().addToCart; // Access the Zustand action
+    add({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity,
+    });
   };
 
+  // Function to add an item to the cart via barcode scan
   const handleAddToCartBarcode = (item) => {
-    dispatch(
-      addToCart({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        quantity: 1,
-      })
-    );
+    const add = useCartStore.getState().addToCart; // Access the Zustand action
+    add({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: 1,
+    });
   };
 
   const filteredItems = items.filter(
