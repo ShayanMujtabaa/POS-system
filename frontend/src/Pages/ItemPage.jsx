@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import ReportIcon from '@mui/icons-material/Report';
+import axiosInstance from "../config/AxiosInstance";
 
 const ItemPage = ()=>{
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ const ItemPage = ()=>{
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await axios.get("http://localhost:9000/item/getItems");
+                const response = await axiosInstance.get("http://localhost:9000/item/getItems");
                 const data = response.data;
                 const filteredLowItems = data.filter(item => item.stock < THRESHOLD);
                 setLowItems(filteredLowItems);

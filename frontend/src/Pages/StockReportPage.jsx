@@ -1,24 +1,20 @@
-import React from 'react';
-import axios from 'axios';
-import { Button } from '@mui/material';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
-import InventoryIcon from '@mui/icons-material/Inventory';
+import React from "react";
+import { Button } from "@mui/material";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import axiosInstance from "../config/AxiosInstance";
 
 const StockReportPage = () => {
   const generateStockReport = async () => {
     try {
-      const response = await axios.get('http://localhost:9000/report/stockReport');
+      const response = await axiosInstance.get("/report/stockReport");
       const stockReport = response.data;
-      
-      console.log('Stock Report Data:', stockReport);
+
+      console.log("Stock Report Data:", stockReport);
 
       const columns = ["Item ID", "Item Name", "Stock Available"];
-      const rows = stockReport.map(item => [
-        item.id,
-        item.name,
-        item.stock,
-      ]);
+      const rows = stockReport.map((item) => [item.id, item.name, item.stock]);
 
       const date = new Date().toLocaleDateString();
       const title = `Itech Systems Stock Report (All Time)`;
@@ -38,7 +34,7 @@ const StockReportPage = () => {
 
       doc.save(`${date}-StockReport.pdf`);
     } catch (error) {
-      console.error('Error generating stock report:', error);
+      console.error("Error generating stock report:", error);
     }
   };
 

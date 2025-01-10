@@ -3,7 +3,7 @@ const CategoryModel = require("../models/CategoryModel");
 const AddCategoryService = async ({ name }) => {
   try {
     const newCategory = new CategoryModel({
-      name
+      name,
     });
     return await newCategory.save();
   } catch (error) {

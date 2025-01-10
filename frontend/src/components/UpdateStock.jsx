@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
 import SearchField from './SearchField';
 import StockListCard from './StockListCard';
+import axiosInstance from "../config/AxiosInstance";
 
 const UpdateStock = () => {
     const navigate = useNavigate();
@@ -16,7 +15,7 @@ const UpdateStock = () => {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await axios.get("http://localhost:9000/item/getItems");
+                const response = await axiosInstance.get("/item/getItems");
                 const data = response.data;
                 setItems(data);
             } catch (error) {
@@ -48,12 +47,12 @@ const UpdateStock = () => {
             value: stock, 
           };
       
-          const response = await axios.put("http://localhost:9000/item/updateItem", ItemData);
+          const response = await axiosInstance.put("/item/updateItem", ItemData);
           if (response.status === 200) {
             console.log("Item Stock Updated successfully");
             alert("Item Stock Updated Successfully");
       
-            const updatedItems = await axios.get("http://localhost:9000/item/getItems");
+            const updatedItems = await axiosInstance.get("/item/getItems");
             setItems(updatedItems.data);
       
             navigate('/updateStock');

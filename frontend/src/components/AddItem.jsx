@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useItemsStore from "../ZustState/Items";
 import AlertMessage from "./ui/AlertMessage";
+import axiosInstance from "../config/AxiosInstance";
 
 const AddItem = () => {
   const navigate = useNavigate();
@@ -30,9 +30,7 @@ const AddItem = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:9000/category/getcategories"
-        );
+        const response = await axiosInstance.get("/category/getcategories");
         const data = response.data;
         setCategories(data);
         console.log(data);
@@ -85,10 +83,7 @@ const AddItem = () => {
         category: selectedCategory,
         imageURL,
       };
-      const response = await axios.post(
-        "http://localhost:9000/item/addItem",
-        ItemData
-      );
+      const response = await axiosInstance.post("/item/addItem", ItemData);
       if (response.status === 200) {
         console.log("ItemAdded successfully");
         alert("Item Added Successfuly");

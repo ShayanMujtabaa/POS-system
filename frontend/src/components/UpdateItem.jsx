@@ -1,46 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
 import SearchField from './SearchField';
 import ListItemCard from './ListItemCard';
+import axiosInstance from "../config/AxiosInstance";
+import useItemsStore from '../ZustState/Items';
 
 const UpdateItem = () => {
     const navigate = useNavigate();
     const [ItemID, setItemID] = useState('');
     const [field, setField] = useState('');
     const [value, setValue] = useState('');
-    const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
 
-    const { items: reduxItems } = useSelector((state) => ({
-        items: state.items.items,
-    }));
+    const items = useItemsStore((state) => state.items);
 
-    const ItemsSearchString = reduxItems.map(item => `${item.id} (${item.name})`);
-
-    useEffect(() => {
-        const fetchItems = async () => {
-            try {
-                const response = await axios.get("http://localhost:9000/item/getItems");
-                const data = response.data;
-                setItems(data);
-            } catch (error) {
-                console.error("Error fetching items:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchItems();
-    }, []);
+    const ItemsSearchString = items.map(item => `${item.id} (${item.name})`);
 
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get("http://localhost:9000/category/getcategories");
+                const response = await axiosInstance.get("/category/getcategories");
                 const data = response.data;
                 setCategories(data);
             } catch (error) {
@@ -68,7 +49,7 @@ const UpdateItem = () => {
                 field,
                 value: field === 'category' ? selectedCategory : value
             };
-            const response = await axios.put("http://localhost:9000/item/updateItem", ItemData);
+            const response = await axiosInstance.put("/item/updateItem", ItemData);
             if (response.status === 200) {
                 alert("Item Updated Successfully");
                 navigate('/itemPage');
