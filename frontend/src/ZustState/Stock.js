@@ -1,3 +1,4 @@
+/*
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -78,3 +79,4 @@ const StockSlice = createSlice({
 export const { resetStock } = StockSlice.actions;
 
 export default StockSlice.reducer;
+*/ //understand what this file is

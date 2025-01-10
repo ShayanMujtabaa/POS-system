@@ -3,12 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import SearchField from './SearchField';
-import { deleteCategory } from './redux/CategoriesSlice';
-import { useDispatch } from 'react-redux';
 
 const DeleteCategory = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [name, setName] = useState(0);
 
     const {categories, loading, error } = useSelector((state) => ({
@@ -35,7 +32,7 @@ const DeleteCategory = () => {
             const response = await axios.delete("http://localhost:9000/category/deleteCategory", {data: CategoryData});
             if (response.status === 200) {
                 console.log("Category Deleted successfully");
-                dispatch(deleteCategory(name));
+                // dispatch(deleteCategory(name));
                 alert("Category Deleted Successfuly")
                 navigate('/categoryPage');
             }

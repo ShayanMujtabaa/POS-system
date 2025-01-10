@@ -1,13 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { addToCart, clearCart } from './redux/cartSlice';
 
 const HeldCartsList = ({setRetrievePopup}) => {
     const [HeldCarts, setHeldCarts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     let RetrievedCart = {};
-    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchHeldCarts = async () => {
@@ -42,14 +39,14 @@ const HeldCartsList = ({setRetrievePopup}) => {
             if (response2.status === 200) {
                 console.log("Items retrieved successfully: ", response2.data);
                 console.log("Retrieved cart: ", JSON.stringify(RetrievedCart));
-                dispatch(clearCart())
+                // dispatch(clearCart())
                 for (let i = 0; i < RetrievedCart.itemIds.length; i++) {
-                    dispatch(addToCart({
-                        id: RetrievedCart.itemIds[i],
-                        name: response2.data.find(item => item.id === RetrievedCart.itemIds[i]).name,
-                        price: response2.data.find(item => item.id === RetrievedCart.itemIds[i]).price,
-                        quantity: RetrievedCart.quantities[i]
-                    }));
+                    // dispatch(addToCart({
+                    //     id: RetrievedCart.itemIds[i],
+                    //     name: response2.data.find(item => item.id === RetrievedCart.itemIds[i]).name,
+                    //     price: response2.data.find(item => item.id === RetrievedCart.itemIds[i]).price,
+                    //     quantity: RetrievedCart.quantities[i]
+                    // }));
                 }
             }
         } catch (error) {
