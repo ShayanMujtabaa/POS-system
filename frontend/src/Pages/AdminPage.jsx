@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import cookie from "cookie";
 import AddIcon from "@mui/icons-material/Add";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import ReportIcon from "@mui/icons-material/Report";
@@ -11,47 +10,6 @@ const AdminPage = () => {
   const navigate = useNavigate();
   const [lowItems, setLowItems] = useState([]);
   const THRESHOLD = 15;
-
-  useEffect(() => {
-    const verifyUser = async () => {
-      try {
-        // Parse cookies to get auth token
-        const cookies = cookie.parse(document.cookie);
-        const authToken = cookies.authToken;
-
-        if (!authToken) {
-          alert("Unauthorized access. Redirecting to login.");
-          navigate("/LoginPage");
-          return;
-        }
-
-        // Verify token with backend
-        const response = await axios.post(
-          "http://localhost:9000/user/verify",
-          {},
-          {
-            headers: { Authorization: `Bearer ${authToken}` },
-          }
-        );
-
-        const { role } = response.data;
-        console.log("response is: ", response);
-        console.log("role is: ", role);
-
-        // Redirect if user is not an admin
-        if (role !== "admin") {
-          alert("Access denied. Redirecting to home.");
-          navigate("/home");
-        }
-      } catch (error) {
-        console.error("Error verifying user:", error);
-        alert("Error verifying user. Redirecting to login.");
-        navigate("/LoginPage");
-      }
-    };
-
-    verifyUser();
-  }, [navigate]);
 
   useEffect(() => {
     const fetchItems = async () => {

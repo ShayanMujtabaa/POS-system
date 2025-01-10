@@ -4,10 +4,7 @@ const Login = async (req, res) => {
   try {
     const { username, password } = req.body;
     const { user, token } = await UserService.Login({ username, password });
-    res.cookie("authToken", token, {
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-    res.status(200).json({ message: "Login successful", user });
+    res.status(200).json({ message: "Login successful", user , token});
   } catch (error) {
     console.error("Error while Loggin in User: ", error.message || error);
     res.status(500).json({ msg: "Failed to Login User" });

@@ -82,6 +82,17 @@ const Router = () => {
           }
         />
         <Route
+          path="/addExpense"
+          element={
+            <PrivateRoute requiredRole="admin">
+              <>
+                <Navbar />
+                <AddExpense />
+              </>
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/updateItem"
           element={
             <PrivateRoute requiredRole="admin">

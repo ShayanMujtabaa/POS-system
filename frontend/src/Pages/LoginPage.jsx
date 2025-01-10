@@ -9,7 +9,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const setUserRole = useUserStore((state) => state.setUserRole);
   const setUserName = useUserStore((state) => state.setUserName);
-
+  const serUserToken = useUserStore((state) => state.setUserToken);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,9 +30,9 @@ const LoginPage = () => {
       );
       if (response.status === 200) {
         const userInfo = response.data;
-        console.log("user info is: ", userInfo.user.username);
         setUserName(userInfo.user.username);
         setUserRole(userInfo.user.role);
+        serUserToken(userInfo.token);
         console.log("Login successful");
         alert("Login Successful");
         navigate("/home");
