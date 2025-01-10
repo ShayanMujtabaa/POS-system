@@ -35,7 +35,11 @@ const LoginPage = () => {
         serUserToken(userInfo.token);
         console.log("Login successful");
         alert("Login Successful");
-        navigate("/home");
+        if (userInfo.user.role === "admin") {
+          navigate("/adminPage");
+        } else if (userInfo.user.role === "employee") {
+          navigate("/MainPOS");
+        }
       } else {
         alert("Invalid username or password");
       }

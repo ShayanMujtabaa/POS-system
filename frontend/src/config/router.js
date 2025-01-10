@@ -14,7 +14,6 @@ import ItemReportPage from "../Pages/ItemReportPage";
 import SalesReportPage from "../Pages/SalesReportPage";
 import CategoryReportPage from "../Pages/CategoryReportPage";
 import HomePage from "../Pages/HomePage";
-import Cart from "../components/Cart";
 import DeleteCategory from "../components/DeleteCategory";
 import UpdateStock from "../components/UpdateStock";
 import LoginPage from "../Pages/LoginPage";
@@ -221,21 +220,14 @@ const Router = () => {
           }
         />
         <Route
-          path="/home"
+          path="/MainPOS"
           element={
-            <>
-              <Navbar />
-              <HomePage />
-            </>
-          }
-        />
-        <Route
-          path="/cart"
-          element={
-            <>
-              <Navbar />
-              <Cart />
-            </>
+            <PrivateRoute requiredRole={"employee"}>
+              <>
+                <Navbar />
+                <HomePage />
+              </>
+            </PrivateRoute>
           }
         />
       </Routes>

@@ -24,14 +24,14 @@ const Navbar = () => {
       {userRole === "admin" && (
         <div className="flex items-center">
           <button
-            onClick={() => navigate("/home")}
+            onClick={() => navigate("/MainPOS")}
             className={`text-blue-700 no-underline text-lg font-medium mx-4 ${
-              location.pathname === "/home" || location.pathname === "/"
+              location.pathname === "/MainPOS" || location.pathname === "/"
                 ? "text-red-800"
                 : ""
             }`}
           >
-            Home
+            Main-POS
           </button>
 
           <button

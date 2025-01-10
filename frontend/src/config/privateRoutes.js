@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
-import useUserStore from "@/ZustState/User";
+import useUserStore from "../ZustState/User";
 
 const PrivateRoute = ({ children, requiredRole }) => {
   const [isAuthorized, setIsAuthorized] = useState(null);
