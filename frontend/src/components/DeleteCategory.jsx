@@ -1,21 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
 import SearchField from './SearchField';
-import { deleteCategory } from './redux/CategoriesSlice';
-import { useDispatch } from 'react-redux';
+import useCategoriesStore from '../ZustState/Categories';
 
 const DeleteCategory = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [name, setName] = useState(0);
 
-    const {categories, loading, error } = useSelector((state) => ({
-        categories: state.categories.categories,
-        loading: state.categories.loading,
-        error: state.categories.error,
-    }));
+    const { categories, loading, error, fetchCategories, deleteCategory } = useCategoriesStore();
+
+     useEffect(() => {
+       fetchCategories();
+     }, [fetchCategories]);
 
     const CategoriesSearchString = categories.map(category => `${category.name}`);
 
@@ -35,7 +32,7 @@ const DeleteCategory = () => {
             const response = await axios.delete("http://localhost:9000/category/deleteCategory", {data: CategoryData});
             if (response.status === 200) {
                 console.log("Category Deleted successfully");
-                dispatch(deleteCategory(name));
+                deleteCategory(name);
                 alert("Category Deleted Successfuly")
                 navigate('/categoryPage');
             }
