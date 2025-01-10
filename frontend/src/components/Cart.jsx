@@ -2,13 +2,13 @@ import React, { useState, useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import DiscountIcon from '@mui/icons-material/Discount';
-import axios from 'axios';
 import DiscountPopup from './Discount';
 import { useReactToPrint } from 'react-to-print';
 import Receipt from './Receipt';
 import { totalAmount, discount, tax, changeAmtRecCondition, change, refundAmount } from '../config/fomulas'
 import HeldCartsList from './HeldCartsList';
 import useCartStore from '../ZustState/Cart';
+import axiosInstance from "../config/AxiosInstance";
 
 const Cart = () => {
   const [Discount, setDiscount] = useState(0);
@@ -65,7 +65,7 @@ const Cart = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:9000/sale/checkout", {
+      const response = await axiosInstance.post("/sale/checkout", {
         cartItems,
         total: totalAmount(Total, Discount, Tax),
         discount: discount(Total, Discount),
@@ -95,7 +95,7 @@ const Cart = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:9000/sale/refund", {
+      const response = await axiosInstance.post("/sale/refund", {
         cartItems,
         refundAmount: refundAmount(Total, Discount, Tax),
       });

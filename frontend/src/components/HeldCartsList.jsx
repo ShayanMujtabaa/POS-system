@@ -1,3 +1,4 @@
+//change this to zustand
 import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 

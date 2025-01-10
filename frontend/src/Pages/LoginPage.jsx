@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../ZustState/User";
+import useItemsStore from "../ZustState/Items";
+import useCategoriesStore from "../ZustState/Categories";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -10,6 +12,8 @@ const LoginPage = () => {
   const setUserRole = useUserStore((state) => state.setUserRole);
   const setUserName = useUserStore((state) => state.setUserName);
   const serUserToken = useUserStore((state) => state.setUserToken);
+  const fetchItems = useItemsStore((state) => state.fetchItems);
+  const fetchCategories = useCategoriesStore((state) => state.fetchCategories);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,6 +37,19 @@ const LoginPage = () => {
         setUserName(userInfo.user.username);
         setUserRole(userInfo.user.role);
         serUserToken(userInfo.token);
+        try {
+          await fetchItems();
+        } catch (error) {
+          console.error("Failed to fetch items: ", error.message);
+          alert("Failed to load items.");
+        }
+
+        try {
+          await fetchCategories();
+        } catch (error) {
+          console.error("Failed to fetch categories: ", error.message);
+          alert("Failed to load categories.");
+        }
         console.log("Login successful");
         alert("Login Successful");
         if (userInfo.user.role === "admin") {

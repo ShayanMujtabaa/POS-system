@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import AssessmentIcon from '@mui/icons-material/Assessment';
@@ -7,6 +6,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Button } from '@mui/material';
+import axiosInstance from "../config/AxiosInstance";
 
 const ReportPage = () => {
     const [startDate, setStartDate] = useState(null);
@@ -14,7 +14,7 @@ const ReportPage = () => {
 
     const downloadSalesReport = async () => {
         try {
-            const response = await axios.get('http://localhost:9000/report/salesReport', {
+            const response = await axiosInstance.get('http://localhost:9000/report/salesReport', {
                 params: {
                     startDate: startDate?.toISOString(),
                     endDate: endDate?.toISOString()

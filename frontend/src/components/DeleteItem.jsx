@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SearchField from './SearchField';
 import useItemsStore from '../ZustState/Items';
+import axiosInstance from "../config/AxiosInstance";
 
 const DeleteItem = () => {
     const navigate = useNavigate();
     const [id, setId] = useState(0);
 
-   const { items, loading, error, fetchItems, deleteItem } = useItemsStore();
-
-   useEffect(() => {
-     // Fetch items on component mount
-     fetchItems();
-   }, [fetchItems]);
+   const { items, deleteItem } = useItemsStore();
 
     const ItemsSearchString = items.map(item => `${item.id} (${item.name})`);
 
@@ -30,7 +25,7 @@ const DeleteItem = () => {
             const ItemData = {
                 id: parsedId
             };
-            const response = await axios.delete("http://localhost:9000/item/deleteItem", {data: ItemData });
+            const response = await axiosInstance.delete("/item/deleteItem", {data: ItemData });
             if (response.status === 200) {
               console.log("Item Deleted successfully");
               deleteItem(parsedId);

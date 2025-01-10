@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import ReportIcon from "@mui/icons-material/Report";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import axiosInstance from "../config/AxiosInstance";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const AdminPage = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get("http://localhost:9000/item/getItems");
+        const response = await axiosInstance.get("/item/getItems");
         const data = response.data;
         const filteredLowItems = data.filter((item) => item.stock < THRESHOLD);
         setLowItems(filteredLowItems);

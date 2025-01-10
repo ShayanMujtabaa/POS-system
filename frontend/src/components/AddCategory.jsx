@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from "../config/AxiosInstance";
 
 const AddCategory = () => {
     const navigate = useNavigate();
@@ -18,7 +18,7 @@ const AddCategory = () => {
             const CategoryData = {
                 name: CategoryName
             };
-            const response = await axios.post("http://localhost:9000/category/addCategory", CategoryData);
+            const response = await axiosInstance.post("/category/addCategory", CategoryData);
             if (response.status === 200) {
                 console.log("Category Added successfully");
                 alert("Category Added Successfully");

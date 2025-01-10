@@ -1,6 +1,6 @@
 import { create } from "zustand";
+import axiosInstance from "../config/AxiosInstance";
 
-// Define the Zustand store
 const useCategoriesStore = create((set) => ({
   categories: [],
   loading: false,
@@ -8,12 +8,11 @@ const useCategoriesStore = create((set) => ({
   fetchCategories: async () => {
     try {
       set({ loading: true, error: null });
-      const response = await fetch(
-        "http://localhost:9000/category/getcategories"
-      );
-      const data = await response.json();
+      const response = await axiosInstance.get("/category/getcategories");
+      const data = response.data; 
       set({ categories: data, loading: false });
     } catch (error) {
+      console.error("Error fetching categories:", error.message);
       set({ loading: false, error: error.message });
     }
   },
@@ -25,5 +24,6 @@ const useCategoriesStore = create((set) => ({
     }));
   },
 }));
+
 
 export default useCategoriesStore;

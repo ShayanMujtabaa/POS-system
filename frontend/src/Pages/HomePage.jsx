@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import ItemCard from "../components/ItemCard";
 import Cart from "../components/Cart";
 import QuantityCard from "../components/QuantityCard";
 import SkeletonVariations from "../components/ItemsLoading";
 import useCartStore from "../ZustState/Cart";
+import axiosInstance from "../config/AxiosInstance";
 
 const HomePage = () => {
   const cartItems = useCartStore((state) => state.cart);
@@ -18,7 +18,7 @@ const HomePage = () => {
     const fetchItems = async () => {
       try {
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        const response = await axios.get("http://localhost:9000/item/getItems");
+        const response = await axiosInstance.get("/item/getItems");
         const data = response.data;
         setItems(data);
       } catch (error) {

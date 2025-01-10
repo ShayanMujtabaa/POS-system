@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SearchField from './SearchField';
 import useCategoriesStore from '../ZustState/Categories';
+import axiosInstance from "../config/AxiosInstance";
 
 const DeleteCategory = () => {
     const navigate = useNavigate();
     const [name, setName] = useState(0);
 
-    const { categories, loading, error, fetchCategories, deleteCategory } = useCategoriesStore();
+    const { categories, deleteCategory } = useCategoriesStore();
 
-     useEffect(() => {
-       fetchCategories();
-     }, [fetchCategories]);
+    console.log("categories are: ", categories);
 
     const CategoriesSearchString = categories.map(category => `${category.name}`);
 
@@ -29,7 +27,7 @@ const DeleteCategory = () => {
             const CategoryData = {
                 name: name
             };
-            const response = await axios.delete("http://localhost:9000/category/deleteCategory", {data: CategoryData});
+            const response = await axiosInstance.delete("/category/deleteCategory", {data: CategoryData});
             if (response.status === 200) {
                 console.log("Category Deleted successfully");
                 deleteCategory(name);
